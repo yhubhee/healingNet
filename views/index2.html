@@ -1,0 +1,256 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeleHealth - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <header class="header">
+        <h1>TeleHealth</h1>
+        <nav>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign Up</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Your Health, Our Priority</h2>
+        <p>Consult with professional doctors from the comfort of your home.</p>
+        <a href="signup.html" class="cta-btn">Get Started</a>
+    </section>
+
+    <section class="services">
+        <h3>Services We Offer</h3>
+        <div class="service-cards">
+            <div class="card">
+                <h4>Video Consultations</h4>
+                <p>Get in touch with doctors through secure video calls.</p>
+            </div>
+            <div class="card">
+                <h4>Medical Records</h4>
+                <p>Access and manage your medical records securely online.</p>
+            </div>
+            <div class="card">
+                <h4>Prescription Management</h4>
+                <p>Receive prescriptions and get medications delivered to your door.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 TeleHealth. All rights reserved.</p>
+    </footer>
+    
+    
+</body>
+<script src="js/main.js"></script>
+</html> -->
+
+
+<!-- /* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f4f8;
+    color: #333333;
+    line-height: 1.6;
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #0066cc;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header h1 {
+    font-size: 28px;
+  }
+  
+  .header nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 18px;
+    transition: color 0.3s ease;
+  }
+  
+  .header nav a:hover {
+    color: #ff6b6b;
+  }
+  
+  /* Hero Section */
+  .hero {
+    text-align: center;
+    padding: 100px 20px;
+    background-color: #0066cc;
+    color: white;
+    background-image: url('your-hero-image.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .hero h2 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .hero p {
+    font-size: 24px;
+    margin-bottom: 40px;
+  }
+  
+  .cta-btn {
+    text-decoration: none;
+    padding: 15px 30px;
+    background-color: #34c759;
+    color: white;
+    border-radius: 30px;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cta-btn:hover {
+    background-color: #28a745;
+  }
+  
+  /* Services Section */
+  .services {
+    padding: 60px 20px;
+    background-color: #f0f4f8;
+    text-align: center;
+  }
+  
+  .services h3 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #0066cc;
+  }
+  
+  .service-cards {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 30%;
+    min-width: 280px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .card h4 {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+  
+  .card p {
+    font-size: 18px;
+    color: #555;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #0066cc;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+  }
+  
+  /* Login and Signup Pages */
+  .login-container, .signup-container {
+    max-width: 400px;
+    margin: 120px auto;
+    padding: 40px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .login-form input, .signup-form input {
+    margin: 15px 0;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%;
+  }
+  
+  .login-form button, .signup-form button {
+    padding: 15px;
+    background-color: #34c759;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-form button:hover, .signup-form button:hover {
+    background-color: #28a745;
+  }
+  
+  p a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  
+  p a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .service-cards {
+      flex-direction: column;
+    }
+  
+    .header nav a {
+      font-size: 16px;
+    }
+  
+    .hero h2 {
+      font-size: 36px;
+    }
+  
+    .hero p {
+      font-size: 18px;
+    }
+  
+    .cta-btn {
+      font-size: 18px;
+      padding: 10px 20px;
+    }
+  
+    .card {
+      width: 80%;
+    }
+  }
+   -->

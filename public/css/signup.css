@@ -1,0 +1,47 @@
+body {
+    font-family: 'Arial', sans-serif;
+    /* background: linear-gradient(to right, #6a11cb, #2575fc); */
+    color: #333;
+  }
+  .margin-mine{
+    margin-top: 160px;
+  }
+  
+  .card {
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  
+  h3 {
+    font-weight: bold;
+  }
+  
+  .form-label {
+    font-size: 0.9rem;
+  }
+  
+  #togglePasswordIcon {
+    color: #6c757d;
+  }
+  
+  #passwordFeedback {
+    font-size: 0.8rem;
+  }
+  #password-icon {
+    position: absolute;
+    right: 10px; /* Adjust this value if needed */
+    top: 70%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust vertical alignment */
+    cursor: pointer;
+}
+.alert-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 300px;
+}
+.alert {
+  margin-bottom: 10px;
+}
+  

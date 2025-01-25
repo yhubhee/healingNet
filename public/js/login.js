@@ -1,13 +1,14 @@
-
   // Toggle Password Visibility
-  function togglePasswordVisibility() {
-    const passwordField = document.getElementById('password');
-    const icon = document.getElementById('togglePasswordIcon');
-    if (passwordField.type === 'password') {
-      passwordField.type = 'text';
-      icon.classList.replace('bi-eye-slash', 'bi-eye');
-    } else {
-      passwordField.type = 'password';
-      icon.classList.replace('bi-eye', 'bi-eye-slash');
-    }
-  }
+  const showpass = document.querySelector(".showpass");
+
+  showpass.addEventListener("click",()=>{
+      if ((password.type === "password")){
+          password.type = 'text';
+          showpass.classList.replace("fa-eye-slash", "fa-eye");
+      }
+      else{
+          password.type = 'password';
+          showpass.classList.replace("fa-eye", "fa-eye-slash");
+  
+      }
+  })

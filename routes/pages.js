@@ -24,9 +24,16 @@ router.get('/login', (req, res) => {
 router.get('/pre-dashboard', (req, res)=>{
     res.render('pre-dashboard')
 })
-router.get('/dashboard', validateTokens,(req, res)=>{
-    res.render('dashboard')
-})
+router.get('/dashboard', validateTokens, (req, res) => {
+    // Access the user's name and ID from req.user
+    const userName = req.user.name;
+
+    res.render('dashboard', {
+        name: userName, // Pass the user's name to the template
+    });
+});
+
+
 router.get('/doctorsignup', (req, res) => {
     res.render('doctorsignup');
 });

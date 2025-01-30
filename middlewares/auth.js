@@ -2,7 +2,7 @@ const { sign, verify } = require("jsonwebtoken");
 
 const createToken = (patients) => {
     const accessToken = sign(
-        { patient_id: patients.patient_id, name: patients.firstname },
+        { patient_id: patients.patient_id, name: patients.firstname},
         process.env.JWT_SECRET,
         {
             expiresIn: process.env.JWT_EXPIRES_IN,

@@ -1,7 +1,7 @@
 const {sign,verify} = require("jsonwebtoken");
 
 const createToken = (doctors) =>{
-    const docToken = sign({doctor_id: doctors.doctor_id}, process.env.doc_JWT_SECRET, {
+    const docToken = sign({doctor_id: doctors.doctor_id, name: doctors.firstname}, process.env.doc_JWT_SECRET, {
         expiresIn: process.env.doc_JWT_EXPIRES_IN
     });
     
@@ -19,7 +19,8 @@ const doctorvalidateTokens = (req, res, next) =>{
     try{
         const validToken = verify(docToken,process.env.doc_JWT_SECRET,)
         if(validToken){
-            req.authenticated = true 
+            req.authenticated = true ;
+            req.user = validToken;
             return next()
         }
     }

@@ -40,9 +40,15 @@ router.get('/doctorsignup', (req, res) => {
 router.get('/doctorlogin', (req, res) => {
     res.render('doctorlogin');
 });
-router.get('/doctordashboard',doctorvalidateTokens,(req, res)=>{
-    res.render('doctordashboard')
-})
+router.get('/doctordashboard', doctorvalidateTokens, (req, res) => {
+    // Access the user's name and ID from req.user
+    const userName = req.user.name;
+
+    res.render('doctordashboard', {
+        name: userName, // Pass the user's name to the template
+    });
+});
+
 
 
 

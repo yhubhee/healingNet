@@ -1,168 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - HealingNet</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="/css/specialty.css">
-</head>
+    <%- include('partials/head') %>
+
 <body>
-    <!-- Navigation Bar -->
     <%- include('partials/header') %>
-   
-    <!-- Hero Section -->
-    <header class="w3-display-container w3-wide" style="background-image: url('/images/abouts.png'); height: 60vh; background-size: cover; background-position: center; background-repeat: no-repeat;">
-        <div class="w3-display-middle text-center">
-            <h1 class="w3-animate-top" style="font-size: 3rem; font-weight: bold; color: black;">About HealingNet</h1>
-            <h5 class="w3-large" style="color: black;">Your Partner in Modern Healthcare</h5>
-        </div>
-    </header>
 
-    <!-- About Us Section -->
-    <section class="about-us py-5">
+    <!-- About Start -->
+    <div class="container-fluid py-5">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <img src="/images/telemedicine-system.jpg" alt="About HealingNet" class="img-fluid rounded shadow">
+            <div class="row gx-5">
+                <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">
+                    <div class="position-relative h-100">
+                        <img class="position-absolute w-100 h-100 rounded" src="img/about.jpg" style="object-fit: cover;">
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <h2 class="mb-4">Who We Are</h2>
-                    <p class="lead">At HealingNet, we aim to revolutionize the way healthcare is delivered. Our platform empowers patients and providers to connect seamlessly, ensuring that quality care is always within reach.</p>
-                    <p>Our mission is to bridge the gap between technology and healthcare, enabling people to lead healthier lives through innovative solutions.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+                <div class="col-lg-7">
+                    <div class="mb-4">
+                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">About Us</h5>
+                        <h1 class="display-4">Best Medical Care For Yourself and Your Family</h1>
+                    </div>
+                    <%- include('partials/about-p') %>
+                    <p> Whether you need a routine check-up, a consultation for a specific concern, or ongoing management of a chronic condition, HealingNet brings the doctor’s office to your home. </p>
 
-    <!-- Mission & Vision -->
-    <section class="mission-vision bg-light py-5">
-        <div class="container text-center">
-            <h2 class="mb-4">Our Mission & Vision</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h4 class="card-title">Our Mission</h4>
-                            <p class="card-text">To make healthcare accessible, affordable, and convenient for everyone, leveraging the power of technology.</p>
+                    <div class="row g-3 pt-3">
+                        <div class="col-sm-3 col-6">
+                            <div class="bg-light text-center rounded-circle py-4">
+                                <i class="fa fa-3x fa-user-md text-primary mb-3"></i>
+                                <h6 class="mb-0">Qualified<small class="d-block text-primary">Doctors</small></h6>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-6">
+                            <div class="bg-light text-center rounded-circle py-4">
+                                <i class="fa fa-3x fa-procedures text-primary mb-3"></i>
+                                <h6 class="mb-0">Emergency<small class="d-block text-primary">Services</small></h6>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-6">
+                            <div class="bg-light text-center rounded-circle py-4">
+                                <i class="fa fa-3x fa-microscope text-primary mb-3"></i>
+                                <h6 class="mb-0">Accurate<small class="d-block text-primary">Testing</small></h6>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-6">
+                            <div class="bg-light text-center rounded-circle py-4">
+                                <i class="fa fa-3x fa-ambulance text-primary mb-3"></i>
+                                <h6 class="mb-0">Free<small class="d-block text-primary">Ambulance</small></h6>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h4 class="card-title">Our Vision</h4>
-                            <p class="card-text">To be a global leader in telemedicine, setting new standards in patient care and digital health services.</p>
-                        </div>
-                    </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+
+    <!-- Search Start -->
+    <div class="container-fluid bg-primary my-5 py-5">
+        <div class="container py-5">
+            <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+                <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Find A Doctor</h5>
+                <h1 class="display-4 mb-4">Find A Healthcare Professionals</h1>
+                <h5 class="text-white fw-normal">Duo ipsum erat stet dolor sea ut nonumy tempor. Tempor duo lorem eos sit sed ipsum takimata ipsum sit est. Ipsum ea voluptua ipsum sit justo</h5>
+            </div>
+            <div class="mx-auto" style="width: 100%; max-width: 600px;">
+                <div class="input-group">
+                    <select class="form-select border-primary w-25" style="height: 60px;">
+                        <option selected>Department</option>
+                        <option value="1">Department 1</option>
+                        <option value="2">Department 2</option>
+                        <option value="3">Department 3</option>
+                    </select>
+                    <input type="text" class="form-control border-primary w-50" placeholder="Keyword">
+                    <button class="btn btn-dark border-0 w-25">Search</button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+    <!-- Search End -->
 
-    <!-- Team Section -->
-    <section class="team py-5">
+
+    <!-- Team Start -->
+    <div class="container-fluid py-5">
         <div class="container">
-            <h2 class="text-center mb-4">Meet Our Team</h2>
-            <div class="row text-center">
-                <div class="col-md-4">
-                    <img src="/images/team-1.jpg" alt="Team Member" class="img-fluid rounded-circle mb-3" style="width: 150px;">
-                    <h5>Dr. Jane Doe</h5>
-                    <p class="text-muted">Chief Medical Officer</p>
-                </div>
-                <div class="col-md-4">
-                    <img src="/images/team-2.jpg" alt="Team Member" class="img-fluid rounded-circle mb-3" style="width: 150px;">
-                    <h5>John Smith</h5>
-                    <p class="text-muted">Technical Lead</p>
-                </div>
-                <div class="col-md-4">
-                    <img src="/images/team-3.jpg" alt="Team Member" class="img-fluid rounded-circle mb-3" style="width: 150px;">
-                    <h5>Mary Johnson</h5>
-                    <p class="text-muted">Customer Relations Manager</p>
-                </div>
+            <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Our Doctors</h5>
+                <h1 class="display-4">Qualified Healthcare Professionals</h1>
             </div>
-        </div>
-    </section>
-
-    <!-- Specialties Section -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center mb-4">Our Specialties</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card specialty-card h-100">
-                        <img src="path_to_image/addiction-medicine.jpg" class="card-img-top" alt="Addiction Medicine">
-                        <div class="card-body">
-                            <h5 class="card-title">Addiction Medicine</h5>
-                            <p class="card-text">Dedicated to the prevention, diagnosis, and treatment of substance use disorders. Experts guide patients through personalized recovery plans.</p>
-                            <a href="#" class="learn-more">Learn More</a>
+            <div class="owl-carousel team-carousel position-relative">
+                <div class="team-item">
+                    <div class="row g-0 bg-light rounded overflow-hidden">
+                        <div class="col-12 col-sm-5 h-100">
+                            <img class="img-fluid h-100" src="img/team-1.jpg" style="object-fit: cover;">
+                        </div>
+                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
+                            <div class="mt-auto p-4">
+                                <h3>Doctor Name</h3>
+                                <h6 class="fw-normal fst-italic text-primary mb-4">Cardiology Specialist</h6>
+                                <p class="m-0">Dolor lorem eos dolor duo eirmod sea. Dolor sit magna rebum clita rebum dolor</p>
+                            </div>
+                            <div class="d-flex mt-auto border-top p-4">
+                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-4">
-                    <div class="card specialty-card h-100">
-                        <img src="path_to_image/anesthesiology.jpg" class="card-img-top" alt="Anesthesiology">
-                        <div class="card-body">
-                            <h5 class="card-title">Anesthesiology</h5>
-                            <p class="card-text">Specializes in pain relief during surgical procedures. Anesthesiologists ensure patient safety and comfort through advanced techniques.</p>
-                            <a href="#" class="learn-more">Learn More</a>
+                <div class="team-item">
+                    <div class="row g-0 bg-light rounded overflow-hidden">
+                        <div class="col-12 col-sm-5 h-100">
+                            <img class="img-fluid h-100" src="img/team-2.jpg" style="object-fit: cover;">
+                        </div>
+                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
+                            <div class="mt-auto p-4">
+                                <h3>Doctor Name</h3>
+                                <h6 class="fw-normal fst-italic text-primary mb-4">Cardiology Specialist</h6>
+                                <p class="m-0">Dolor lorem eos dolor duo eirmod sea. Dolor sit magna rebum clita rebum dolor</p>
+                            </div>
+                            <div class="d-flex mt-auto border-top p-4">
+                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-4">
-                    <div class="card specialty-card h-100">
-                        <img src="path_to_image/audiology.jpg" class="card-img-top" alt="Audiology">
-                        <div class="card-body">
-                            <h5 class="card-title">Audiology</h5>
-                            <p class="card-text">Focused on diagnosing and treating hearing and balance disorders, ensuring improved quality of life through innovative treatments.</p>
-                            <a href="#" class="learn-more">Learn More</a>
+                <div class="team-item">
+                    <div class="row g-0 bg-light rounded overflow-hidden">
+                        <div class="col-12 col-sm-5 h-100">
+                            <img class="img-fluid h-100" src="img/team-3.jpg" style="object-fit: cover;">
                         </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card specialty-card h-100">
-                        <img src="path_to_image/cardiology.jpg" class="card-img-top" alt="Cardiology">
-                        <div class="card-body">
-                            <h5 class="card-title">Cardiology</h5>
-                            <p class="card-text">Focused on diagnosing and treating heart and vascular conditions, including heart attacks, arrhythmias, and hypertension.</p>
-                            <a href="#" class="learn-more">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card specialty-card h-100">
-                        <img src="path_to_image/dermatology.jpg" class="card-img-top" alt="Dermatology">
-                        <div class="card-body">
-                            <h5 class="card-title">Dermatology</h5>
-                            <p class="card-text">Cares for skin, hair, and nail conditions. Treatments range from acne and eczema to skin cancer screenings and cosmetic procedures.</p>
-                            <a href="#" class="learn-more">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card specialty-card h-100">
-                        <img src="path_to_image/gastroenterology.jpg" class="card-img-top" alt="Gastroenterology">
-                        <div class="card-body">
-                            <h5 class="card-title">Gastroenterology</h5>
-                            <p class="card-text">Addresses issues in the digestive system, such as acid reflux, IBS, and liver disease, ensuring better digestive health.</p>
-                            <a href="#" class="learn-more">Learn More</a>
+                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
+                            <div class="mt-auto p-4">
+                                <h3>Doctor Name</h3>
+                                <h6 class="fw-normal fst-italic text-primary mb-4">Cardiology Specialist</h6>
+                                <p class="m-0">Dolor lorem eos dolor duo eirmod sea. Dolor sit magna rebum clita rebum dolor</p>
+                            </div>
+                            <div class="d-flex mt-auto border-top p-4">
+                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+    <!-- Team End -->
 
-    
 
-    <!-- Footer -->
     <%- include('partials/footer') %>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

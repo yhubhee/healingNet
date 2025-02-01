@@ -35,4 +35,4 @@ app.get('/', (req, res) => {
 // })
 
 // Start the server
-app.listen(800, () => console.log('Server running on http://localhost:800'));
+app.listen(3000, () => console.log('Server running on http://localhost:3000'));

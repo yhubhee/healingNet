@@ -6,6 +6,33 @@ const { doctorvalidateTokens } = require('../middlewares/authdoctor')
 router.get('/about', (req, res) => {
     res.render('about');
 });
+router.get('/service', (req, res) => {
+    res.render('service');
+});
+router.get('/service-details', (req, res) => {
+    res.render('service-details');
+});
+router.get('/price', (req, res) => {
+    res.render('price');
+});
+router.get('/testimonial', (req, res) => {
+    res.render('testimonial');
+});
+router.get('/contact', (req, res) => {
+    res.render('contact');
+});
+router.get('/blog', (req, res) => {
+    res.render('blog');
+});
+router.get('/detail',(req, res)=>{
+    res.render('detail');
+});
+router.get('/team',(req, res)=>{
+    res.render('team');
+});
+router.get('/appointment',(req, res)=>{
+    res.render('appointment');
+});
 router.get('/logout', (req, res)=>{
     res.render('login')
 })
@@ -25,14 +52,14 @@ router.get('/pre-dashboard', (req, res)=>{
     res.render('pre-dashboard')
 })
 router.get('/dashboard', validateTokens, (req, res) => {
-    // Access the user's name and ID from req.user
-    const userName = req.user.name;
-
+    const { firstname, lastname } = req.user; // Access the attached names
     res.render('dashboard', {
-        name: userName, // Pass the user's name to the template
+        firstname,
+        lastname
     });
 });
 
+// Doctor Section
 
 router.get('/doctorsignup', (req, res) => {
     res.render('doctorsignup');
@@ -41,13 +68,13 @@ router.get('/doctorlogin', (req, res) => {
     res.render('doctorlogin');
 });
 router.get('/doctordashboard', doctorvalidateTokens, (req, res) => {
-    // Access the user's name and ID from req.user
-    const userName = req.user.name;
-
+    const { firstname, lastname } = req.user; // Access the attached names
     res.render('doctordashboard', {
-        name: userName, // Pass the user's name to the template
+        firstname,
+        lastname
     });
 });
+
 
 
 

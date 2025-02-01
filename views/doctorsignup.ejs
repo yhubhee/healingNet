@@ -81,8 +81,16 @@
                         </select>
                     </div>
                     <div class="mb-3">
+                        <label for="department"> Department</label>
+                        <select name="department" id="department" class="form-select"  onchange="updateSpecialties()" required>
+                            <%- include('partials/department') %>
+                        </select>                        
+                    </div>
+                    <div class="mb-3">
                         <label for="specialty"> Specialty</label>
-                        <%- include('partials/specialty') %>
+                        <select name="specialty" id="specialty" class="form-select" required>
+                            <option selected>Select Specialty</option>
+                        </select>                        
                     </div>
 
                     <!-- Password -->

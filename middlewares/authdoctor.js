@@ -1,7 +1,14 @@
 const {sign,verify} = require("jsonwebtoken");
 
 const createToken = (doctors) =>{
-    const docToken = sign({doctor_id: doctors.doctor_id, name: doctors.firstname}, process.env.doc_JWT_SECRET, {
+    const docToken = sign(
+        {
+            doctor_id: doctors.doctor_id,
+            firstname: doctors.firstname, 
+            lastname: doctors.lastname
+        }, 
+        process.env.doc_JWT_SECRET, 
+        {
         expiresIn: process.env.doc_JWT_EXPIRES_IN
     });
     

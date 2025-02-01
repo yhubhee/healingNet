@@ -30,6 +30,9 @@ router.get('/detail',(req, res)=>{
 router.get('/team',(req, res)=>{
     res.render('team');
 });
+router.get('/search',(req, res)=>{
+    res.render('search');
+});
 router.get('/appointment',(req, res)=>{
     res.render('appointment');
 });
@@ -58,6 +61,14 @@ router.get('/dashboard', validateTokens, (req, res) => {
         lastname
     });
 });
+router.get('/myappointments', validateTokens, (req, res) => {
+    const { firstname, lastname } = req.user; // Access the attached names
+    res.render('myappointments', {
+        firstname,
+        lastname
+    });
+});
+
 
 // Doctor Section
 

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('partials/head') %>
     <title>Service Details | HealingNet</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
+    <%- include('partials/header') %>
     <!-- Header Section -->
     <div class="container-fluid bg-primary text-white py-5 mb-5">
         <div class="container text-center py-5">
@@ -20,7 +20,7 @@
     <div class="container py-5">
         <div class="row g-5">
             <div class="col-lg-6">
-                <img src="img/service-details.jpg" class="img-fluid rounded" alt="Service Details">
+                <img src="/img/service_block_4.jpg" class="img-fluid rounded" alt="Service Details">
             </div>
             <div class="col-lg-6">
                 <h2>Emergency Care</h2>
@@ -38,7 +38,7 @@
     <div class="container py-5">
         <div class="row g-5">
             <div class="col-lg-6 order-lg-2">
-                <img src="img/telemedicine.jpg" class="img-fluid rounded" alt="Telemedicine">
+                <img src="/img/service_block_4.jpg" class="img-fluid rounded" alt="Telemedicine">
             </div>
             <div class="col-lg-6 order-lg-1">
                 <h2>Telemedicine Services</h2>
@@ -54,9 +54,7 @@
     </div>
 
     <!-- Footer Section -->
-    <div class="container-fluid bg-dark text-white text-center py-3">
-        <p class="mb-0">&copy; 2025 HealingNet. All Rights Reserved.</p>
-    </div>
+    <%- include('partials/footer') %>
 
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>

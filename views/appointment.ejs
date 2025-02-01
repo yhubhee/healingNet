@@ -36,8 +36,8 @@
                      6. Connect with Your Provider:  
                         On the appointment day, log into your HealingNet account and follow the link to start your secure video consultation.
                         </p>
-                    <a class="btn btn-primary rounded-pill py-3 px-5 me-3" href="">Find Doctor</a>
-                    <a class="btn btn-outline-primary rounded-pill py-3 px-5" href="">Read More</a>
+                    <a class="btn btn-primary rounded-pill py-3 px-5 me-3" href="/search">Find Doctor</a>
+                    <!-- <a class="btn btn-outline-primary rounded-pill py-3 px-5" href="">Read More</a> -->
                 </div>
                 <div class="col-lg-6">
                     <div class="bg-light text-center rounded p-5">
@@ -46,10 +46,7 @@
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6">
                                     <select class="form-select bg-white border-0" style="height: 55px;">
-                                        <option selected>Choose Department</option>
-                                        <option value="1">Department 1</option>
-                                        <option value="2">Department 2</option>
-                                        <option value="3">Department 3</option>
+                                        <%- include('partials/department') %>
                                     </select>
                                 </div>
                                 <div class="col-12 col-sm-6">

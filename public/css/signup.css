@@ -44,4 +44,7 @@ body {
 .alert {
   margin-bottom: 10px;
 }
-  
+.signup-dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+}

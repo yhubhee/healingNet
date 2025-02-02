@@ -4,8 +4,6 @@ const register = require('../controllers/register')
 const login = require('../controllers/login')
 const doclogin = require('../controllers/doctorlogin')
 
-
-
 // 'auth/register
 router.post('/signup', register.register)
 router.post('/login', login.login)

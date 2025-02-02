@@ -9,13 +9,7 @@
 //     port: process.env.PORT || 23168,
 //     connectionLimit: 10,
 //     connectTimeout: 20000,
-// //     multipleStatements: true,
-// //     ssl: {
-// //         ca: fs.readFileSync('./ca.pem')
-// //     },
-// // enableKeepAlive: true,
-// // keepAliveInitialDelay: 10000
-    
+   
 // })
 
 // db.connect((err)=>{
@@ -51,3 +45,4 @@ pool.getConnection((err, connection) => {
 });
 
 module.exports = pool;
+// module.exports = db;

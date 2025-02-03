@@ -61,7 +61,7 @@ router.get('/dashboard', validateTokens, (req, res) => {
         lastname
     });
 });
-router.get('/myappointments', validateTokens, (req, res) => {
+router.get('/myappointments/book', validateTokens, (req, res) => {
     const { firstname, lastname } = req.user; // Access the attached names
     res.render('myappointments', {
         firstname,

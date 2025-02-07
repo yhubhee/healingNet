@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../database');
 const { validateTokens } = require('../middlewares/auth');
 const { doctorvalidateTokens } = require('../middlewares/authdoctor')
 
@@ -61,14 +62,29 @@ router.get('/dashboard', validateTokens, (req, res) => {
         lastname
     });
 });
-router.get('/myappointments/book', validateTokens, (req, res) => {
-    const { firstname, lastname } = req.user; // Access the attached names
-    res.render('myappointments', {
-        firstname,
-        lastname
+
+// Route to handle AJAX request for doctors
+router.get('/getDoctors', (req, res) => {
+    // Extract the 'specialty' query parameter from the request URL
+    const specialty = req.query.specialty;
+
+    // Ensure the specialty variable is defined
+    if (!specialty) {
+        return res.status(400).json({ error: 'Specialty is required' });
+    }
+
+    console.log('Specialty:', specialty); // Debugging log
+
+    const sql = 'SELECT doctor_id, firstname, lastname FROM doctors WHERE specialty = ?';
+    db.query(sql, [specialty], (err, results) => {
+        if (err) {
+            console.error('Database query error:', err); // Debugging log
+            return res.status(500).json({ error: 'Failed to fetch doctors' });
+        }
+        console.log('Query Results:', results); // Debugging log
+        res.json({ doctors: results });
     });
 });
-
 
 // Doctor Section
 
@@ -79,15 +95,24 @@ router.get('/doctorlogin', (req, res) => {
     res.render('doctorlogin');
 });
 router.get('/doctordashboard', doctorvalidateTokens, (req, res) => {
-    const { firstname, lastname } = req.user; // Access the attached names
-    res.render('doctordashboard', {
-        firstname,
-        lastname
+    const { doctor_id, firstname, lastname } = req.user; // Access the attached doctor_id and names
+    const sql = `
+        SELECT a.appointment_date, a.appointment_time, a.status, p.firstname AS patient_name, p.email
+        FROM appointment a
+        JOIN patients p ON a.patient_id = p.patient_id
+        WHERE a.doctor_id = ?
+    `;
+    db.query(sql, [doctor_id], (err, results) => {
+        if (err) {
+            console.error('Database query error:', err); // Debugging log
+            // return res.status(500).json({ error: 'Failed to fetch appointments' });
+        }
+        res.render('doctordashboard', {
+            firstname,
+            lastname,
+            appointments: results  || [] 
+        });
     });
 });
 
-
-
-
-
-module.exports = router
+module.exports = router;

@@ -2,7 +2,8 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const {createToken, validateTokens} = require('./middlewares/auth')
 const env =  require('dotenv');
-
+const pool = require('./database')
+const pagesRoutes = require('./routes/pages');
 
 env.config({path: './env'})
 
@@ -23,16 +24,38 @@ app.use(cookieParser());
 
 
 // Define Routes
-app.use('/', require('./routes/pages'));
+app.use('/', pagesRoutes);
 app.use('/auth', require('./routes/auth'));
 
 app.get('/', (req, res) => {
     res.render('index');
 });
+app.get('/patients', (req, res)=>{
+    const sql = 'SELECT * FROM patients';
 
-// router.get('/dashboard', validateTokens,(req, res)=>{
-//     res.render('dashboard')
-// })
+    pool.query(sql, (err, results)=>{
+        if (err){
+            return res.status(500).send(err)
+        }
+        res.send(results).json //or .json
+    })
+})
+app.get(`/bookappointment`, (req, res)=>{
+    pool.query(`select * from doctors`, (err, rows)=>{
+        if(err){console.log(err);
+            }
+            else{
+        console.log(rows);
+        
+            res.send({ rows})
+        }
+    })
+})
+
+
+
 
 // Start the server
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});

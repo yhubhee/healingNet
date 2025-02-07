@@ -102,3 +102,28 @@
     
 })(jQuery);
 
+// Appoinment doctors logic
+function filterDoctors() {
+    const departmentSelect = document.getElementById("departmentSelect");
+    const doctorSelect = document.getElementById("doctorSelect");
+    const selectedDepartment = departmentSelect.value;
+
+    console.log('Selected Department:', selectedDepartment); 
+    // Clear previous doctor options
+    doctorSelect.innerHTML = '<option selected>Select Doctor</option>';
+
+    if (selectedDepartment) {
+        fetch(`/getDoctors?sql=${encodeURIComponent(selectedDepartment)}`)
+            .then(response => response.json())
+            .then(data => {
+                data.doctors.forEach(doctor => {
+                    const option = document.createElement("option");
+                    option.value = doctor.doctor_id;
+                    console.log(option)
+                    option.textContent = doctor.doctor;
+                    doctorSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching doctors:', error));
+    }
+}

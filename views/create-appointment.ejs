@@ -1,0 +1,44 @@
+<!-- create-appointment.ejs -->
+<div class="container-fluid">
+    <div class="bg-light text-center rounded p-5">
+      <h1 class="mb-4">Book An Appointment</h1>
+      <form action="/auth/appointment" method="POST">
+        <div class="row g-3">
+          <div class="col-12 col-sm-6">
+            <select class="form-select bg-white border-0" name="department" id="departmentSelect" onchange="updateSpecialties()" style="height: 55px;" required>
+              <%- include('partials/department') %>
+            </select>
+          </div>
+          <div class="col-12 col-sm-6">
+            <select name="specialty" id="specialtySelect" class="form-select bg-white border-0" style="height: 55px;" onchange="updateDoctors()" required>
+              <option selected>Select Specialty</option>
+            </select>
+          </div>
+          <div class="col-12 col-sm-6">
+            <select name="doctor" class="form-select bg-white border-0" id="doctorSelect" style="height: 55px;" required>
+              <option selected>Select Doctor</option>
+            </select>
+          </div>
+          <div class="col-12 col-sm-6">
+            <input name="fullname" type="text" class="form-control bg-white border-0" placeholder="Your Name" style="height: 55px;" required>
+          </div>
+          <div class="col-12 col-sm-6">
+            <input name="email" type="email" class="form-control bg-white border-0" placeholder="Your Email" style="height: 55px;" required>
+          </div>
+          <div class="col-12 col-sm-6">
+            <input name="illness" type="text" class="form-control bg-white border-0" placeholder="Illness" style="height: 55px;" required>
+          </div>
+          <div class="col-12 col-sm-6">
+            <input type="date" name="appointment_date" class="form-control bg-white border-0" style="height: 55px;" required>
+          </div>
+          <div class="col-12 col-sm-6">
+            <input type="text" name="appointment_time" class="form-control bg-white border-0" placeholder="Time" style="height: 55px;" required>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-primary w-100 py-3" type="submit">Make An Appointment</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  

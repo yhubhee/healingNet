@@ -1,48 +1,53 @@
 -- DROP DATABASE IF EXISTS hospital_new; -- If exited
--- create database hospital_new; -- Your database name
+create database hospital_new; -- Your database name
 -- use hospital_old;
 
--- create table patients(
--- patient_id int primary key auto_increment,
--- firstname varchar (50),
--- lastname varchar(50),
--- phone varchar(50),
--- email varchar (150),
--- date_of_birth date,
--- gender varchar(30),
--- password varchar (250),
--- address varchar(200),
--- status varchar(30)
+-- CREATE TABLE patients (
+--     patient_id INT PRIMARY KEY AUTO_INCREMENT,
+--     firstname VARCHAR(50),
+--     lastname VARCHAR(50),
+--     phone VARCHAR(50),
+--     email VARCHAR(150),
+--     date_of_birth DATE,
+--     gender VARCHAR(30),
+--     password VARCHAR(250),
+--     address VARCHAR(200),
+--     status VARCHAR(30)
 -- );
 
+-- CREATE TABLE doctors (
+--     doctor_id INT PRIMARY KEY AUTO_INCREMENT,
+--     firstname VARCHAR(50),
+--     lastname VARCHAR(50),
+--     department VARCHAR(150),
+--     specialty VARCHAR(150),
+--     date_of_birth DATE,
+--     email VARCHAR(150),
+--     phone VARCHAR(50),
+--     gender VARCHAR(30),
+--     password VARCHAR(250),
+--     date_joined DATE,
+--     address VARCHAR(200),
+--     status VARCHAR(30)
+-- );
 
--- create table doctors(
--- doctor_id int primary key auto_increment,
--- firstname varchar (50),
--- lastname varchar(50),
--- department varchar (150),
--- specialty varchar (150),
--- date_of_birth date,
--- email varchar (150),
--- phone varchar(50),
--- gender varchar(30),
--- password varchar (250),
--- date_joined date,
--- address varchar(200),
--- status varchar(30)
+-- CREATE TABLE appointment (
+--     appointment_id INT PRIMARY KEY AUTO_INCREMENT,
+--     department VARCHAR(255),
+--     specialty VARCHAR(90),
+--     doctor VARCHAR(90),
+--     fullname VARCHAR(50),
+--     email VARCHAR(200),
+--     illness VARCHAR(200),
+--     appointment_date DATE,
+--     appointment_time TIME,
+--     patient_id INT,
+--     doctor_id INT,
+--     status VARCHAR(50),
+--     FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+--     FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
 -- );
--- create table appointment(
--- appointment_id int primary key auto_increment,
--- firstname varchar (50),
--- email varchar (200),
--- appointment_date date,
--- appointment_time time,
--- patient_id int,
--- doctor_id int,
--- status varchar (50),
--- foreign key(patient_id) references patients(patient_id),
--- foreign key(doctor_id) references doctors(doctor_id)
--- );
+
 -- create table admins(
 -- admin_id int primary key auto_increment,
 -- firstname varchar (100),
@@ -62,6 +67,16 @@
 -- note varchar(250),
 -- appointment_type varchar(250),
 -- schedule_date datetime
+-- );
+-- create table homeappointment(
+-- appointment_id int primary key auto_increment,
+-- fullname varchar(200) ,
+-- email varchar(150) ,
+-- phone varchar(50) ,
+-- Emergency_type varchar(100) ,
+-- date date ,
+-- time varchar(30) ,
+-- emergency_message varchar(255)
 -- );
 
 -- alter table doctor_schedules
@@ -83,8 +98,8 @@
 -- email varchar(100),
 -- phone varchar(50),
 -- message varchar(255)
-
 -- );
+
 -- alter table messages
 -- auto_increment = 1000;
 
@@ -100,16 +115,7 @@
 -- rename column character_id to voucher_id;
 
 
--- create table homeappointment(
--- appointment_id int primary key auto_increment,
--- fullname varchar(200) ,
--- email varchar(150) ,
--- phone varchar(50) ,
--- Emergency_type varchar(100) ,
--- date date ,
--- time varchar(30) ,
--- emergency_message varchar(255)
--- );
+
 
 
 

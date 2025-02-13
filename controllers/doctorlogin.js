@@ -34,7 +34,7 @@ exports.doctorlogin = (req, res) => {
             httpOnly: true
         })
 
-        console.log('The token is: ' + accessToken);
+        // console.log('The token is: ' + accessToken);
         res.status(200).redirect('/doctordashboard');
 
     })

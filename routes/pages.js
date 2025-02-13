@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const db = require('../database');
 const { validateTokens } = require('../middlewares/auth');
-const { doctorvalidateTokens } = require('../middlewares/authdoctor')
+const { doctorvalidateTokens } = require('../middlewares/authdoctor');
+const { bookappointment } = require('../controllers/bookappointment')
 
 router.get('/about', (req, res) => {
     res.render('about');
@@ -37,14 +38,33 @@ router.get('/search',(req, res)=>{
 router.get('/appointment',(req, res)=>{
     res.render('appointment');
 });
+// Appointment post
+router.post('/auth/appointment', validateTokens, bookappointment);
+
+router.get('/booked-appointment', validateTokens, (req, res) => {
+    const { firstname, lastname, user_id } = req.user; // Access the attached names and user_id
+    const sql = `
+        SELECT a.doctor, a.specialty, a.appointment_date, a.appointment_time, a.status
+        FROM appointment a
+        WHERE a.patient_id = ?
+    `;
+    db.query(sql, [user_id], (err, results) => {
+        if (err) {
+            console.error('Database query error:', err); // Debugging log
+            return res.status(500).send('Failed to fetch appointments');
+        }
+        res.render('booked-appointment', {
+            firstname,
+            lastname,
+            appointments: results || []
+        });
+    });
+});
 router.get('/logout', (req, res)=>{
     res.render('login')
 })
 router.get('/features', (req, res) => {
     res.render('features');
-});
-router.get('/creataccount', (req, res) => {
-    res.render('register');
 });
 router.get('/signup', (req, res) => {
     res.render('signup');
@@ -52,9 +72,10 @@ router.get('/signup', (req, res) => {
 router.get('/login', (req, res) => {
     res.render('login');
 });
-router.get('/pre-dashboard', (req, res)=>{
-    res.render('pre-dashboard')
-})
+router.get('/create-appointment', (req, res) => {
+    res.render('create-appointment');
+});
+
 router.get('/dashboard', validateTokens, (req, res) => {
     const { firstname, lastname } = req.user; // Access the attached names
     res.render('dashboard', {
@@ -68,12 +89,7 @@ router.get('/getDoctors', (req, res) => {
     // Extract the 'specialty' query parameter from the request URL
     const specialty = req.query.specialty;
 
-    // Ensure the specialty variable is defined
-    if (!specialty) {
-        return res.status(400).json({ error: 'Specialty is required' });
-    }
-
-    console.log('Specialty:', specialty); // Debugging log
+      console.log('Specialty:', specialty); // Debugging log
 
     const sql = 'SELECT doctor_id, firstname, lastname FROM doctors WHERE specialty = ?';
     db.query(sql, [specialty], (err, results) => {
@@ -86,8 +102,8 @@ router.get('/getDoctors', (req, res) => {
     });
 });
 
-// Doctor Section
 
+// Doctor Section
 router.get('/doctorsignup', (req, res) => {
     res.render('doctorsignup');
 });
@@ -97,10 +113,11 @@ router.get('/doctorlogin', (req, res) => {
 router.get('/doctordashboard', doctorvalidateTokens, (req, res) => {
     const { doctor_id, firstname, lastname } = req.user; // Access the attached doctor_id and names
     const sql = `
-        SELECT a.appointment_date, a.appointment_time, a.status, p.firstname AS patient_name, p.email
+      SELECT a.appointment_date, a.appointment_time, a.status, p.firstname AS patient_name, p.email
         FROM appointment a
         JOIN patients p ON a.patient_id = p.patient_id
         WHERE a.doctor_id = ?
+        
     `;
     db.query(sql, [doctor_id], (err, results) => {
         if (err) {
@@ -116,3 +133,4 @@ router.get('/doctordashboard', doctorvalidateTokens, (req, res) => {
 });
 
 module.exports = router;
+

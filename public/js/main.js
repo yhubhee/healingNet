@@ -1,6 +1,6 @@
 (function ($) {
     "use strict";
-    
+
     // Dropdown on mouse hover
     $(document).ready(function () {
         function toggleNavbarMethod() {
@@ -26,8 +26,8 @@
     $('.time').datetimepicker({
         format: 'LT'
     });
-    
-    
+
+
     // Back to top button
     $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
@@ -37,7 +37,7 @@
         }
     });
     $('.back-to-top').click(function () {
-        $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
+        $('html, body').animate({ scrollTop: 0 }, 1500, 'easeInOutExpo');
         return false;
     });
 
@@ -49,20 +49,20 @@
         margin: 45,
         dots: false,
         loop: true,
-        nav : true,
-        navText : [
+        nav: true,
+        navText: [
             '<i class="bi bi-arrow-left"></i>',
             '<i class="bi bi-arrow-right"></i>'
         ],
         responsive: {
-            0:{
-                items:1
+            0: {
+                items: 1
             },
-            992:{
-                items:2
+            992: {
+                items: 2
             },
-            1200:{
-                items:3
+            1200: {
+                items: 3
             }
         }
     });
@@ -75,17 +75,17 @@
         margin: 45,
         dots: false,
         loop: true,
-        nav : true,
-        navText : [
+        nav: true,
+        navText: [
             '<i class="bi bi-arrow-left"></i>',
             '<i class="bi bi-arrow-right"></i>'
         ],
         responsive: {
-            0:{
-                items:1
+            0: {
+                items: 1
             },
-            992:{
-                items:2
+            992: {
+                items: 2
             }
         }
     });
@@ -99,31 +99,58 @@
         dots: true,
         loop: true,
     });
-    
+
 })(jQuery);
 
-// Appoinment doctors logic
-function filterDoctors() {
-    const departmentSelect = document.getElementById("departmentSelect");
-    const doctorSelect = document.getElementById("doctorSelect");
-    const selectedDepartment = departmentSelect.value;
+// FOR ApPPOINTMENT PAGE
+document.addEventListener("DOMContentLoaded", function () {
+    // Save the default content from the main area on page load
+    var defaultMainContent = document.querySelector(".main-content").innerHTML;
 
-    console.log('Selected Department:', selectedDepartment); 
-    // Clear previous doctor options
-    doctorSelect.innerHTML = '<option selected>Select Doctor</option>';
+    document.querySelectorAll(".load-content").forEach(function (link) {
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+            let url = this.getAttribute("data-url");
 
-    if (selectedDepartment) {
-        fetch(`/getDoctors?sql=${encodeURIComponent(selectedDepartment)}`)
-            .then(response => response.json())
-            .then(data => {
-                data.doctors.forEach(doctor => {
-                    const option = document.createElement("option");
-                    option.value = doctor.doctor_id;
-                    console.log(option)
-                    option.textContent = doctor.doctor;
-                    doctorSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error fetching doctors:', error));
+            if (url === "/dashboard") {
+                // Restore the original main content
+                document.querySelector(".main-content").innerHTML = defaultMainContent;
+            } else {
+                // Otherwise, fetch the new content via AJAX
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.querySelector(".main-content").innerHTML = html;
+                    })
+                    .catch(error => console.error("Error loading page:", error));
+            }
+        });
+    });
+});
+
+// Custom Script for Toggle Border on Navbar Brand and Sidebar Dropdown Toggle 
+
+const navbarToggler = document.querySelector('.navbar-toggler');
+const navbarBrand = document.querySelector('.navbar-brand');
+
+navbarToggler.addEventListener('click', function () {
+    // Delay slightly to allow the aria-expanded attribute to update
+    setTimeout(() => {
+        if (navbarToggler.getAttribute('aria-expanded') === 'true') {
+            navbarBrand.classList.add('border-bottom');
+        } else {
+            navbarBrand.classList.remove('border-bottom');
+        }
+    }, 100);
+});
+
+document.getElementById('sidebarToggle').addEventListener('click', function () {
+    var sidebarContent = document.getElementById('sidebarContent');
+    if (sidebarContent.classList.contains('d-none')) {
+        sidebarContent.classList.remove('d-none');
+    } else {
+        sidebarContent.classList.add('d-none');
     }
-}
+});
+
+

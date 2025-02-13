@@ -114,50 +114,51 @@
                     <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/appointment">Read More</a>
                 </div>
                 <div class="col-lg-6">
-                    <div class="bg-white text-center rounded p-5">
+                    <div class="bg-light text-center rounded p-5">
                         <h1 class="mb-4">Book An Appointment</h1>
-                        <form>
+                        <form action="/auth/appointment" method="POST">
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6">
-                                <select class="form-select bg-light border-0" style="height: 55px;">
-                                    <%- include('partials/department') %>
-                                </select>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <select class="form-select bg-light border-0" style="height: 55px;">
-                                        <option selected>Select Doctor</option>
-                                        <option value="1">Doctor 1</option>
-                                        <option value="2">Doctor 2</option>
-                                        <option value="3">Doctor 3</option>
+                                    <select class="form-select bg-white border-0" name="department" id="departmentSelect" onchange="updateSpecialties()" style="height: 55px;" required>
+                                        <%- include('partials/department') %>
                                     </select>
                                 </div>
                                 <div class="col-12 col-sm-6">
-                                    <input type="text" class="form-control bg-light border-0"
-                                        placeholder="Your Name" style="height: 55px;">
+                                    <select name="specialty" id="specialtySelect" class="form-select bg-white border-0" style="height: 55px;" onchange="updateDoctors()" required>
+                                        <option selected>Select Specialty</option>
+                                    </select>
                                 </div>
                                 <div class="col-12 col-sm-6">
-                                    <input type="email" class="form-control bg-light border-0"
-                                        placeholder="Your Email" style="height: 55px;">
+                                    <select name="doctor" class="form-select bg-white border-0" id="doctorSelect" style="height: 55px;" required>
+                                        <option selected>Select Doctor</option>
+                                      
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input name="fullname" type="text" class="form-control bg-white border-0" placeholder="Your Name" style="height: 55px;" required>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input name="email" type="email" class="form-control bg-white border-0" placeholder="Your Email" style="height: 55px;" required>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input name="illness" type="text" class="form-control bg-white border-0" placeholder="Illness" name="illness" style="height: 55px;" required>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <div class="date" id="date" data-target-input="nearest">
-                                        <input type="text"
-                                            class="form-control bg-light border-0 datetimepicker-input"
-                                            placeholder="Date" data-target="#date" data-toggle="datetimepicker"
-                                            style="height: 55px;">
+                                        <input type="date" name="appointment_date"
+                                            class="form-control bg-white border-0 datetimepicker-input"
+                                            placeholder="Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <div class="time" id="time" data-target-input="nearest">
-                                        <input type="text"
-                                            class="form-control bg-light border-0 datetimepicker-input"
-                                            placeholder="Time" data-target="#time" data-toggle="datetimepicker"
-                                            style="height: 55px;">
+                                        <input type="text" name="appointment_time"
+                                            class="form-control bg-white border-0 datetimepicker-input"
+                                            placeholder="Time" data-target="#time" data-toggle="datetimepicker" style="height: 55px;" required>
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Make An
-                                        Appointment</button>
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Make An Appointment</button>
                                 </div>
                             </div>
                         </form>
@@ -227,8 +228,6 @@
         </div>
     </div>
     <!-- Testimonial End -->
-
-
     <%- include('partials/footer') %>
 
 </body>

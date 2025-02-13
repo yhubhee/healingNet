@@ -37,5 +37,5 @@ exports.login = (req, res) => {
         res.status(200).redirect('/dashboard');
     });
 };
-// Compare this snippet from middlewares/authdoctor.js:
+
 

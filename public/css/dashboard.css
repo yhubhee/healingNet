@@ -13,3 +13,19 @@
       .card-header {
         font-weight: bold;
       }
+       /* Custom styling (if needed) */
+    .navbar-brand img {
+      height: 50px;
+      margin-right: 10px;
+    }
+    /* Optionally hide the HealingNet title on small screens */
+    .navbar h1 {
+      font-size: 1.5rem;
+    }
+    @media (max-width: 991.98px) {
+      /* If you want to add a sidebar toggle button on mobile,
+         you can adjust its display here */
+      #sidebarToggle {
+        display: block;
+      }
+    }

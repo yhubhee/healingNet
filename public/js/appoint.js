@@ -44,7 +44,7 @@ function updateDoctors() {
             .then(data => {
                 data.doctors.forEach(doctor => {
                     const option = document.createElement("option");
-                    option.value = doctor.id;
+                    // option.value = doctor.doctor_id;
                     option.textContent = `${doctor.firstname} ${doctor.lastname}`;
                     doctorSelect.appendChild(option);
                 });

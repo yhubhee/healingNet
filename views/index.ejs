@@ -189,10 +189,10 @@
                         <div class="col-lg-6">
                             <div class="bg-light text-center rounded p-5">
                                 <h1 class="mb-4">Book An Appointment</h1>
-                                <form class="">
+                                <form action="/auth/appointment" method="POST">
                                     <div class="row g-3">
                                         <div class="col-12 col-sm-6">
-                                            <select class="form-select bg-white border-0" name="department" id="departmentSelect" onchange="updateSpecialties()" style="height: 55px;"required>
+                                            <select class="form-select bg-white border-0" name="department" id="departmentSelect" onchange="updateSpecialties()" style="height: 55px;" required>
                                                 <%- include('partials/department') %>
                                             </select>
                                         </div>
@@ -202,32 +202,32 @@
                                             </select>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <select class="form-select bg-white border-0" id="doctorSelect" style="height: 55px;" required>
+                                            <select name="doctor" class="form-select bg-white border-0" id="doctorSelect" style="height: 55px;" required>
                                                 <option selected>Select Doctor</option>
                                               
                                             </select>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <input type="text" class="form-control bg-white border-0" placeholder="Your Name" style="height: 55px;">
+                                            <input name="fullname" type="text" class="form-control bg-white border-0" placeholder="Your Name" style="height: 55px;" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <input type="email" class="form-control bg-white border-0" placeholder="Your Email" style="height: 55px;">
+                                            <input name="email" type="email" class="form-control bg-white border-0" placeholder="Your Email" style="height: 55px;" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <input type="text" class="form-control bg-white border-0" placeholder="Illness" name="illness" style="height: 55px;" required>
+                                            <input name="illness" type="text" class="form-control bg-white border-0" placeholder="Illness" name="illness" style="height: 55px;" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="date" id="date" data-target-input="nearest">
-                                                <input type="text"
+                                                <input type="date" name="appointment_date"
                                                     class="form-control bg-white border-0 datetimepicker-input"
-                                                    placeholder="Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;">
+                                                    placeholder="Date" data-target="#date" data-toggle="datetimepicker" style="height: 55px;" required>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="time" id="time" data-target-input="nearest">
-                                                <input type="text"
+                                                <input type="text" name="appointment_time"
                                                     class="form-control bg-white border-0 datetimepicker-input"
-                                                    placeholder="Time" data-target="#time" data-toggle="datetimepicker" style="height: 55px;">
+                                                    placeholder="Time" data-target="#time" data-toggle="datetimepicker" style="height: 55px;" required>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -733,15 +733,14 @@
                     <div class="text-center mx-auto mb-5" style="max-width: 500px;">
                         <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Find A Doctor</h5>
                         <h1 class="display-4 mb-4">Find A Healthcare Professionals</h1>
-                        <h5 class="text-white fw-normal">Duo ipsum erat stet dolor sea ut nonumy tempor. Tempor duo
-                            lorem eos sit sed ipsum takimata ipsum sit est. Ipsum ea voluptua ipsum sit justo</h5>
+                        <h5 class="text-white fw-normal"> Select your department to view doctors</h5>
                     </div>
                     <div class="mx-auto" style="width: 100%; max-width: 600px;">
                         <div class="input-group">
-                            <select class="form-select border-primary w-25" style="height: 60px;">
+                            <select class="form-select border-primary w-25" id="departmentSelect" style="height: 60px;">
                                 <%- include('partials/department') %>
                             </select>
-                            <input type="text" class="form-control border-primary w-50" placeholder="Keyword">
+                            <input type="text" id="search" class="form-control border-primary w-50" placeholder="Keyword">
                             <button class="btn btn-dark border-0 w-25">Search</button>
                         </div>
                     </div>
@@ -890,5 +889,4 @@
             <!-- Blog End -->
             <%- include('partials/footer') %>
     </body>
-    <script src="/js/appoint.js"></script>
 </html>

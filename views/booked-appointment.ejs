@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <title>Book Appointment - HealingNet</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Booked Appointments</h2>
+        
+        <% if (appointments.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Specialty</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% appointments.forEach(appointment => { %>
+                            <tr>
+                                <td><%= appointment.doctor %></td>
+                                <td><%= appointment.specialty %></td>
+                                <td><%= appointment.appointment_date %></td>
+                                <td><%= appointment.appointment_time %></td>
+                                <td><span class="badge bg-success">Confirmed</span></td>
+                                <td><span class="badge bg-success"><%= appointment.status %></span></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="alert alert-warning" role="alert">
+                You have no booked appointments.
+            </div>
+        <% } %>
+        
+        <!-- Create Appointment Button -->
+        <div class="text-center mt-4">
+            <a class="btn btn-primary btn-lg load-content" href="#" data-url="/create-appointment">
+                <i class="fas fa-plus"></i> Create Appointment
+            </a>
+        </div>
+    </div>
+
+    
+</body>
+<script src="/js/main.js"></script>
+</html>

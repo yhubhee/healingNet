@@ -3,7 +3,7 @@ const pool = require('../database')
 const bcrypt = require('bcryptjs');
 
 exports.register = (req, res) => {
-    const {firstname, lastname,  phone, email, date_of_birth, gender, password, confirmpassword, address} = req.body;
+    const {firstname, lastname,  phone, email, date_joined, date_of_birth, gender, password, confirmpassword, address, status} = req.body;
     // console.log(req.body);
 
     pool.query('select email from patients where email = ?', [email], async (err, result) => {
@@ -36,13 +36,13 @@ exports.register = (req, res) => {
         // const tokens = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
         
         pool.query(`insert into patients set ?`, { firstname: firstname, lastname: lastname,
-              phone: phone, email: email, date_of_birth: date_of_birth, gender: gender,  password: hashedpassword,  address: address,}, async (err, result) => {
+              phone: phone, email: email, date_joined: date_joined, date_of_birth: date_of_birth, gender: gender,  password: hashedpassword,  address: address, status:"Active"}, async (err, result) => {
             if (err) {
                 console.log(err);
 
             } else {
                 res.render('signup', {
-                    message: 'Registration Completed ✅ ',
+                    success: 'Registration Completed ✅ ',
                     redirect: true
                 })
             }
@@ -52,7 +52,7 @@ exports.register = (req, res) => {
 }
 
 exports.doctorregister = (req, res) => {
-    const { firstname, lastname, department, specialty, email, phone, date_of_birth, address, password, gender, confirmpassword, date_joined} = req.body;
+    const { firstname, lastname, department, specialty, email, phone, date_of_birth, address, password, gender, confirmpassword, date_joined, status, HomeappointmentStatus} = req.body;
     // console.log(req.body);
 
     pool.query('select email from doctors where email = ?', [email], async (err, result) => {
@@ -85,13 +85,13 @@ exports.doctorregister = (req, res) => {
         // const tokens = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
         
         pool.query(`insert into doctors set ?`, { firstname: firstname, lastname: lastname, department: department, specialty: specialty, date_joined: date_joined, 
-              phone: phone, email: email, date_of_birth: date_of_birth, gender: gender,  password: hashedpassword,  address: address,}, async (err, result) => {
+              phone: phone, email: email, date_of_birth: date_of_birth, gender: gender,  password: hashedpassword,  address: address, status:status, HomeappointmentStatus:HomeappointmentStatus}, async (err, result) => {
             if (err) {
                 console.log(err);
 
             } else {
                 res.render('doctorsignup', {
-                    message: `Account successfully created for Dear ${lastname}` ,
+                    success: `Account successfully created for Dear ${lastname}` ,
                     redirect: true
                 })
             }

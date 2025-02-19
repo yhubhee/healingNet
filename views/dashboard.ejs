@@ -4,7 +4,7 @@
     <%- include('partials/head') %>
     <link href="/css/dashboard.css" rel="stylesheet">
   </head>
-  <!-- <script>
+  <script>
     document.addEventListener("DOMContentLoaded", function () {
     // Save the default content from the main area on page load
     var defaultMainContent = document.querySelector(".main-content").innerHTML;
@@ -29,7 +29,8 @@
         });
     });
 });
-  </script> -->
+
+  </script>
   <body>
     <!-- Top Navigation Bar -->
     <div class="container-fluid sticky-top bg-white shadow-sm">
@@ -55,7 +56,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                   data-bs-toggle="dropdown" aria-expanded="false">
                   <img src="/img/avatar.jpg" alt="Profile" class="rounded-circle" width="30" height="30">
-                  <%= firstname %> <%= lastname %>
+                  <%= firstname %> <%= lastname %> 
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                   <li><a class="dropdown-item" href="/profile">My Profile</a></li>
@@ -63,42 +64,47 @@
                   <li>
                     <hr class="dropdown-divider">
                   </li>
-                  <li><a class="dropdown-item" href="/logout">Logout</a></li>
+
                   <li>
-                    <button id="sidebarToggle" class="dropdown-item">More Options</button>
+                    <a class="dropdown-item active load-content" aria-current="page" href="#" data-url="/dashboard">
+                      <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
                   </li>
-                  <div id="sidebarContent" class="d-none">
-                    <li>
-                      <a class="dropdown-item load-content" data-url="/dashboard" aria-current="page" href="#">
-                        <i class="fas fa-tachometer-alt"></i> Dashboard
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item load-content" data-url="/booked-appointment" href="#">
-                        <i class="fas fa-calendar-check"></i> Appointments
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item load-content" data-url="/medical-records" href="#">
-                        <i class="fas fa-notes-medical"></i> Medical Records
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item load-content" data-url="/prescriptions" href="#">
-                        <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item load-content" data-url="/billing" href="#">
-                        <i class="fas fa-wallet"></i> Billing
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item load-content" data-url="/settings" href="#">
-                        <i class="fas fa-cogs"></i> Settings
-                      </a>
-                    </li>
-                  </div>
+                  <li>
+                    <a class="dropdown-item load-content" href="#" data-url="/booked-appointment">
+                      <i class="fas fa-calendar-check"></i> Appointments
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item load-content" href="#" data-url="/home-appointment">
+                      <i class="fas fa-calendar-check"></i> Home Appointments
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item load-content" href="#" data-url="/medical-records">
+                      <i class="fas fa-notes-medical"></i> Medical Records
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item load-content" href="#" data-url="/prescriptions">
+                      <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item load-content" href="#" data-url="/billing">
+                      <i class="fas fa-wallet"></i> Billing
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item load-content" href="#" data-url="/settings">
+                      <i class="fas fa-cogs"></i> Settings
+                    </a>
+                  </li>
+
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="/logout">Logout</a></li>
                 </ul>
               </li>
             </ul>
@@ -123,6 +129,11 @@
               <li class="nav-item">
                 <a class="nav-link load-content" href="#" data-url="/booked-appointment">
                   <i class="fas fa-calendar-check"></i> Appointments
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link load-content" href="#" data-url="/home-appointment">
+                  <i class="fas fa-calendar-check"></i> Home Appointments
                 </a>
               </li>
               <li class="nav-item">
@@ -170,9 +181,10 @@
             <div class="col-md-6 col-lg-4 mb-4">
               <div class="card shadow-sm">
                 <div class="card-header">Upcoming Appointments</div>
-                <div class="card-body">
-                  <p class="card-text">You have 1 appointment scheduled for 12th Feb 2025.</p>
-                  <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                <div class="card-body"
+                  <p class="card-text">You have <%= appointmentsNumber %> appointment scheduled for 12th Feb 2025.</p>
+                  <!-- <a href="#" class="btn btn-primary btn-sm">View Details</a> -->
+                  <a class="btn btn-primary btn-sm load-content" aria-current="page" href="#" data-url="/booked-appointment"> View Details</a>
                 </div>
               </div>
             </div>
@@ -226,9 +238,8 @@
         </main>
       </div>
     </div>
-
     <!-- JavaScript Libraries -->
-    <%- include('partials/footer') %>   
+    <%- include('partials/footer') %>
     <!-- Template Javascript -->
     <script src="/js/main.js"></script>
   </body>

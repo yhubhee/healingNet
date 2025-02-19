@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const alerts = document.querySelectorAll('.alert');
-    if (alerts) {
+    const message = document.querySelectorAll('.message');
+    if (message) {
         setTimeout(() => {
-            alerts.forEach(alert => {
-                alert.style.display = 'none';
+            message.forEach(message => {
+                message.style.display = 'none';
             });
         }, 5000); // Hide after 5 seconds
     }

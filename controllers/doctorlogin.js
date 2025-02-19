@@ -35,7 +35,10 @@ exports.doctorlogin = (req, res) => {
         })
 
         // console.log('The token is: ' + accessToken);
-        res.status(200).redirect('/doctordashboard');
+        res.render('doctorlogin',{
+            success: "Login successful",
+            redirect : true
+        })
 
     })
 }

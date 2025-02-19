@@ -8,6 +8,7 @@ create database hospital_new; -- Your database name
 --     lastname VARCHAR(50),
 --     phone VARCHAR(50),
 --     email VARCHAR(150),
+--     date_joined DATE,
 --     date_of_birth DATE,
 --     gender VARCHAR(30),
 --     password VARCHAR(250),
@@ -29,6 +30,7 @@ create database hospital_new; -- Your database name
 --     date_joined DATE,
 --     address VARCHAR(200),
 --     status VARCHAR(30)
+--     Homeappointmentstatus VARCHAR (30)
 -- );
 
 -- CREATE TABLE appointment (
@@ -64,10 +66,12 @@ create database hospital_new; -- Your database name
 -- doctor_id int,
 -- email varchar(200),
 -- status varchar(50),
--- note varchar(250),
--- appointment_type varchar(250),
--- schedule_date datetime
+-- illness varchar(250),
+-- appointment_time varchar(250),
+-- appointment_date date
+    FOREIGN KEY (patient_id) REFERENCES appointment(patient_id),
 -- );
+
 -- create table homeappointment(
 -- appointment_id int primary key auto_increment,
 -- fullname varchar(200) ,
@@ -80,7 +84,10 @@ create database hospital_new; -- Your database name
 -- );
 
 -- alter table doctor_schedules
--- auto_increment = 1001;
+-- illness varchar(250),
+-- appointment_time varchar(250),
+-- appointment_date date
+
 
 
 -- create table comments(

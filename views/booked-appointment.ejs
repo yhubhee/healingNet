@@ -3,33 +3,50 @@
 <head>
     <%- include('partials/head') %>
     <title>Book Appointment - HealingNet</title>
-    <link rel="stylesheet" href="/css/dashboard.css">
+    <!-- <link rel="stylesheet" href="/css/dashboard.css"> -->
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4">Booked Appointments</h2>
+        <h2 class="mb-4">Booked Appointments
+            <% appointments.forEach(appointment => { %>
+                <form action="/cancel-appointment" method="POST" class="d-inline cancel-form">
+                    <input type="hidden" name="appointment_id" value="<%= appointment.appointment_id %>">
+                    <button type="submit" class="btn btn-danger float-end">Cancel Appointment</button>
+                </form>
+            <% }); %>
+            <button type="submit" class="btn bg-success float-end me-2"><a href="/appointment"> Book a New Appointment </a></button>
+
+        </h2>
         
         <% if (appointments.length > 0) { %>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead class="table-primary">
                         <tr>
-                            <th>Doctor</th>
+                            <th>Doctor's Name</th>
+                            <th>Department</th>
                             <th>Specialty</th>
+                            <th>Doctor's Email</th>
                             <th>Date</th>
                             <th>Time</th>
+                            <th>Appointment ID</th>
                             <th>Status</th>
+                            <th>Appointment link</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% appointments.forEach(appointment => { %>
                             <tr>
                                 <td><%= appointment.doctor %></td>
+                                <td><%= appointment.department %></td>
                                 <td><%= appointment.specialty %></td>
-                                <td><%= appointment.appointment_date %></td>
+                                <td><%= appointment.email %></td>
+                                <td><%= appointment.appointment_date.toISOString().split('T')[0] %></td>
                                 <td><%= appointment.appointment_time %></td>
-                                <td><span class="badge bg-success">Confirmed</span></td>
+                                <td><%= appointment.appointment_id %></td>                               
                                 <td><span class="badge bg-success"><%= appointment.status %></span></td>
+                                <td>
+                                                                    </td>
                             </tr>
                         <% }); %>
                     </tbody>
@@ -39,17 +56,23 @@
             <div class="alert alert-warning" role="alert">
                 You have no booked appointments.
             </div>
+            <div class="text-center mt-4">
+                <a class="btn btn-primary btn-lg load-content" href="/appointment" target="_blank">
+                    <i class="fas fa-plus"></i> Create Appointment
+                </a>
+            </div>
         <% } %>
         
         <!-- Create Appointment Button -->
-        <div class="text-center mt-4">
-            <a class="btn btn-primary btn-lg load-content" href="#" data-url="/create-appointment">
-                <i class="fas fa-plus"></i> Create Appointment
-            </a>
-        </div>
     </div>
-
-    
 </body>
 <script src="/js/main.js"></script>
+<script>
+    function cancelAppointment() {
+        const form = document.querySelector('.cancel-form');
+        if (form) {
+            form.submit();
+        }
+    }
+</script>
 </html>

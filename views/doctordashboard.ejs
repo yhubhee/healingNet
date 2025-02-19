@@ -62,12 +62,12 @@
                   <%= lastname %>
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                <li><a class="dropdown-item" href="/profile">My Profile</a></li>
+                <li><a class="dropdown-item load-content"  data-url="/profile" aria-current="page" href="#">My Profile</a></li>
                 <li><a class="dropdown-item" href="#">Settings</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                <li><a class="dropdown-item" href="/doctorlogout">Logout</a></li>
                 <li>
                   <button id="sidebarToggle" class="dropdown-item">More Options</button>
                 </li>
@@ -125,12 +125,17 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link load-content" href="#" data-url="/doctorappointment">
+              <a class="nav-link load-content" href="#" data-url="/doc_appointment">
                 <i class="fas fa-calendar-check"></i> Appointments
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link load-content" href="#" data-url="/home-appointment">
+                <i class="fas fa-calendar-check"></i> Home Appointments
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link load-content" href="#" data-url="/doc_patients">
                 <i class="fas fa-user-injured"></i> Patients
               </a>
             </li>
@@ -140,7 +145,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link load-content" href="#" data-url="/schedule">
                 <i class="fas fa-clock"></i> Schedule
               </a>
             </li>
@@ -236,42 +241,6 @@
       </main>
     </div>
   </div>
-  <div class="card-body">
-    <!-- Add table or list to display appointments -->
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Patient Name</th>
-                <th>Email</th>
-                <th>Illness</th>
-                <th>Date</th>
-                <th>Time</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <!-- Loop through appointments and display them here -->
-            <% if (appointments.length > 0) { %>
-                <% appointments.forEach(appointment => { %>
-                    <tr>
-                        <td><%= appointment.patient_name %></td>
-                        <td><%= appointment.email %></td>
-                        <td><%= appointment.illness %></td>
-                        <td><%= appointment.appointment_date %></td>
-                        <td><%= appointment.appointment_time %></td>
-                        
-                    </tr>
-                <% }) %>
-            <% } else { %>
-                <tr>
-                    <td colspan="5" class="text-center">No appointments found</td>
-                </tr>
-            <% } %>
-        </tbody>
-       
-        
-    </table>
-</div>
   <!-- JavaScript Libraries -->
   <%- include('partials/footer') %>
     <!-- Template Javascript -->

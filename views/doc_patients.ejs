@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <title>Book Appointment - HealingNet</title>
+    <!-- <link rel="stylesheet" href="/css/dashboard.css"> -->
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Your Patients</h2>
+        
+        <% if (patients.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Patient's Firstname</th>
+                            <th>Patient's Lastname</th>
+                            <th>Patient's Phonenumber</th>
+                            <th>Patient Email</th>
+                            <th>Patient's D.O.B</th>
+                            <th>Patient's Gender</th>
+                            <th>Patient's Address</th>
+                            <th>Patients_id</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% patients.forEach(patients => { %>
+                            <tr>
+                                <td><%= patients.firstname %></td>
+                                <td><%= patients.lastname %></td>
+                                <td><%= patients.phone %></td>
+                                <td><%= patients.email %></td>
+                                <td><%= patients.date_of_birth %></td>
+                                <td><%= patients.gender %></td>
+                                <td><%= patients.address %></td> 
+                                <td><%= patients.patient_id %></td>                                     
+                                <td><span class="badge bg-success"><%= patients.status %></span></td>
+                                <!-- <td><span class="badge bg-success">Confirmed</span></td> -->
+                                
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="alert alert-warning" role="alert">
+                You have Patients to display.
+            </div>
+        <% } %>
+        
+        <!-- Create Appointment Button -->
+    </div>
+
+    
+</body>
+<script src="/js/main.js"></script>
+</html>

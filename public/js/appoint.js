@@ -53,5 +53,6 @@ function updateDoctors() {
     }
 }
 
+
 // Add event listener for specialty change
 document.getElementById("specialtySelect").addEventListener("change", updateDoctors);

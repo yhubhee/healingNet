@@ -34,7 +34,10 @@ exports.login = (req, res) => {
             secure: process.env.NODE_ENV === 'production',
         });
 
-        res.status(200).redirect('/dashboard');
+        res.render('login',{
+            success: "Login successful",
+            redirect : true
+        })
     });
 };
 

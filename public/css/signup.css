@@ -34,44 +34,26 @@ body {
     transform: translateY(-50%); /* Adjust vertical alignment */
     cursor: pointer;
 }
-/* Alert Container Styling */
-/* .alert-container {
+
+/* Error and Success Message Styling */
+/* .error-message,
+.success-message {
   position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 1000;
-  width: auto;
+  z-index: 10000;
+  max-width: 300px;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
 }
-
-.alert {
-  padding: 15px;
-  margin-bottom: 10px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+.error-message {
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+  color: #842029;
 }
-
-.alert-success {
-  color: #3c763d;
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
-}
-
-.alert-danger {
-  color: #a94442;
-  background-color: #f2dede;
-  border-color: #ebccd1;
+.success-message {
+  background-color: #d1e7dd;
+  border: 1px solid #badbcc;
+  color: #0f5132;
 } */
-.alert-container {
-  position: fixed;
-  top: 100px;
-  right: 20px;
-  z-index: 1000;
-  width: 300px;
-}
-.alert {
-  margin-bottom: 10px;
-}
-.signup-dropdown:hover .dropdown-menu {
-  display: block;
-  margin-top: 0;
-}

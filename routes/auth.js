@@ -18,5 +18,6 @@ router.post('/appointment', validateTokens, bookappointment.bookappointment);
 router.post('/doctorregister', register.doctorregister);
 router.post('/doctorlogin', doclogin.doctorlogin);
 
+
 module.exports = router;
 

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <title>Book Appointment - HealingNet</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Booked Appointments</h2>
+        
+        <% if (appointments.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Patient name</th>
+                            <th>Patient email</th>
+                            <th>Patient illness</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Patients_id</th>
+                            <th>Appointment_id</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% appointments.forEach(appointment => { %>
+                            <tr>
+                                <td><%= appointment.fullname %></td>
+                                <td><%= appointment.email %></td>
+                                <td><%= appointment.illness %></td>
+                                <td><%= appointment.appointment_date %></td>
+                                <td><%= appointment.appointment_time %></td>
+                                <td><%= appointment.patient_id %></td>
+                                <td><%= appointment.appointment_id %></td>                               
+                                <td><span class="badge bg-success"><%= appointment.status %></span></td>
+                                <!-- <td><span class="badge bg-success">Confirmed</span></td> -->
+                                
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="alert alert-warning" role="alert">
+                You have no booked appointments.
+            </div>
+        <% } %>
+        
+        <!-- Create Appointment Button -->
+    </div>
+
+    
+</body>
+<script src="/js/main.js"></script>
+</html>

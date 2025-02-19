@@ -11,8 +11,8 @@ const createToken = (doctors) =>{
         {
         expiresIn: process.env.doc_JWT_EXPIRES_IN
     });
-    
     return docToken;
+
 };
 
 const doctorvalidateTokens = (req, res, next) =>{
@@ -28,6 +28,7 @@ const doctorvalidateTokens = (req, res, next) =>{
         if(validToken){
             req.authenticated = true ;
             req.user = validToken;
+            // console.log(validToken)
             return next()
         }
     }

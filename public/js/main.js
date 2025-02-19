@@ -1,3 +1,5 @@
+// const { get } = require("../../routes/pages");
+
 (function ($) {
     "use strict";
 
@@ -20,12 +22,12 @@
 
 
     // Date and time picker
-    $('.date').datetimepicker({
-        format: 'L'
-    });
-    $('.time').datetimepicker({
-        format: 'LT'
-    });
+    // $('.date').datetimepicker({
+    //     format: 'L'
+    // });
+    // $('.time').datetimepicker({
+    //     format: 'LT'
+    // });
 
 
     // Back to top button
@@ -101,56 +103,5 @@
     });
 
 })(jQuery);
-
-// FOR ApPPOINTMENT PAGE
-document.addEventListener("DOMContentLoaded", function () {
-    // Save the default content from the main area on page load
-    var defaultMainContent = document.querySelector(".main-content").innerHTML;
-
-    document.querySelectorAll(".load-content").forEach(function (link) {
-        link.addEventListener("click", function (event) {
-            event.preventDefault();
-            let url = this.getAttribute("data-url");
-
-            if (url === "/dashboard") {
-                // Restore the original main content
-                document.querySelector(".main-content").innerHTML = defaultMainContent;
-            } else {
-                // Otherwise, fetch the new content via AJAX
-                fetch(url)
-                    .then(response => response.text())
-                    .then(html => {
-                        document.querySelector(".main-content").innerHTML = html;
-                    })
-                    .catch(error => console.error("Error loading page:", error));
-            }
-        });
-    });
-});
-
-// Custom Script for Toggle Border on Navbar Brand and Sidebar Dropdown Toggle 
-
-const navbarToggler = document.querySelector('.navbar-toggler');
-const navbarBrand = document.querySelector('.navbar-brand');
-
-navbarToggler.addEventListener('click', function () {
-    // Delay slightly to allow the aria-expanded attribute to update
-    setTimeout(() => {
-        if (navbarToggler.getAttribute('aria-expanded') === 'true') {
-            navbarBrand.classList.add('border-bottom');
-        } else {
-            navbarBrand.classList.remove('border-bottom');
-        }
-    }, 100);
-});
-
-document.getElementById('sidebarToggle').addEventListener('click', function () {
-    var sidebarContent = document.getElementById('sidebarContent');
-    if (sidebarContent.classList.contains('d-none')) {
-        sidebarContent.classList.remove('d-none');
-    } else {
-        sidebarContent.classList.add('d-none');
-    }
-});
 
 

@@ -2,56 +2,30 @@
 <html lang="en">
   <head>
     <%- include('partials/head') %>
-    <title>Patient Login - HealingNet Telemedicine</title>
-    <link rel="stylesheet" href="/css/signup.css">
-    <link rel="stylesheet" href="/css/signup.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- <style>
-      .error-message,
-      .success-message {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 10000;
-        max-width: 300px;
-        padding: 10px;
-        border-radius: 5px;
-        font-weight: bold;
-      }
-      .error-message {
-        background-color: #f8d7da;
-        border: 1px solid #f5c2c7;
-        color: #842029;
-      }
-      .success-message {
-        background-color: #d1e7dd;
-        border: 1px solid #badbcc;
-        color: #0f5132;
-      }
-    </style> -->
-  </head>
-  <body>
-    <%- include('partials/header') %>
+    <link href="/img/healingnet2.webp" rel="icon">
     
-    <!-- Fixed Message Containers -->
-    <div class="container mt-5">
-      <!-- Success Message -->
-      <% if (typeof success !== 'undefined') { %>
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-              <%= success %>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/login" rel="stylesheet">
+    <title>Doctor Login - HealingNet Telemedicine</title>
+  </head>
+  
+  <body>
+    <!-- Alert Messages (Top-Right) -->
+    <div class="alert-container">
+      <% if (typeof error !=='undefined') { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
       <% } %>
-
-      <!-- Error Message -->
-      <% if (typeof error !== 'undefined') { %>
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-              <%= error %>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
+      <% if (typeof success !=='undefined') { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= success %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
       <% } %>
     </div>
-   
     <% if (typeof redirect !== 'undefined' && redirect) { %>
       <script>
         setTimeout(() => {
@@ -59,37 +33,40 @@
         }, 1000); // Redirect after 1 second
       </script>
     <% } %>
-    
-    
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-      <div class="card shadow-lg p-4 animate__animated animate__fadeInDown" style="max-width: 400px; width: 100%;">
-        <h3 class="text-center text-primary mb-4">Welcome Back</h3>
-        <form action="/auth/login" method="POST">
-          <!-- Email -->
-          <div class="mb-3">
-            <label for="email" class="form-label">Email Address</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+
+    <!-- Login Form -->
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <div class="card login-card">
+            <div class="login-header"  style="background-color:  #13C5DD !important;">
+              <h3 class="mb-0">Patients Login</h3>
+            </div>
+            <div class="card-body">
+              <form action="/auth/login" method="POST">
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="mb-3 password-container">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                  <i class="fa-solid fa-eye-slash showpass " id="password-icon"></i>
+                </div>
+                <button type="submit" class="btn btn-primary w-100" style="background-color:#13C5DD !important;">Log In</button>
+              </form>
+              <p class="text-center mt-3">
+                Don't have an account? <a href="/signup" class="text-primary">Sign Up</a><br>
+                Login as doctor <a href="/doctorlogin" class="text-primary">log in</a>
+              </p>
+            </div>
           </div>
-          <!-- Password -->
-          <div class="mb-3 position-relative">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
-            <i class="fa-solid fa-eye-slash showpass" id="password-icon"></i>
-          </div>
-          <!-- Submit Button -->
-          <button type="submit" class="btn btn-primary w-100">Login</button>
-          <!-- Sign Up Redirect -->
-          <p class="text-center mt-3">
-            Login as a Doctor <a href="/doctorlogin" class="text-primary">Login</a> <br>
-            Don't have an account? <a href="/signup" class="text-primary">Sign Up</a>
-          </p>
-        </form>
+        </div>
       </div>
     </div>
-    
-    <%- include('partials/footer') %>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/login.js"> </script>
-    <script src="/js/main.js"> </script>
   </body>
 </html>
-

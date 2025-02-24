@@ -8,13 +8,7 @@
 <body>
     <div class="container mt-5">
         <h2 class="mb-4">Booked Appointments
-            <% appointments.forEach(appointment => { %>
-                <form action="/cancel-appointment" method="POST" class="d-inline cancel-form">
-                    <input type="hidden" name="appointment_id" value="<%= appointment.appointment_id %>">
-                    <button type="submit" class="btn btn-danger float-end">Cancel Appointment</button>
-                </form>
-            <% }); %>
-            <button type="submit" class="btn bg-success float-end me-2"><a href="/appointment"> Book a New Appointment </a></button>
+            <button type="submit" class="btn bg-success float-end"><a href="/appointment"> Book a New Appointment </a></button>
 
         </h2>
         
@@ -29,9 +23,9 @@
                             <th>Doctor's Email</th>
                             <th>Date</th>
                             <th>Time</th>
-                            <th>Appointment ID</th>
+                            <th>Appointment_id</th>
                             <th>Status</th>
-                            <th>Appointment link</th>
+                            <th>Cancel Appointment </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,12 +35,14 @@
                                 <td><%= appointment.department %></td>
                                 <td><%= appointment.specialty %></td>
                                 <td><%= appointment.email %></td>
-                                <td><%= appointment.appointment_date.toISOString().split('T')[0] %></td>
+                                <td><%= appointment.appointment_date %></td>
                                 <td><%= appointment.appointment_time %></td>
                                 <td><%= appointment.appointment_id %></td>                               
                                 <td><span class="badge bg-success"><%= appointment.status %></span></td>
-                                <td>
-                                                                    </td>
+                                <td><form action="/cancel-appointment" method="POST" class="d-inline cancel-form">
+                                    <input type="hidden" name="appointment_id" value="<%= appointment.appointment_id %>">
+                                    <button type="submit" class="btn btn-danger float-end">Cancel Appointment</button>
+                                </form> </td>
                             </tr>
                         <% }); %>
                     </tbody>

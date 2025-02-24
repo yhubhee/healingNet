@@ -63,19 +63,8 @@
                                 <form action="/auth/appointment" method="POST">
                                     <div class="row g-3">
                                         <div class="col-12 col-sm-6">
-                                            <select class="form-select bg-white border-0" name="department"
-                                                id="departmentSelect" onchange="updateSpecialties()"
-                                                style="height: 55px;" required>
-                                                <%- include('partials/department') %>
-                                            </select>
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <select name="specialty" id="specialtySelect"
-                                                class="form-select bg-white border-0" style="height: 55px;"
-                                                onchange="updateDoctors()" required>
-                                                <option selected>Select Specialty</option>
-                                                <!-- Specialty options will be populated here -->
-                                            </select>
+                                            <input name="Illness" type="text" class="form-control bg-white border-0"
+                                                placeholder="Your Illness" id="illness_Select" onchange="updateDoctors()" style="height: 55px;" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <select name="doctor" class="form-select bg-white border-0"
@@ -91,10 +80,6 @@
                                         <div class="col-12 col-sm-6">
                                             <input name="email" type="email" class="form-control bg-white border-0"
                                                 placeholder="Your Email" style="height: 55px;" required>
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <input name="illness" type="text" class="form-control bg-white border-0"
-                                                placeholder="Illness" name="illness" style="height: 55px;" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="date" id="date" data-target-input="nearest">

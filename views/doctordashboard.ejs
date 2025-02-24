@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <%- include('partials/head') %>
     <link href="/css/dashboard.css" rel="stylesheet">
@@ -8,29 +9,29 @@
 </head>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-  // Save the default content from the main area on page load
-  var defaultMainContent = document.querySelector(".main-content").innerHTML;
+    // Save the default content from the main area on page load
+    var defaultMainContent = document.querySelector(".main-content").innerHTML;
 
-  document.querySelectorAll(".load-content").forEach(function (link) {
+    document.querySelectorAll(".load-content").forEach(function (link) {
       link.addEventListener("click", function (event) {
-          event.preventDefault();
-          let url = this.getAttribute("data-url");
+        event.preventDefault();
+        let url = this.getAttribute("data-url");
 
-          if (url === "/doctordashboard") {
-              // Restore the original main content
-              document.querySelector(".main-content").innerHTML = defaultMainContent;
-          } else {
-              // Otherwise, fetch the new content via AJAX
-              fetch(url)
-                  .then(response => response.text())
-                  .then(html => {
-                      document.querySelector(".main-content").innerHTML = html;
-                  })
-                  .catch(error => console.error("Error loading page:", error));
-          }
+        if (url === "/doctordashboard") {
+          // Restore the original main content
+          document.querySelector(".main-content").innerHTML = defaultMainContent;
+        } else {
+          // Otherwise, fetch the new content via AJAX
+          fetch(url)
+            .then(response => response.text())
+            .then(html => {
+              document.querySelector(".main-content").innerHTML = html;
+            })
+            .catch(error => console.error("Error loading page:", error));
+        }
       });
+    });
   });
-});
 </script>
 
 <body>
@@ -62,7 +63,8 @@
                   <%= lastname %>
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                <li><a class="dropdown-item load-content"  data-url="/profile" aria-current="page" href="#">My Profile</a></li>
+                <li><a class="dropdown-item load-content" data-url="/profile" aria-current="page" href="#">My
+                    Profile</a></li>
                 <li><a class="dropdown-item" href="#">Settings</a></li>
                 <li>
                   <hr class="dropdown-divider">
@@ -185,8 +187,11 @@
             <div class="card shadow-sm">
               <div class="card-header">Today's Appointments</div>
               <div class="card-body">
-                <p class="card-text">You have 3 appointments scheduled for today.</p>
-                <a href="#" class="btn btn-primary btn-sm">View Schedule</a>
+                <p class="card-text">You have
+                  <%= doc_appointmentsCount %> appointments scheduled for today.
+
+                </p>
+                <a href="#" data-url="/doc_appointment" class="btn btn-primary btn-sm load-content">View Schedule</a>
               </div>
             </div>
           </div>
@@ -208,7 +213,7 @@
               <div class="card-header">Patient Requests</div>
               <div class="card-body">
                 <p class="card-text">There are 2 new consultation requests.</p>
-                <a href="#" class="btn btn-info btn-sm text-white">Review Requests</a>
+                <a class="btn btn-info btn-sm text-white">Review Requests</a>
               </div>
             </div>
           </div>
@@ -220,8 +225,8 @@
             <div class="card shadow-sm">
               <div class="card-header">Patient List</div>
               <div class="card-body">
-                <p class="card-text">You are currently managing 25 patients.</p>
-                <a href="#" class="btn btn-warning btn-sm">View All Patients</a>
+                <p class="card-text">You are currently managing <%= patient_count %> patients.</p>
+                <a href="#" data-url="/doc_patients"  class="btn btn-warning btn-sm load-content">View All Patients</a>
               </div>
             </div>
           </div>
@@ -248,4 +253,3 @@
 </body>
 
 </html>
-

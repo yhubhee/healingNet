@@ -194,46 +194,41 @@
                                 <form action="/auth/appointment" method="POST">
                                     <div class="row g-3">
                                         <div class="col-12 col-sm-6">
-                                            <select class="form-select bg-white border-0" name="department" id="departmentSelect" onchange="updateSpecialties()" style="height: 55px;" required>
-                                                <%- include('partials/department') %>
-                                            </select>
+                                            <input name="Illness" type="text" class="form-control bg-white border-0"
+                                                placeholder="Your Illness" id="illness_Select" onchange="updateDoctors()" style="height: 55px;" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <select name="specialty" id="specialtySelect" class="form-select bg-white border-0" style="height: 55px;" onchange="updateDoctors()" required>
-                                                <option selected>Select Specialty</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <select name="doctor" class="form-select bg-white border-0" id="doctorSelect" style="height: 55px;" required>
+                                            <select name="doctor" class="form-select bg-white border-0"
+                                                id="doctorSelect" style="height: 55px;" required>
                                                 <option selected>Select Doctor</option>
-                                              
+                                                <!-- Doctor options will be populated here -->
                                             </select>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <input name="fullname" type="text" class="form-control bg-white border-0" placeholder="Your Name" style="height: 55px;" required>
+                                            <input name="fullname" type="text" class="form-control bg-white border-0"
+                                                placeholder="Your Name" style="height: 55px;" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <input name="email" type="email" class="form-control bg-white border-0" placeholder="Your Email" style="height: 55px;" required>
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <input name="illness" type="text" class="form-control bg-white border-0" placeholder="Illness" name="illness" style="height: 55px;" required>
+                                            <input name="email" type="email" class="form-control bg-white border-0"
+                                                placeholder="Your Email" style="height: 55px;" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="date" id="date" data-target-input="nearest">
                                                 <input type="date" name="appointment_date"
                                                     class="form-control bg-white border-0 datetimepicker-input"
-                                                    placeholder="Date" data-toggle="datetimepicker" style="height: 55px;" required>
+                                                    placeholder="Date" style="height: 55px;" required>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="time" id="time" data-target-input="nearest">
                                                 <input type="time" name="appointment_time"
                                                     class="form-control bg-white border-0 datetimepicker-input"
-                                                    placeholder="Time" data-toggle="datetimepicker" style="height: 55px;" required>
+                                                    placeholder="Time" style="height: 55px;" required>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100 py-3" type="submit">Make An Appointment</button>
+                                            <button class="btn btn-primary w-100 py-3" type="submit">Make An
+                                                Appointment</button>
                                         </div>
                                     </div>
                                 </form>
@@ -891,4 +886,5 @@
             <!-- Blog End -->
             <%- include('partials/footer') %>
     </body>
+    <script src="/js/appoint.js"></script>
 </html>

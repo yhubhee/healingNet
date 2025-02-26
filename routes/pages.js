@@ -60,6 +60,29 @@ router.get('/profile', validateTokens, (req, res) => {
         });
     });
 });
+router.get('/settings', validateTokens, (req, res) => {
+    const { patient_id } = req.user; // Access the attached names and user_id
+    const sql = `
+       select firstname, lastname, phone, email, date_joined, date_of_birth, gender, address from patients WHERE patient_id = ? ;
+    `;
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).send('Failed to fetch your details');
+        }
+        connection.query(sql, [patient_id], (err, results) => {
+            connection.release(); // Release the connection back to the pool
+            if (err) {
+                console.error('Database query error:', err);
+                return res.status(500).send('Failed to fetch your details');
+            }
+            res.render('settings', {
+                patient: results || []
+            });
+        });
+    });
+});
+
 
 // Appointment post
 router.post('/auth/appointment', validateTokens, bookappointment);

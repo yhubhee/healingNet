@@ -49,6 +49,7 @@ function updateDoctors() {
             department = dept;
             break;
         }
+        console.log(dept)
     }
 
     if (department) {

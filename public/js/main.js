@@ -1,7 +1,3 @@
-// const { get } = require("../../routes/pages");
-
-const { get } = require("../../routes/pages");
-
 (function ($) {
     "use strict";
 

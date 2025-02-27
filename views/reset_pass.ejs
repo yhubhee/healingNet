@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+        <!-- Bootstrap CDN -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/login.css" rel="stylesheet">
+        <title>Reset Password</title>
+</head>
+
+<body>
+    <!-- Alert Messages (Top-Right) -->
+    <div class="alert-container">
+        <% if (typeof error !=='undefined' ) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= error %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <% } %>
+                <% if (typeof success !=='undefined' ) { %>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <%= success %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <% } %>
+    </div>
+    <% if (typeof redirect !=='undefined' && redirect) { %>
+        <script>
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 1000); // Redirect after 1 second
+        </script>
+        <% } %>
+
+            <!-- Login Form -->
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <div class="card login-card">
+                            <div class="login-header" style="background-color:  #13C5DD !important;">
+                                <h4 class="mb-0">Input Your New Password</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="/auth/reset_pass" method="post">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email Address</label>
+                                        <input type="email" class="form-control" id="email" name="email""email" name="email"
+                                            placeholder="Enter your email" required>  placeholder="Enter your email" required>
+                                    </div>
+                                    <div class="mb-3 password-container">
+                                        <label for="password" class="form-label">New Password</label>
+                                        <input type="password" class="form-control" id="password" name="password""password" name="password"
+                                            placeholder="Enter your password" required>  placeholder="Enter your password" required>
+                                    </div>
+                                    <div class="mb-3 password-container">
+                                        <label for="confirmpassword" class="form-label">Confirm Password</label>
+                                        <input type="password" class="form-control" id="confirmpassword" name="confirmpassword"
+                                            placeholder="Confirm your password" required><i class="fa-solid fa-eye-slash showpass " id="password-icon"></i>  placeholder="Confirm your password" required><i class="fa-solid fa-eye-slash showpass " id="password-icon"></i>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100"
+                                        style="background-color:#13C5DD !important;">Submit</button> style="background-color:#13C5DD !important;">Submit</button>
+                                </form>                                </form>
+
+                            </div>div>
+                        </div>div>
+                    </div>div>
+                </div>div>
+            </div>            </div>
+
+            <!-- Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="/js/login.js"> </script>     <script src="/js/login.js"> </script>
+</body></body>
+
+
+</html></html>

@@ -35,8 +35,26 @@ router.get('/team', (req, res) => {
 router.get('/search', (req, res) => {
     res.render('search');
 });
+router.get('/logout', (req, res) => {
+    res.render('login')
+})
+router.get('/features', (req, res) => {
+    res.render('features');
+});
+router.get('/signup', (req, res) => {
+    res.render('signup');
+});
+router.get('/login', (req, res) => {
+    res.render('login');
+});
 router.get('/appointment', (req, res) => {
     res.render('appointment');
+});
+router.get('/forgot_pass', (req, res) => {
+    res.render('forgot_pass');
+});
+router.get('/reset_pass', (req, res) => {
+    res.render('reset_pass');
 });
 router.get('/profile', validateTokens, (req, res) => {
     const { patient_id } = req.user; // Access the attached names and user_id
@@ -83,9 +101,10 @@ router.get('/settings', validateTokens, (req, res) => {
     });
 });
 
-
-// Appointment post
+//Postings
 router.post('/auth/appointment', validateTokens, bookappointment);
+router.post('/password_reset', forgot_pass.forgot_pass); 
+router.post('/reset_pass', validatePasswordResetToken, forgot_pass.reset_pass); 
 
 router.get('/booked-appointment', validateTokens, (req, res) => {
     const { firstname, lastname, patient_id } = req.user; // Access the attached names and user_id
@@ -111,19 +130,6 @@ router.get('/booked-appointment', validateTokens, (req, res) => {
             });
         });
     });
-});
-
-router.get('/logout', (req, res) => {
-    res.render('login')
-})
-router.get('/features', (req, res) => {
-    res.render('features');
-});
-router.get('/signup', (req, res) => {
-    res.render('signup');
-});
-router.get('/login', (req, res) => {
-    res.render('login');
 });
 router.get('/dashboard', validateTokens, (req, res) => {
     const { firstname, lastname, patient_id } = req.user; // Access the attached names
@@ -174,6 +180,7 @@ router.post('/cancel-appointment', (req, res) => {
         res.redirect('/booked-appointment');
     });
 });
+
 
 // Doctor Section
 router.get('/doctorsignup', (req, res) => {

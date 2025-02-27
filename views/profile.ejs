@@ -3,9 +3,9 @@
 
 <head>
     <%- include('partials/head') %>
-    <title>Patient Profile - HealingNet Telemedicine</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
+        <title>Patient Profile - HealingNet Telemedicine</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -18,7 +18,7 @@
                     </div>
                     <div class="card-body">
                         <form action="/auth/edit-profile" method="POST" id="editProfileForm">
-                            <% patient.forEach(patients => { %>
+                            <% patient.forEach(patients=> { %>
                                 <!-- Basic Details -->
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
@@ -56,7 +56,8 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="date_of_birth" class="form-label">Date of Birth</label>
                                         <input type="date" class="form-control" id="date_of_birth" name="date_of_birth"
-                                            value="<%= patients.date_of_birth.toISOString().split('T')[0] %>" disabled required>
+                                            value="<%= patients.date_of_birth.toISOString().split('T')[0] %>" disabled
+                                            required>
                                     </div>
                                 </div>
                                 <div class="mb-3">
@@ -75,21 +76,23 @@
                                 <div class="additional-info" style="display: none;">
                                     <div class="mb-3">
                                         <label for="medical_history" class="form-label">Medical History</label>
-                                        <textarea class="form-control" id="medical_history" name="medical_history" rows="3"
-                                            placeholder="Enter your medical history..."></textarea>
+                                        <textarea class="form-control" id="medical_history" name="medical_history"
+                                            rows="3" placeholder="Enter your medical history..."></textarea>
                                     </div>
                                     <!-- New File Upload Field for Medical Record -->
                                     <div class="mb-3">
-                                        <label for="medical_record_upload" class="form-label">Upload Medical Record</label>
+                                        <label for="medical_record_upload" class="form-label">Upload Medical
+                                            Record</label>
                                         <div class="input-group">
-                                            <input type="file" class="form-control" id="medical_record_upload" name="medical_record_upload">
+                                            <input type="file" class="form-control" id="medical_record_upload"
+                                                name="medical_record_upload">
                                             <span class="input-group-text"><i class="fas fa-upload"></i></span>
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="emergency_contact" class="form-label">Emergency Contact</label>
-                                        <input type="text" class="form-control" id="emergency_contact" name="emergency_contact"
-                                            placeholder="Enter emergency contact details">
+                                        <input type="text" class="form-control" id="emergency_contact"
+                                            name="emergency_contact" placeholder="Enter emergency contact details">
                                     </div>
                                     <div class="mb-3">
                                         <label for="marital_status" class="form-label">Marital Status</label>
@@ -101,9 +104,11 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="chronic_conditions" class="form-label">Chronic or Recurring Medical Conditions</label>
+                                        <label for="chronic_conditions" class="form-label">Chronic or Recurring Medical
+                                            Conditions</label>
                                         <textarea class="form-control" id="chronic_conditions" name="chronic_conditions"
-                                            rows="3" placeholder="Enter any chronic or recurring medical conditions..."></textarea>
+                                            rows="3"
+                                            placeholder="Enter any chronic or recurring medical conditions..."></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label for="next_of_kin" class="form-label">Next of Kin</label>
@@ -113,35 +118,37 @@
                                 </div>
 
                                 <button type="submit" class="btn btn-primary w-100">Update Profile</button>
-                            <% }); %>
+                                <% }); %>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>  
+    </div>
 </body>
 <script src="/js/main.js"></script>
-    
+<script>console.log("Loaded!");</script>
+
 <!-- Toggle Script -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const toggleBtn = document.querySelector('.toggle-additional-info');
-    const additionalSection = document.querySelector('.additional-info');
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.querySelector('.toggle-additional-info');
+        const additionalSection = document.querySelector('.additional-info');
 
-    toggleBtn.addEventListener('click', function() {
-      // Check the current display style of the additional section
-      if (additionalSection.style.display === 'none') {
-        additionalSection.style.display = 'block';
-        toggleBtn.classList.remove('fa-plus');
-        toggleBtn.classList.add('fa-minus');
-      } else {
-        additionalSection.style.display = 'none';
-        toggleBtn.classList.remove('fa-minus');
-        toggleBtn.classList.add('fa-plus');
-      }
+        toggleBtn.addEventListener('click', function () {
+            // Check the current display style of the additional section
+            if (additionalSection.style.display === 'none') {
+                additionalSection.style.display = 'block';
+                toggleBtn.classList.remove('fa-plus');
+                toggleBtn.classList.add('fa-minus');
+            } else {
+                additionalSection.style.display = 'none';
+                toggleBtn.classList.remove('fa-minus');
+                toggleBtn.classList.add('fa-plus');
+            }
+        });
     });
-  });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+
 </html>

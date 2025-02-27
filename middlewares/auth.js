@@ -16,6 +16,35 @@ const createToken = (patients) => {
     return accessToken;
 };
 
+const password_reset_secret = (patients) => {
+    const password_reset = sign(
+        {
+            patient_id: patients.patient_id,
+        },
+        process.env.password_reset_secret,
+        {
+            expiresIn: process.env.password_reset_EXPIRES_IN
+        }
+    );
+
+    return password_reset;
+};
+
+const validatePasswordResetToken = (req, res, next) => {
+    const passwordResetToken = req.body.password_reset_token; // Adjust based on source
+    if (!passwordResetToken) {
+        return res.render('forgot_pass', { error: 'Missing token' });
+    }
+    try {
+        const decoded = verify(passwordResetToken, process.env.password_reset_secret);
+        req.authenticated = true;
+        req.user = decoded;
+        return next();
+    } catch (err) {
+        return res.render('login', { error: 'Invalid or expired token, please try again.' });
+    }
+};
+
 
 const validateTokens = (req, res, next) => {
     const accessToken = req.cookies["access-Token"];
@@ -41,6 +70,7 @@ const validateTokens = (req, res, next) => {
 };
 
 
-module.exports = { createToken, validateTokens };
+module.exports = { createToken, validateTokens, password_reset_secret, validatePasswordResetToken};
+
 
 

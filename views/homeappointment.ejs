@@ -32,8 +32,8 @@
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="mb-4">
                     <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">
-                        Appointment</h5>
-                    <h1 class="display-4">Make An Appointment For Your Family</h1>
+                        Home Appointment</h5>
+                    <h1 class="display-4">Make A Home Appointment For Your Family</h1>
                 </div>
                 <p class="mb-5">
                     At HealingNet, scheduling an appointment has never been easier. Our
@@ -72,16 +72,27 @@
             </div>
             <div class="col-lg-6">
                 <div class="bg-light text-center rounded p-5">
-                    <h1 class="mb-4">Book An Appointment</h1>
+                    <h1 class="mb-4">Book Your Home Appointment</h1>
                     <form action="/auth/appointment" method="POST">
                         <div class="row g-3">
                             <div class="col-12 col-sm-6">
-                                <input name="Illness" type="text" class="form-control bg-white border-0"
-                                    placeholder="Your Illness" id="illness_Select" onchange="updateDoctors()" style="height: 55px;" required>
+                                <select name="Service" class="form-select bg-white border-0"
+                                    id="service_Select" onchange="updateserviceDoctors()" style="height: 55px;" required>
+                                    <option selected>Select Service</option>
+                                    <option value="Emergency Care"> Emergency Care </option>
+                                    <option value="Operation & Surgery">Operation & Surgery</option>
+                                    <option value="Outdoor Checkup">Outdoor Checkup</option>
+                                    <option value="Ambulance Service">Ambulance Service</option>
+                                    <option value="Medicine & Pharmacy">Medicine & Pharmacy</option>
+                                    <option value="Blood Testing">Blood Testing</option>
+                                    <!-- <option value=""></option> -->
+                                </select>
+                                <!-- <input name="Service" type="text" class="form-control bg-white border-0"
+                                    placeholder="Select_service" id="service_Select" onchange="updateserviceDoctors()" style="height: 55px;" required> -->
                             </div>
                             <div class="col-12 col-sm-6">
-                                <select name="doctor" class="form-select bg-white border-0"
-                                    id="doctorSelect" style="height: 55px;" required>
+                                <select name="Servicedoctor" class="form-select bg-white border-0"
+                                    id="Servicedoctor" style="height: 55px;" required>
                                     <option selected>Select Doctor</option>
                                     <!-- Doctor options will be populated here -->
                                 </select>

@@ -30,22 +30,26 @@ exports.forgot_pass = (req, res) => {
         const patient = result[0];
         const resetToken = password_reset_secret(patient); // Generate reset token
         const resetLink = `http://localhost:3000/reset_pass?token=${resetToken}`;
+        console.log('Generated token:', resetToken);
 
         // Set up Nodemailer transporter with custom SMTP
         const transporter = nodemailer.createTransport({
-            host: process.env.EMAIL_HOST,     
-            port: process.env.EMAIL_PORT,  
-            secure: process.env.EMAIL_SECURE,
+            host: process.env.EMAIL_HOST || 'smtp.gmail.com',     
+            port: process.env.EMAIL_PORT || 587,  // Use port 587
+            secure: process.env.EMAIL_SECURE === 'true', // Convert string to boolean
             auth: {
                 user: process.env.EMAIL_USER,  
                 pass: process.env.EMAIL_PASS,  
             },
+            tls: {
+                rejectUnauthorized: false // Allow self-signed certificates
+            }
         });
 
         // Define email content
         const mailOptions = {
-            from: process.env.EMAIL_USER,      // 'info@HealingNet.com'
-            to: email,                         // Recipient (user’s email)
+            from: process.env.EMAIL_USER,      
+            to: email,                         
             subject: 'HealingNet Password Reset Request',
             html: `
             <h2>Reset Your Password</h2>
@@ -75,6 +79,7 @@ exports.forgot_pass = (req, res) => {
 };
 
 exports.reset_pass = async (req, res) => {
+    console.log('req.user:', req.user);
     const { password, confirmpassword } = req.body;
     const { patient_id } = req.user; // From validated token
 

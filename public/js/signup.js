@@ -68,3 +68,13 @@ function updateSpecialties() {
     }
 }
 
+const HomeappointmentStatus = document.getElementById("HomeappointmentStatus");
+const service_Select = document.querySelector(".service_Select").style.display = "none";
+
+function checkbox(){
+    if(HomeappointmentStatus.checked == true){ui
+        service_Select.style.display = "block";
+
+    }
+
+}

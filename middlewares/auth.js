@@ -1,21 +1,5 @@
 const { sign, verify } = require("jsonwebtoken");
 
-const createToken = (patients) => {
-    const accessToken = sign(
-        {
-            patient_id: patients.patient_id,
-            firstname: patients.firstname,
-            lastname: patients.lastname
-        },
-        process.env.JWT_SECRET,
-        {
-            expiresIn: process.env.JWT_EXPIRES_IN
-        }
-    );
-
-    return accessToken;
-};
-
 const password_reset_secret = (patients) => {
     const password_reset = sign(
         {
@@ -31,7 +15,8 @@ const password_reset_secret = (patients) => {
 };
 
 const validatePasswordResetToken = (req, res, next) => {
-    const passwordResetToken = req.body.password_reset_token; // Adjust based on source
+    const passwordResetToken = req.body.token; // Must be first
+    console.log('Received token:', passwordResetToken);
     if (!passwordResetToken) {
         return res.render('forgot_pass', { error: 'Missing token' });
     }
@@ -41,10 +26,28 @@ const validatePasswordResetToken = (req, res, next) => {
         req.user = decoded;
         return next();
     } catch (err) {
-        return res.render('login', { error: 'Invalid or expired token, please try again.' });
+        if (err.name === 'TokenExpiredError') {
+            return res.render('forgot_pass', { error: 'Reset token has expired. Please request a new one.' });
+        }
+        return res.render('login', { error: 'Invalid token. Please try again.' });
     }
 };
 
+const createToken = (patients) => {
+    const accessToken = sign(
+        {
+            patient_id: patients.patient_id,
+            firstname: patients.firstname,
+            lastname: patients.lastname
+        },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: process.env.JWT_EXPIRES_IN
+        }
+    );
+
+    return accessToken;
+};
 
 const validateTokens = (req, res, next) => {
     const accessToken = req.cookies["access-Token"];

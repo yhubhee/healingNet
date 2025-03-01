@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../database');
 const { validateTokens } = require('../middlewares/auth');
 const { doctorvalidateTokens } = require('../middlewares/authdoctor');
-const { bookappointment } = require('../controllers/bookappointment')
+const { validatePasswordResetToken } = require('../middlewares/auth');
 
 router.get('/about', (req, res) => {
     res.render('about');
@@ -50,11 +50,18 @@ router.get('/login', (req, res) => {
 router.get('/appointment', (req, res) => {
     res.render('appointment');
 });
+router.get('/homeappointment', (req, res) => {
+    res.render('homeappointment');
+});
 router.get('/forgot_pass', (req, res) => {
     res.render('forgot_pass');
 });
-router.get('/reset_pass', (req, res) => {
-    res.render('reset_pass');
+router.get('/reset_pass', validatePasswordResetToken, (req, res) => {
+    const token = req.query.token;
+    if (!token) {
+        return res.render('forgot_pass', { error: 'Missing reset token' });
+    }
+    res.render('reset_pass', { token: token });
 });
 router.get('/profile', validateTokens, (req, res) => {
     const { patient_id } = req.user; // Access the attached names and user_id
@@ -101,11 +108,6 @@ router.get('/settings', validateTokens, (req, res) => {
     });
 });
 
-//Postings
-router.post('/auth/appointment', validateTokens, bookappointment);
-router.post('/password_reset', forgot_pass.forgot_pass); 
-router.post('/reset_pass', validatePasswordResetToken, forgot_pass.reset_pass); 
-
 router.get('/booked-appointment', validateTokens, (req, res) => {
     const { firstname, lastname, patient_id } = req.user; // Access the attached names and user_id
     const sql = `
@@ -131,6 +133,7 @@ router.get('/booked-appointment', validateTokens, (req, res) => {
         });
     });
 });
+
 router.get('/dashboard', validateTokens, (req, res) => {
     const { firstname, lastname, patient_id } = req.user; // Access the attached names
     const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ?';

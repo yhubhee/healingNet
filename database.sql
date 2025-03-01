@@ -69,7 +69,7 @@ create database hospital_new; -- Your database name
 -- illness varchar(250),
 -- appointment_time varchar(250),
 -- appointment_date date
-    FOREIGN KEY (patient_id) REFERENCES appointment(patient_id),
+--     FOREIGN KEY (patient_id) REFERENCES appointment(patient_id),
 -- );
 
 -- create table homeappointment(

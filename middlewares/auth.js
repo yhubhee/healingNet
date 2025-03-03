@@ -15,8 +15,8 @@ const password_reset_secret = (patients) => {
 };
 
 const validatePasswordResetToken = (req, res, next) => {
-    const passwordResetToken = req.body.token; // Must be first
-    console.log('Received token:', passwordResetToken);
+    const passwordResetToken = req.query.token || req.body.token; // Must be first
+    console.log('Received token from auth:', passwordResetToken);
     if (!passwordResetToken) {
         return res.render('forgot_pass', { error: 'Missing token' });
     }
@@ -32,6 +32,7 @@ const validatePasswordResetToken = (req, res, next) => {
         return res.render('login', { error: 'Invalid token. Please try again.' });
     }
 };
+
 
 const createToken = (patients) => {
     const accessToken = sign(

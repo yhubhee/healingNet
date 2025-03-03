@@ -7,6 +7,8 @@ const forgot_pass = require('../controllers/forgot_pass');
 const doclogin = require('../controllers/doctorlogin');
 const { validateTokens } = require('../middlewares/auth');
 const {validatePasswordResetToken} = require('../middlewares/auth');
+const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
+
 
 // 'auth/register
 router.post('/signup', register.register);
@@ -21,6 +23,10 @@ router.post('/appointment', validateTokens, bookappointment.bookappointment);
 // Doctor Auth
 router.post('/doctorregister', register.doctorregister);
 router.post('/doctorlogin', doclogin.doctorlogin);
+
+// Doctor's Password reset
+router.post('/Doc_password_Reset', forgot_pass.Doc_forgot_pass);
+router.post('/Doc_reset_pass', validateDoctor_reset_secret, forgot_pass.Doc_reset_pass);
 
 
 module.exports = router;

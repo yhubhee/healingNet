@@ -4,6 +4,7 @@ const db = require('../database');
 const { validateTokens } = require('../middlewares/auth');
 const { doctorvalidateTokens } = require('../middlewares/authdoctor');
 const { validatePasswordResetToken } = require('../middlewares/auth');
+const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
 
 router.get('/about', (req, res) => {
     res.render('about');
@@ -198,6 +199,17 @@ router.get('/doctorlogout', (req, res) => {
 router.get('/schedule', (req, res) => {
     res.render('schedule')
 })
+// Password reset
+router.get('/Doc_forgot_pass', (req, res) => {
+    res.render('Doc_forgot_pass');
+});
+router.get('/Doc_reset_pass', validateDoctor_reset_secret, (req, res) => {
+    const token = req.query.token;
+    if (!token) {
+        return res.render('Doc_forgot_pass');
+    }
+    res.render('Doc_reset_pass', { token: token });
+});
 router.get('/doc_patients', doctorvalidateTokens, (req, res) => {
     const { doctor_id } = req.user;
     const sql = `SELECT  p.firstname, p.lastname, p.phone, p.email, p.date_of_birth, p.gender, p.address, p.patient_id  FROM patients p join appointment a on p.patient_id = a.patient_id Where doctor_id = ?;`

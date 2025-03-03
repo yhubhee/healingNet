@@ -7,7 +7,7 @@ const pool = mysql.createPool({
     password: process.env.DATABASE_PASS,
     database: process.env.DATABASE,
     port: process.env.PORT, // Ensure this matches your .env file
-    connectionLimit: 10, // Increase the connection limit if necessary
+    connectionLimit: 90, // Increase the connection limit if necessary
     connectTimeout: 90000,
     enableKeepAlive: true,
     keepAliveInitialDelay: 10000

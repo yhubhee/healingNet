@@ -7015,6 +7015,16 @@ fieldset:disabled .btn {
         top: 0;
         z-index: 1020
     }
+    .blue{
+        background-color: #13C5DD !important;
+        color: #000;
+    }
+}
+@media (max-width: 576px) {
+    .blue{
+        background-color: #13C5DD !important;
+        color: #000;
+    }
 }
 
 @media (min-width: 768px) {

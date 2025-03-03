@@ -69,7 +69,7 @@
                                 <!-- Additional Information Toggle -->
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h3 class="mb-0">Additional Information</h3>
-                                    <i class="fas fa-minus toggle-additional-info" style="cursor: pointer;"></i>
+                                    <i class="fas fa-plus toggle-additional-info" style="cursor: pointer;"></i>
                                 </div>
 
                                 <!-- Additional Information Section (hidden by default) -->
@@ -148,6 +148,28 @@
             }
         });
     });
+</script>
+<script>
+    function initProfileToggle() {
+        const toggleBtn = document.querySelector('.toggle-additional-info');
+        const additionalSection = document.querySelector('.additional-info');
+
+        // Check if elements exist to avoid errors
+        if (toggleBtn && additionalSection) {
+            toggleBtn.addEventListener('click', function () {
+                // Toggle visibility
+                if (additionalSection.style.display === 'none') {
+                    additionalSection.style.display = 'block';
+                    toggleBtn.textContent = 'Hide Info'; // Optional: Update button text
+                } else {
+                    additionalSection.style.display = 'none';
+                    toggleBtn.textContent = 'Show Info'; // Optional: Update button text
+                }
+            });
+        } else {
+            console.error('Toggle button or section not found in profile.ejs');
+        }
+    }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 

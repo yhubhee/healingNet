@@ -1,5 +1,74 @@
 const pool = require('../database');
 
+exports.symptom_checker = (req, res) => {
+    const { symptoms_list, symptoms_text } = req.body;
+    const userSymptoms = [];
+
+    // Handle dropdown selections (works with Select2)
+    if (symptoms_list) {
+        if (Array.isArray(symptoms_list)) {
+            userSymptoms.push(...symptoms_list);
+        } else {
+            userSymptoms.push(symptoms_list);
+        }
+    }
+
+    // Handle text input
+    if (symptoms_text) {
+        const textSymptoms = symptoms_text.split(',').map(s => s.trim()).filter(s => s);
+        userSymptoms.push(...textSymptoms);
+    }
+
+    // Validate input
+    if (userSymptoms.length === 0) {
+        const allSymptoms = new Set();
+        Object.keys(symptoms).forEach(department => {
+            const departmentData = symptoms[department];
+            Object.keys(departmentData).forEach(diseaseOrCategory => {
+                const data = departmentData[diseaseOrCategory];
+                if (data.common && data.less_common) {
+                    if (Array.isArray(data.common)) {
+                        data.common.forEach(symptom => allSymptoms.add(symptom));
+                    }
+                    if (Array.isArray(data.less_common)) {
+                        data.less_common.forEach(symptom => allSymptoms.add(symptom));
+                    }
+                } else {
+                    Object.keys(data).forEach(subDisease => {
+                        const subData = data[subDisease];
+                        if (subData.common && subData.less_common) {
+                            if (Array.isArray(subData.common)) {
+                                subData.common.forEach(symptom => allSymptoms.add(symptom));
+                            }
+                            if (Array.isArray(subData.less_common)) {
+                                subData.less_common.forEach(symptom => allSymptoms.add(symptom));
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        const symptomList = Array.from(allSymptoms).sort();
+
+        return res.render('symptom_checker', {
+            firstname: req.user.firstname || 'User',
+            lastname: req.user.lastname || '',
+            symptomList: symptomList,
+            error: 'Please select or enter at least one symptom.'
+        });
+    }
+
+    // Process symptoms (your symptomChecker logic here)
+    const possibleDiseases = symptomChecker(userSymptoms);
+
+    res.render('symptom_results', {
+        firstname: req.user.firstname || 'User',
+        lastname: req.user.lastname || '',
+        userSymptoms: userSymptoms,
+        possibleDiseases: possibleDiseases
+    });
+}
+
 exports.bookappointment = (req, res) => {
     const { department, specialty, doctor, fullname, email, illness, appointment_date, appointment_time } = req.body;
     const { patient_id } = req.user; // Assuming user_id is available in req.user
@@ -78,15 +147,3 @@ exports.bookappointment = (req, res) => {
 };
 
 
-// // Example controller function
-// exports.getProfile = (req, res) => {
-//     const { patient_id } = req.user;
-//     const query = 'SELECT firstname, lastname, email, phone, address, date_joined, date_of_birth, gender FROM patients WHERE patient_id = ?';
-//     pool.query(query, [patient_id], (err, results) => {
-//         if (err) {
-//             console.log(err);
-//             return res.render('profile', { error: 'Failed to fetch patient data' });
-//         }
-//         res.render('profile', { patient: results });
-//     });
-// };

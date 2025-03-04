@@ -1,5 +1,5 @@
 const { sign, verify } = require("jsonwebtoken");
-
+// Password reset tokens
 const password_reset_secret = (patients) => {
     const password_reset = sign(
         {
@@ -33,7 +33,7 @@ const validatePasswordResetToken = (req, res, next) => {
     }
 };
 
-
+// Login Tokens
 const createToken = (patients) => {
     const accessToken = sign(
         {

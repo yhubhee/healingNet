@@ -1,39 +1,126 @@
-// Specialties categorized by department
-//    const specialties = {
-//     "Primary Care & General Medicine": ["Preventive Medicine", "Occupational Medicine", "Public Health", "General Surgery", "Emergency Medicine"],
-//     "Internal Medicine & Subspecialties": ["Cardiology", "Endocrinology", "Gastroenterology", "Hematology", "Infectious Diseases", "Nephrology", "Neurology", "Pulmonology", "Rheumatology"],
-//     "Surgical Specialties": ["Cardiothoracic Surgery", "Neurosurgery", "Orthopedic Surgery", "Otolaryngology (ENT)", "Pediatric Surgery", "Plastic Surgery", "Urogynecology", "Urology", "Vascular Surgery"],
-//     "Women’s Health": ["Obstetrics and Gynecology", "Maternal-Fetal Medicine", "Gynecologic Oncology", "Reproductive Endocrinology"],
-//     "Pediatric Specialties": ["Pediatric Cardiology", "Pediatric Neurology", "Pediatric Oncology", "Pediatric Surgery"],
-//     "Mental Health": ["Addiction Medicine", "Psychiatry", "Psychology", "Psychiatric Nursing", "Social Work"],
-//     "Oncology & Cancer Care": ["Oncology", "Gynecologic Oncology", "Pediatric Oncology"],
-//     "Diagnostic & Laboratory Medicine": ["Laboratory", "Microbiology", "Nuclear Medicine", "Pathology", "Radiology", "Virology"],
-//     "Rehabilitation & Allied Health": ["Audiology", "Chiropractic Care", "Dietetics and Nutrition", "Occupational Therapy", "Physical Therapy", "Speech Therapy"],
-//     "Pain & Specialized Care": ["Anesthesiology", "Pain Management", "Intensive Care Unit (ICU)"]
-// };
-
 // illness categorized by Department
 const illness = {
-    "Primary Care & General Medicine": ["Hypertension", "flu", "diabetes", "asthma", "minor", "injuries" ],
+   "Primary Care": [
+      "Hypertension",
+      "flu",
+      "diabetes",
+      "asthma",
+      "minor injuries",
+      "malaria",
+      "diarrheal diseases",
+      "measles",
+      "typhoid fever"
+    ],
 
-    "Internal Medicine & Subspecialties" : ["coronary artery disease", "heart failure", "diabetes", "thyroid disorders", "peptic ulcers", "inflammatory bowel disease", "anemia", "leukemia", "pneumonia", "tuberculosis", "chronic kidney", "disease", "stroke", "epilepsy", "COPD", "asthma", "rheumatoid arthritis", "lupus"],
+    "Internal Medicine and Subspecialties": [
+        "coronary artery disease",
+        "heart failure",
+        "diabetes",
+        "thyroid disorders",
+        "peptic ulcers",
+        "inflammatory bowel disease",
+        "anemia",
+        "leukemia",
+        "pneumonia",
+        "tuberculosis",
+        "chronic kidney disease",
+        "stroke",
+        "epilepsy",
+        "COPD",
+        "asthma",
+        "rheumatoid arthritis",
+        "lupus",
+        "HIV/AIDS",
+        "meningitis",
+        "Lassa fever",
+        "hepatitis B",
+        "hepatitis C",
+        "yellow fever"
+    ],
+    "Surgical Specialties": [
+      "appendicitis",
+      "hernias",
+      "gallstones",
+      "coronary artery disease (for bypass)",
+      "brain tumors",
+      "spinal disc herniation",
+      "fractures",
+      "joint replacements",
+      "tonsillitis",
+      "sinusitis",
+      "congenital anomalies",
+      "burns",
+      "pelvic organ prolapse",
+      "kidney stones",
+      "prostate cancer",
+      "aneurysms"
+    ],
 
-    "Surgical Specialties": ["appendicitis", "hernias", "gallstones", "coronary artery disease (for bypass)", "brain tumors", "spinal disc herniation", "fractures", "joint replacements", "tonsillitis", "sinusitis", "congenital anomalies", "burns", "pelvic organ prolapse", "kidney stones", "prostate cancer", "aneurysms"],
+ "Women’s Health": [
+      "gestational diabetes",
+      "preeclampsia",
+      "menstrual disorders",
+      "fibroids",
+      "endometriosis",
+      "ovarian cancer",
+      "cervical cancer",
+      "infertility",
+      "polycystic ovary syndrome"
+    ],
 
-    "Women’s Health": ["gestational diabetes", "preeclampsia", "menstrual disorders", "fibroids", "endometriosis", "ovarian cancer", "cervical cancer", "infertility", "polycystic ovary syndrome"],
+   "Pediatric Specialties": [
+      "congenital heart defects",
+      "Kawasaki disease",
+      "cerebral palsy",
+      "epilepsy",
+      "leukemia",
+      "neuroblastoma",
+      "appendicitis",
+      "hernias",
+      "measles",
+      "malaria",
+      "pneumonia",
+      "diarrheal diseases"
+    ],
 
-    "Pediatric Specialties":["congenital heart defects", "Kawasaki disease", "cerebral palsy", "epilepsy", "leukemia", "neuroblastoma", "appendicitis", "hernias"],
+    "Mental Health": [
+        "depression",
+        "schizophrenia",
+        "bipolar disorder",
+        "anxiety disorders",
+        "personality disorders",
+        "substance use disorders"
+      ],
+    "Oncology and Cancer Care": [
+      "breast cancer",
+      "lung cancer",
+      "colorectal cancer",
+      "prostate cancer",
+      "leukemia",
+      "lymphoma",
+      "ovarian cancer",
+      "cervical cancer"
+    ], 
 
-    "Mental Health": ["depression", "schizophrenia", "bipolar disorder", "anxiety disorders", "personality disorders", "substance use disorders"],
-    "Oncology & Cancer Care": ["breast cancer", "lung cancer", "colorectal cancer", "prostate cancer", "leukemia", "lymphoma", "ovarian cancer", "cervical cancer"],
-    "Diagnostic & Laboratory Medicine": [""],
+   "Rehabilitation and Allied Health": [
+      "stroke recovery",
+      "spinal cord injuries",
+      "amputations",
+      "hearing loss",
+      "speech disorders",
+      "nutritional deficiencies",
+      "trachoma"
+    ],
 
-    "Rehabilitation & Allied Health": ["stroke recovery", "spinal cord injuries", "amputations", "hearing loss", "speech disorders", "nutritional deficiencies"],
-
-    "Pain & Specialized Care": [""],
+    "Pain and Specialized Care": [
+      "schistosomiasis",
+      "lymphatic filariasis",
+      "soil-transmitted helminth infections"
+    ]
 
 
 };
+
 
 function updateDoctors() {
     const illness_Select = document.getElementById("illness_Select");

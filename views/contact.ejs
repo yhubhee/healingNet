@@ -6,6 +6,18 @@
 
 <body>
     <%- include('partials/header') %>
+    <div class="alert-container">
+        <% if (typeof error !=='undefined' ) { %>
+            <div class="alert alert-danger alert-dismissible fade show message" role="alert">
+                <%= error %>
+            </div>
+            <% } %>
+                <% if (typeof success !=='undefined' ) { %>
+                    <div class="alert alert-success alert-dismissible fade show message" role="alert">
+                        <%= success %>
+                    </div>
+                    <% } %>
+    </div>
 
     <!-- Contact Start -->
     <div class="container-fluid pt-5">
@@ -53,19 +65,19 @@
             <div class="row justify-content-center position-relative" style="margin-top: -200px; z-index: 1;">
                 <div class="col-lg-8">
                     <div class="bg-white rounded p-5 m-5 mb-0">
-                        <form>
+                        <form action="/auth/sendmail" method="post">
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6">
-                                    <input type="text" class="form-control bg-light border-0" placeholder="Your Name" style="height: 55px;">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Your Name" style="height: 55px;" name="fullname" required>
                                 </div>
                                 <div class="col-12 col-sm-6">
-                                    <input type="email" class="form-control bg-light border-0" placeholder="Your Email" style="height: 55px;">
+                                    <input type="email" class="form-control bg-light border-0" placeholder="Your Email" style="height: 55px;" name="email" required>
                                 </div>
                                 <div class="col-12">
-                                    <input type="text" class="form-control bg-light border-0" placeholder="Subject" style="height: 55px;">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Subject" style="height: 55px;" name="subject" required>
                                 </div>
                                 <div class="col-12">
-                                    <textarea class="form-control bg-light border-0" rows="5" placeholder="Message"></textarea>
+                                    <textarea class="form-control bg-light border-0" rows="5" placeholder="Message"></textarea name="message" required>
                                 </div>
                                 <div class="col-12">
                                     <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>

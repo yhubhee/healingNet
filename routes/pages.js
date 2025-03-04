@@ -5,6 +5,7 @@ const { validateTokens } = require('../middlewares/auth');
 const { doctorvalidateTokens } = require('../middlewares/authdoctor');
 const { validatePasswordResetToken } = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
+const { symptoms, symptomChecker } = require('../controllers/symptomChecker');
 
 router.get('/about', (req, res) => {
     res.render('about');
@@ -49,13 +50,52 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 router.get('/appointment', (req, res) => {
-    res.render('appointment');
+    res.render('symptom_checker');
 });
 router.get('/homeappointment', (req, res) => {
     res.render('homeappointment');
 });
 router.get('/forgot_pass', (req, res) => {
-    res.render('forgot_pass');
+    res.render('forgot_pass');   
+});
+// console.log('Symptoms:', symptoms)
+router.get('/symptom_checker',validateTokens, (req, res) => {
+    const allSymptoms = new Set();
+
+    Object.keys(symptoms).forEach(department => {
+        const departmentData = symptoms[department];
+        Object.keys(departmentData).forEach(diseaseOrCategory => {
+            const data = departmentData[diseaseOrCategory];
+            if (data.common && data.less_common) {
+                // Direct disease with symptoms
+                if (Array.isArray(data.common)) {
+                    data.common.forEach(symptom => allSymptoms.add(symptom));
+                }
+                if (Array.isArray(data.less_common)) {
+                    data.less_common.forEach(symptom => allSymptoms.add(symptom));
+                }
+            } else {
+                // Category with sub-diseases
+                Object.keys(data).forEach(subDisease => {
+                    const subData = data[subDisease];
+                    if (subData.common && subData.less_common) {
+                        if (Array.isArray(subData.common)) {
+                            subData.common.forEach(symptom => allSymptoms.add(symptom));
+                        }
+                        if (Array.isArray(subData.less_common)) {
+                            subData.less_common.forEach(symptom => allSymptoms.add(symptom));
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    const symptomList = Array.from(allSymptoms).sort();
+    res.render('symptom_checker', {
+        symptomList: symptomList,
+        // error: null
+    });
 });
 router.get('/reset_pass', validatePasswordResetToken, (req, res) => {
     const token = req.query.token;

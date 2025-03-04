@@ -8,6 +8,7 @@ const doclogin = require('../controllers/doctorlogin');
 const { validateTokens } = require('../middlewares/auth');
 const {validatePasswordResetToken} = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
+const mail = require('../controllers/mail');
 
 
 // 'auth/register
@@ -18,12 +19,15 @@ router.post('/password_reset', forgot_pass.forgot_pass);
 router.post('/reset_pass', validatePasswordResetToken, forgot_pass.reset_pass);
 
 // Appointment booking route
+router.post('/symptom_checker', validateTokens, bookappointment.symptom_checker);
 router.post('/appointment', validateTokens, bookappointment.bookappointment);
 
 // Doctor Auth
 router.post('/doctorregister', register.doctorregister);
 router.post('/doctorlogin', doclogin.doctorlogin);
 
+// Send Mail
+router.post('/sendmail', mail.sendmail) 
 // Doctor's Password reset
 router.post('/Doc_password_Reset', forgot_pass.Doc_forgot_pass);
 router.post('/Doc_reset_pass', validateDoctor_reset_secret, forgot_pass.Doc_reset_pass);

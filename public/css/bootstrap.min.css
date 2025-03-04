@@ -7015,15 +7015,16 @@ fieldset:disabled .btn {
         top: 0;
         z-index: 1020
     }
+}
+@media (max-width: 768px) {
     .blue{
-        background-color: #13C5DD !important;
+        background-color: #13C5DD ;
         color: #000;
     }
-}
-@media (max-width: 576px) {
-    .blue{
-        background-color: #13C5DD !important;
+    .home_app{
         color: #000;
+        background-color: #EFF5F9;
+        border-color: #EFF5F9
     }
 }
 

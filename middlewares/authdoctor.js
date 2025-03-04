@@ -1,5 +1,5 @@
 const {sign,verify} = require("jsonwebtoken");
-
+// Lodin tokens
 const createToken = (doctors) =>{
     const docToken = sign(
         {
@@ -36,7 +36,7 @@ const doctorvalidateTokens = (req, res, next) =>{
         return res.status(400).json({error: err})
     }
 }
-
+// Password reset tokens
 const Doctor_reset_secret = (doctors) => {
     const Doctor_reset = sign(
         {

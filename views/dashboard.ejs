@@ -9,6 +9,15 @@
   document.addEventListener("DOMContentLoaded", function () {
     var defaultMainContent = document.querySelector(".main-content").innerHTML;
 
+    // Function to reinitialize Bootstrap dropdowns
+    function initializeDropdowns() {
+        document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(dropdownToggle => {
+            const clone = dropdownToggle.cloneNode(true);
+            dropdownToggle.parentNode.replaceChild(clone, dropdownToggle);
+            new bootstrap.Dropdown(clone);
+        });
+    }
+
     document.querySelectorAll(".load-content").forEach(function (link) {
         link.addEventListener("click", function (event) {
             event.preventDefault();
@@ -16,6 +25,7 @@
 
             if (url === "/dashboard") {
                 document.querySelector(".main-content").innerHTML = defaultMainContent;
+                initializeDropdowns();
             } else {
                 fetch(url)
                     .then(response => response.text())
@@ -23,26 +33,33 @@
                         const mainContent = document.querySelector(".main-content");
                         mainContent.innerHTML = html;
 
-                        // Handle external scripts
-                        mainContent.querySelectorAll("script[src]").forEach(script => {
-                            const newScript = document.createElement("script");
-                            newScript.src = script.src;
-                            newScript.async = true; // Ensure scripts load asynchronously
-                            document.body.appendChild(newScript);
-                        });
-
-                        // Handle inline scripts
+                        // Re-run inline scripts in the loaded content
                         mainContent.querySelectorAll("script:not([src])").forEach(script => {
                             const newScript = document.createElement("script");
                             newScript.text = script.textContent;
                             document.body.appendChild(newScript);
+                            document.body.removeChild(newScript);
                         });
-                        
+
+                        // Re-run external scripts if needed (e.g., Bootstrap)
+                        const existingBootstrap = document.querySelector('script[src*="bootstrap"]');
+                        if (!existingBootstrap) {
+                            const bootstrapScript = document.createElement("script");
+                            bootstrapScript.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js";
+                            bootstrapScript.async = true;
+                            document.body.appendChild(bootstrapScript);
+                        }
+
+                        // Reinitialize dropdowns after content load
+                        setTimeout(initializeDropdowns, 0);
                     })
                     .catch(error => console.error("Error loading page:", error));
             }
         });
     });
+
+    // Initialize dropdowns on initial page load
+    initializeDropdowns();
 });
 
 </script>
@@ -180,7 +197,9 @@
       <!-- Main Dashboard Content -->
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 main-content">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-          <h1 class="h2">  Welcome Back, <%= firstname %> <%= lastname %></h1>
+          <h1 class="h2"> Welcome Back, <%= firstname %>
+              <%= lastname %>
+          </h1>
           <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
               <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -200,10 +219,10 @@
               <div class="card-header">Upcoming Appointments</div>
               <div class="card-body">
                 <p class="card-text">You have <%= appointmentsNumber %> appointment scheduled for
-                  today.</p>
-                  <!-- <a href="#" class="btn btn-primary btn-sm">View Details</a> -->
-                  <a class="btn btn-primary btn-sm load-content" aria-current="page" href="#"
-                    data-url="/booked-appointment"> View Details</a>
+                    today.</p>
+                <!-- <a href="#" class="btn btn-primary btn-sm">View Details</a> -->
+                <a class="btn btn-primary btn-sm load-content" aria-current="page" href="#"
+                  data-url="/booked-appointment"> View Details</a>
               </div>
             </div>
           </div>

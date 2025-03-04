@@ -33,8 +33,7 @@ showpass.addEventListener("click", () => {
 // Specialties categorized by department
 const specialties = {
     "Primary Care & General Medicine": ["Preventive Medicine", "Occupational Medicine", "Public Health", "General Surgery", "Emergency Medicine"],
-
-    "Internal Medicine & Subspecialties": ["Cardiology", "Endocrinology", "Gastroenterology", "Hematology", "Infectious Diseases", "Nephrology", "Neurology", "Pulmonology", "Rheumatology"],
+    "Internal Medicine and Subspecialties": ["Cardiology", "Endocrinology", "Gastroenterology", "Hematology", "Infectious Diseases", "Nephrology", "Neurology", "Pulmonology", "Rheumatology"],
 
     "Surgical Specialties": ["Cardiothoracic Surgery", "Neurosurgery", "Orthopedic Surgery", "Otolaryngology (ENT)", "Pediatric Surgery", "Plastic Surgery", "Urogynecology", "Urology", "Vascular Surgery"],
 
@@ -43,18 +42,18 @@ const specialties = {
     "Pediatric Specialties": ["Pediatric Cardiology", "Pediatric Neurology", "Pediatric Oncology", "Pediatric Surgery"],
     "Mental Health": ["Addiction Medicine", "Psychiatry", "Psychology", "Psychiatric Nursing", "Social Work"],
 
-    "Oncology & Cancer Care": ["Oncology", "Gynecologic Oncology", "Pediatric Oncology"],
+    "Oncology and Cancer Care": ["Oncology", "Gynecologic Oncology", "Pediatric Oncology"],
     "Diagnostic & Laboratory Medicine": ["Laboratory", "Microbiology", "Nuclear Medicine", "Pathology", "Radiology", "Virology"],
 
-    "Rehabilitation & Allied Health": ["Audiology", "Chiropractic Care", "Dietetics and Nutrition", "Occupational Therapy", "Physical Therapy", "Speech Therapy"],
+    "Rehabilitation and Allied Health": ["Audiology", "Chiropractic Care", "Dietetics and Nutrition", "Occupational Therapy", "Physical Therapy", "Speech Therapy"],
     
-    "Pain & Specialized Care": ["Anesthesiology", "Pain Management", "Intensive Care Unit (ICU)"]
+    "Pain and Specialized Care": ["Anesthesiology", "Pain Management", "Intensive Care Unit (ICU)"]
 };
 
 function updateSpecialties() {
     let department = document.getElementById("departmentSelect").value;
     let specialtySelect = document.getElementById("specialtySelect");
-    
+    console.log(department)
     // Clear existing options
     specialtySelect.innerHTML = '<option selected>Select Specialty</option>';
 
@@ -65,16 +64,17 @@ function updateSpecialties() {
             option.textContent = specialty;
             specialtySelect.appendChild(option);
         });
+        console.log(specialty)
     }
 }
 
-const HomeappointmentStatus = document.getElementById("HomeappointmentStatus");
-const service_Select = document.querySelector(".service_Select").style.display = "none";
+// const HomeappointmentStatus = document.getElementById("HomeappointmentStatus");
+// const service_Select = document.querySelector(".service_Select").style.display = "none";
 
-function checkbox(){
-    if(HomeappointmentStatus.checked == true){ui
-        service_Select.style.display = "block";
+// function checkbox(){
+//     if(HomeappointmentStatus.checked == true){
+//         service_Select.style.display = "block";
 
-    }
+//     }
 
-}
+// }

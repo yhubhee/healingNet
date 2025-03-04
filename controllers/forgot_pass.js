@@ -5,6 +5,7 @@ require('dotenv').config();
 const { password_reset_secret } = require('../middlewares/auth');
 const { Doctor_reset_secret } = require('../middlewares/authdoctor');
 
+// Patiets Password reset 
 exports.forgot_pass = (req, res) => {
     const { email } = req.body;
 
@@ -30,7 +31,8 @@ exports.forgot_pass = (req, res) => {
 
         const patient = result[0];
         const resetToken = password_reset_secret(patient); // Generate reset token
-        const resetLink = `http://localhost:3000/reset_pass?token=${resetToken}`;
+        const resetLink = `https://healing-net.vercel.app/reset_pass?token=${resetToken}`; 
+        // const resetLink = `http://localhost:3000/reset_pass?token=${resetToken}`; 
 
         // Set up Nodemailer transporter with custom SMTP
         const transporter = nodemailer.createTransport({
@@ -118,7 +120,7 @@ exports.reset_pass = async (req, res) => {
         });
     }
 };
-
+// Doctor Password reset 
 exports.Doc_forgot_pass = (req, res) => {
     const { email } = req.body;
 

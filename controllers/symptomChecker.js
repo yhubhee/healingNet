@@ -1469,195 +1469,114 @@ const symptoms = {
     }
 };
 
-// const symptoms = {
-//     "Primary Care": {
-//         "Hypertension": {
-//             common: [
-//                 "Often asymptomatic (known as the 'silent killer')",
-//                 "Headaches (especially morning headaches)",
-//                 "Dizziness",
-//                 "Blurred vision"
-//             ],
-//             less_common: [
-//                 "Nosebleeds (rare)",
-//                 "Shortness of breath",
-//                 "Chest pain",
-//                 "Anxiety or nervousness"
-//             ],
-//             telemedicine_context: "Patients can report symptoms like headaches or dizziness via virtual consultation. Blood pressure monitoring devices (if available) can be used at home, with results shared remotely."
-//         },
-//         "flu": {
-//             common: ["High fever (often sudden onset)", "Chills", "Body aches and muscle pain", "Fatigue and weakness", "Headache", "Dry cough", "Sore throat", "Runny or stuffy nose"],
-//             less_common: ["Nausea or vomiting (more common in children)", "Diarrhea (more common in children)"],
-//         },
-//         "diabetes": {
-//             common: ["Increased thirst", "Frequent urination", "Fatigue", "Blurred vision", "Slow-healing sores or frequent infections"],
-//             less_common: ["Tingling or numbness in hands/feet", "Dry mouth"],
-//         },
-//         "malaria": {
-//             common: [
-//                 "High fever (often cyclical)",
-//                 "Chills and shivering",
-//                 "Sweating",
-//                 "Headache",
-//                 "Muscle aches and fatigue",
-//                 "Nausea and vomiting"
-//             ],
-//             less_common: [
-//                 "Diarrhea",
-//                 "Abdominal pain",
-//                 "Confusion or seizures (in severe cases)",
-//                 "Jaundice (yellowing of skin/eyes)"
-//             ],
-//             telemedicine_context: "Fever and chills can be reported, but malaria requires a blood test for confirmation. A GP can order this test and prescribe antimalarials if confirmed."
-//         },
-//         "diarrheal diseases": {
-//             common: [
-//                 "Frequent loose or watery stools",
-//                 "Abdominal cramps or pain",
-//                 "Nausea and vomiting",
-//                 "Dehydration (dry mouth, thirst, fatigue)"
-//             ],
-//             less_common: [
-//                 "Fever",
-//                 "Blood or mucus in stool (indicating infection)",
-//                 "Dizziness (from dehydration)"
-//             ],
-//             telemedicine_context: "Patients can report stool frequency and dehydration symptoms. Doctors can recommend oral rehydration solutions and order stool tests if severe."
-//         },
-//         "measles": {
-//             common: [
-//                 "High fever",
-//                 "Cough",
-//                 "Runny nose",
-//                 "Red, watery eyes (conjunctivitis)",
-//                 "Rash (starts on face, spreads to body)"
-//             ],
-//             less_common: [
-//                 "Koplik spots (white spots inside the mouth)",
-//                 "Fatigue",
-//                 "Sore throat",
-//                 "Sensitivity to light"
-//             ],
-//             telemedicine_context: "Patients can describe fever and rash progression via video call. Measles is contagious, so doctors may recommend isolation and supportive care, with testing if needed."
-//         },
-//         "typhoid fever": {
-//             common: [
-//                 "Prolonged fever (rising over days)",
-//                 "Fatigue and weakness",
-//                 "Headache",
-//                 "Abdominal pain or discomfort",
-//                 "Loss of appetite",
-//                 "Constipation or diarrhea"
-//             ],
-//             less_common: [
-//                 "Rash (rose spots on chest/abdomen)",
-//                 "Confusion or delirium",
-//                 "Nausea and vomiting"
-//             ],
-//             telemedicine_context: "Fever and abdominal pain can be reported, but typhoid requires a blood or stool test for confirmation. A GP can order this test and prescribe antibiotics if confirmed."
-//         }
-//     },
-  
-//     "Internal Medicine and Subspecialties": {
-//         "coronary artery disease": {
-//             common: [
-//                 "Chest pain or discomfort (angina)",
-//                 "Shortness of breath",
-//                 "Fatigue",
-//                 "Palpitations (irregular heartbeat)"
-//             ],
-//             less_common: [
-//                 "Pain in the neck, jaw, throat, upper abdomen, or back",
-//                 "Swelling in legs, ankles, or feet (edema)",
-//                 "Nausea or indigestion-like symptoms"
-//             ],
-//             telemedicine_context: "Patients can report chest pain and shortness of breath. Doctors can recommend ECG or stress testing, which may require in-person follow-up."
-//         },
-//         "heart failure": {
-//             common: [
-//                 "Shortness of breath (especially when lying down)",
-//                 "Fatigue and weakness",
-//                 "Swelling in legs, ankles, or feet (edema)",
-//                 "Rapid or irregular heartbeat"
-//             ],
-//             less_common: [
-//                 "Persistent cough or wheezing",
-//                 "Weight gain from fluid retention",
-//                 "Confusion or impaired thinking"
-//             ],
-//             telemedicine_context: "Edema and shortness of breath can be assessed via video. Doctors can adjust diuretics and recommend in-person tests like an echocardiogram."
-//         },
-//         "diabetes": { // Same as Primary Care
-//             common: [
-//                 "Increased thirst",
-//                 "Frequent urination",
-//                 "Fatigue",
-//                 "Blurred vision",
-//                 "Slow-healing sores or frequent infections",
-//                 "Unexplained weight loss"
-//             ],
-//             less_common: [
-//                 "Tingling or numbness in hands/feet (neuropathy)",
-//                 "Dry mouth",
-//                 "Increased hunger"
-//             ],
-//             telemedicine_context: "Patients can report symptoms like thirst and fatigue. A GP can order a blood glucose test if diabetes is suspected."
-//         },
-//     }
-// };
-
 function symptomChecker(userSymptoms) {
-    const results = [];
+    // Validate that userSymptoms is an array
+    if (!Array.isArray(userSymptoms)) {
+        console.error('userSymptoms is not an array:', userSymptoms);
+        return []; // Return empty array to avoid crashing
+    }
 
+    const results = [];
     // Normalize user symptoms to lowercase for case-insensitive matching
     userSymptoms = userSymptoms.map(symptom => symptom.toLowerCase());
 
-    // Iterate through each department and disease
+    // Iterate over departments in the symptoms object
     Object.keys(symptoms).forEach(department => {
-        Object.keys(symptoms[department]).forEach(disease => {
-            const diseaseData = symptoms[department][disease];
-            let score = 0;
-            const matchedSymptoms = [];
+        const departmentData = symptoms[department];
+        Object.keys(departmentData).forEach(diseaseOrCategory => {
+            const data = departmentData[diseaseOrCategory];
 
-            // Check for matches in common symptoms (weight: 2 points each)
-            diseaseData.common.forEach(symptom => {
-                if (userSymptoms.includes(symptom.toLowerCase())) {
-                    score += 2;
-                    matchedSymptoms.push(symptom);
+            // Case 1: Direct disease with common and less_common symptoms
+            if (data.common && data.less_common) {
+                let score = 0;
+                const matchedSymptoms = [];
+
+                // Process common symptoms (weight: 2)
+                if (Array.isArray(data.common)) {
+                    data.common.forEach(symptom => {
+                        if (userSymptoms.includes(symptom.toLowerCase())) {
+                            score += 2;
+                            matchedSymptoms.push(symptom);
+                        }
+                    });
                 }
-            });
 
-            // Check for matches in less common symptoms (weight: 1 point each)
-            diseaseData.less_common.forEach(symptom => {
-                if (userSymptoms.includes(symptom.toLowerCase())) {
-                    score += 1;
-                    matchedSymptoms.push(symptom);
+                // Process less common symptoms (weight: 1)
+                if (Array.isArray(data.less_common)) {
+                    data.less_common.forEach(symptom => {
+                        if (userSymptoms.includes(symptom.toLowerCase())) {
+                            score += 1;
+                            matchedSymptoms.push(symptom);
+                        }
+                    });
                 }
-            });
 
-            // Calculate match percentage
-            const totalPossibleScore = (diseaseData.common.length * 2) + (diseaseData.less_common.length * 1);
-            const matchPercentage = totalPossibleScore > 0 ? (score / totalPossibleScore) * 100 : 0;
+                // Calculate match percentage
+                const totalPossibleScore = (data.common.length * 2) + data.less_common.length;
+                const matchPercentage = totalPossibleScore > 0 ? (score / totalPossibleScore) * 100 : 0;
 
-            // Add to results if there are matches
-            if (score > 0) {
-                results.push({
-                    department: department,
-                    disease: disease,
-                    score: score,
-                    matchPercentage: matchPercentage.toFixed(2),
-                    matchedSymptoms: matchedSymptoms,
-                    telemedicine_context: diseaseData.telemedicine_context
+                // Add to results if there’s a match
+                if (score > 0) {
+                    results.push({
+                        department,
+                        disease: diseaseOrCategory,
+                        score,
+                        matchPercentage: matchPercentage.toFixed(2),
+                        matchedSymptoms,
+                        telemedicine_context: data.telemedicine_context 
+                    });
+                }
+            } else {
+                // Case 2: Category with sub-diseases
+                Object.keys(data).forEach(subDisease => {
+                    const subData = data[subDisease];
+                    if (subData.common && subData.less_common) {
+                        let score = 0;
+                        const matchedSymptoms = [];
+
+                        // Process common symptoms (weight: 2)
+                        if (Array.isArray(subData.common)) {
+                            subData.common.forEach(symptom => {
+                                if (userSymptoms.includes(symptom.toLowerCase())) {
+                                    score += 2;
+                                    matchedSymptoms.push(symptom);
+                                }
+                            });
+                        }
+
+                        // Process less common symptoms (weight: 1)
+                        if (Array.isArray(subData.less_common)) {
+                            subData.less_common.forEach(symptom => {
+                                if (userSymptoms.includes(symptom.toLowerCase())) {
+                                    score += 1;
+                                    matchedSymptoms.push(symptom);
+                                }
+                            });
+                        }
+
+                        // Calculate match percentage
+                        const totalPossibleScore = (subData.common.length * 2) + subData.less_common.length;
+                        const matchPercentage = totalPossibleScore > 0 ? (score / totalPossibleScore) * 100 : 0;
+
+                        // Add to results if there’s a match
+                        if (score > 0) {
+                            results.push({
+                                department,
+                                disease: `${diseaseOrCategory} (${subDisease})`,
+                                score,
+                                matchPercentage: matchPercentage.toFixed(2),
+                                matchedSymptoms,
+                                telemedicine_context: subData.telemedicine_context 
+                            });
+                        }
+                    }
                 });
             }
         });
     });
 
-    // Sort results by score (descending)
+    // Sort results by score (descending) and return top 5
     results.sort((a, b) => b.score - a.score);
-
-    // Return top 5 matches
     return results.slice(0, 5);
 }
 

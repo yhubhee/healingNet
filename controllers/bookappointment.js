@@ -1,73 +1,34 @@
 const pool = require('../database');
+const {symptomChecker} = require('../controllers/symptomChecker');
 
 exports.symptom_checker = (req, res) => {
+    const { firstname, lastname} = req.user; 
     const { symptoms_list, symptoms_text } = req.body;
-    const userSymptoms = [];
+    let userSymptoms = [];
 
-    // Handle dropdown selections (works with Select2)
+    // Handle dropdown or multi-select input
     if (symptoms_list) {
-        if (Array.isArray(symptoms_list)) {
-            userSymptoms.push(...symptoms_list);
-        } else {
-            userSymptoms.push(symptoms_list);
-        }
+        userSymptoms = Array.isArray(symptoms_list) ? symptoms_list : [symptoms_list];
     }
 
-    // Handle text input
+    // Handle text input (e.g., comma-separated symptoms)
     if (symptoms_text) {
         const textSymptoms = symptoms_text.split(',').map(s => s.trim()).filter(s => s);
-        userSymptoms.push(...textSymptoms);
+        userSymptoms = userSymptoms.concat(textSymptoms);
     }
 
-    // Validate input
     if (userSymptoms.length === 0) {
-        const allSymptoms = new Set();
-        Object.keys(symptoms).forEach(department => {
-            const departmentData = symptoms[department];
-            Object.keys(departmentData).forEach(diseaseOrCategory => {
-                const data = departmentData[diseaseOrCategory];
-                if (data.common && data.less_common) {
-                    if (Array.isArray(data.common)) {
-                        data.common.forEach(symptom => allSymptoms.add(symptom));
-                    }
-                    if (Array.isArray(data.less_common)) {
-                        data.less_common.forEach(symptom => allSymptoms.add(symptom));
-                    }
-                } else {
-                    Object.keys(data).forEach(subDisease => {
-                        const subData = data[subDisease];
-                        if (subData.common && subData.less_common) {
-                            if (Array.isArray(subData.common)) {
-                                subData.common.forEach(symptom => allSymptoms.add(symptom));
-                            }
-                            if (Array.isArray(subData.less_common)) {
-                                subData.less_common.forEach(symptom => allSymptoms.add(symptom));
-                            }
-                        }
-                    });
-                }
-            });
-        });
-        const symptomList = Array.from(allSymptoms).sort();
-
-        return res.render('symptom_checker', {
-            firstname: req.user.firstname || 'User',
-            lastname: req.user.lastname || '',
-            symptomList: symptomList,
-            error: 'Please select or enter at least one symptom.'
-        });
+        return res.render('symptom_checker', { error: 'Please select or enter symptoms.' });
     }
 
-    // Process symptoms (your symptomChecker logic here)
     const possibleDiseases = symptomChecker(userSymptoms);
-
-    res.render('symptom_results', {
-        firstname: req.user.firstname || 'User',
-        lastname: req.user.lastname || '',
-        userSymptoms: userSymptoms,
-        possibleDiseases: possibleDiseases
-    });
-}
+    res.render('symptom_results', { 
+        possibleDiseases,
+        userSymptoms,
+        firstname,
+        lastname,
+     });
+};
 
 exports.bookappointment = (req, res) => {
     const { department, specialty, doctor, fullname, email, illness, appointment_date, appointment_time } = req.body;
@@ -147,3 +108,26 @@ exports.bookappointment = (req, res) => {
 };
 
 
+// const symptom = {
+//     "Primary Care": {
+//         "Hypertension": {
+//             common: [
+//                 "Often asymptomatic (known as the 'silent killer')",
+//                 "Headaches (especially morning headaches)",
+//                 "Dizziness",
+//                 "Blurred vision"
+//             ],
+//             less_common: [
+//                 "Nosebleeds (rare)",
+//                 "Shortness of breath",
+//                 "Chest pain",
+//                 "Anxiety or nervousness"
+//             ],
+//             telemedicine_context: "Patients can report symptoms like headaches or dizziness via virtual consultation. Blood pressure monitoring devices (if available) can be used at home, with results shared remotely."
+//         }
+//     }
+// }
+// Object.keys
+// console.log(symptom.forEach(department => {
+    
+// }));

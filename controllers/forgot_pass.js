@@ -200,7 +200,7 @@ exports.Doc_reset_pass = async (req, res) => {
         return res.render('error', { message: 'Missing token' }); // Error if token is absent
     }
 
-    const { doctor_id } = req.user; // From validated token
+    const { doctor_id } = req.user; 
     console.log('req.user:', req.user);
 
     if (password !== confirmpassword) {

@@ -5,7 +5,8 @@ const { validateTokens } = require('../middlewares/auth');
 const { doctorvalidateTokens } = require('../middlewares/authdoctor');
 const { validatePasswordResetToken } = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
-const { symptoms, symptomChecker } = require('../controllers/symptomChecker');
+const { symptoms} = require('../controllers/symptomChecker');
+
 
 router.get('/about', (req, res) => {
     res.render('about');
@@ -50,7 +51,7 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 router.get('/appointment', (req, res) => {
-    res.render('symptom_checker');
+    res.render('appointment');
 });
 router.get('/homeappointment', (req, res) => {
     res.render('homeappointment');
@@ -59,7 +60,7 @@ router.get('/forgot_pass', (req, res) => {
     res.render('forgot_pass');   
 });
 // console.log('Symptoms:', symptoms)
-router.get('/symptom_checker',validateTokens, (req, res) => {
+router.get('/symptom_checker', (req, res) => {
     const allSymptoms = new Set();
 
     Object.keys(symptoms).forEach(department => {
@@ -96,6 +97,9 @@ router.get('/symptom_checker',validateTokens, (req, res) => {
         symptomList: symptomList,
         // error: null
     });
+});
+router.get('/symptom_results', (req, res)=>{
+    res.render('symptom_results')
 });
 router.get('/reset_pass', validatePasswordResetToken, (req, res) => {
     const token = req.query.token;

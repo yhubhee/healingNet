@@ -9,15 +9,19 @@ const { validateTokens } = require('../middlewares/auth');
 const {validatePasswordResetToken} = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
 const mail = require('../controllers/mail');
+const edit_profile = require('../controllers/edit_profile');
 
 
 // 'auth/register
 router.post('/signup', register.register);
 router.post('/login', login.login);
+
 // Patient's Password reset
 router.post('/password_reset', forgot_pass.forgot_pass);
 router.post('/reset_pass', validatePasswordResetToken, forgot_pass.reset_pass);
 
+//Update Patients details
+router.post('/edit_profile', edit_profile.edit_profile) 
 // Appointment booking route
 router.post('/symptom_checker', validateTokens, bookappointment.symptom_checker);
 router.post('/appointment', validateTokens, bookappointment.bookappointment);

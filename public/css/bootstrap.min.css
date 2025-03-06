@@ -51,6 +51,7 @@ body {
     line-height: 1.5;
     color: #848E9F;
     background-color: #fff;
+    /* background-color: #000; */
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
 }
@@ -5259,114 +5260,6 @@ fieldset:disabled .btn {
     top: -1px
 }
 
-.alert {
-    position: relative;
-    padding: 1rem 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: 8px
-}
-
-.alert-heading {
-    color: inherit
-}
-
-.alert-link {
-    font-weight: 700
-}
-
-.alert-dismissible {
-    padding-right: 3rem
-}
-
-.alert-dismissible .btn-close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    padding: 1.25rem 1rem
-}
-
-.alert-primary {
-    color: #0b7685;
-    background-color: #d0f3f8;
-    border-color: #b8eef5
-}
-
-.alert-primary .alert-link {
-    color: #095e6a
-}
-
-.alert-secondary {
-    color: #202f55;
-    background-color: #d7dce8;
-    border-color: #c2cadd
-}
-
-.alert-secondary .alert-link {
-    color: #1a2644
-}
-
-.alert-success {
-    color: #0f5132;
-    background-color: #d1e7dd;
-    border-color: #badbcc
-}
-
-.alert-success .alert-link {
-    color: #0c4128
-}
-
-.alert-info {
-    color: #055160;
-    background-color: #cff4fc;
-    border-color: #b6effb
-}
-
-.alert-info .alert-link {
-    color: #04414d
-}
-
-.alert-warning {
-    color: #664d03;
-    background-color: #fff3cd;
-    border-color: #ffecb5
-}
-
-.alert-warning .alert-link {
-    color: #523e02
-}
-
-.alert-danger {
-    color: #842029;
-    background-color: #f8d7da;
-    border-color: #f5c2c7
-}
-
-.alert-danger .alert-link {
-    color: #6a1a21
-}
-
-.alert-light {
-    color: #606264;
-    background-color: #fcfdfe;
-    border-color: #fafcfd
-}
-
-.alert-light .alert-link {
-    color: #4d4e50
-}
-
-.alert-dark {
-    color: #11192e;
-    background-color: #d2d4db;
-    border-color: #bbbfca
-}
-
-.alert-dark .alert-link {
-    color: #0e1425
-}
-
 @keyframes progress-bar-stripes {
     0% {
         background-position-x: 1rem
@@ -8146,6 +8039,7 @@ fieldset:disabled .btn {
 
 .text-primary {
     color: #13C5DD !important
+    /* color: #ffba00 !important */
 }
 
 .text-secondary {
@@ -8238,6 +8132,121 @@ fieldset:disabled .btn {
 
 .bg-white {
     background-color: #fff !important
+    /* background-color: #000 !important */
+}
+.alert-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    width: 300px;
+}
+.alert {
+    position: relative;
+    padding: 1rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 8px
+}
+
+.alert-heading {
+    color: inherit
+}
+
+.alert-link {
+    font-weight: 700
+}
+
+.alert-dismissible {
+    padding-right: 3rem
+}
+
+.alert-dismissible .btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: 1.25rem 1rem
+}
+
+.alert-primary {
+    color: #0b7685;
+    background-color: #d0f3f8;
+    border-color: #b8eef5
+}
+
+.alert-primary .alert-link {
+    color: #095e6a
+}
+
+.alert-secondary {
+    color: #202f55;
+    background-color: #d7dce8;
+    border-color: #c2cadd
+}
+
+.alert-secondary .alert-link {
+    color: #1a2644
+}
+
+.alert-success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc
+}
+
+.alert-success .alert-link {
+    color: #0c4128
+}
+
+.alert-info {
+    color: #055160;
+    background-color: #cff4fc;
+    border-color: #b6effb
+}
+
+.alert-info .alert-link {
+    color: #04414d
+}
+
+.alert-warning {
+    color: #664d03;
+    background-color: #fff3cd;
+    border-color: #ffecb5
+}
+
+.alert-warning .alert-link {
+    color: #523e02
+}
+
+.alert-danger {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7
+}
+
+.alert-danger .alert-link {
+    color: #6a1a21
+}
+
+.alert-light {
+    color: #606264;
+    background-color: #fcfdfe;
+    border-color: #fafcfd
+}
+
+.alert-light .alert-link {
+    color: #4d4e50
+}
+
+.alert-dark {
+    color: #11192e;
+    background-color: #d2d4db;
+    border-color: #bbbfca
+}
+
+.alert-dark .alert-link {
+    color: #0e1425
 }
 
 .bg-transparent {

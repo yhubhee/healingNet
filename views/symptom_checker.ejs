@@ -47,7 +47,7 @@
             <form action="/auth/symptom_checker" method="POST">
                 <div class="mb-3">
                     <label for="symptoms_list" class="form-label">Select Your Symptoms</label>
-                    <select multiple class="form-select" id="symptoms_list" name="symptoms_list">
+                    <select multiple class="form-select" id="symptoms_list" name="symptoms_list" required>
                         <% symptomList.forEach(symptom => { %>
                             <option value="<%= symptom %>"><%= symptom %></option>
                         <% }); %>

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const message = document.querySelectorAll('.message');
+    const message = document.querySelectorAll('.show');
     if (message) {
         setTimeout(() => {
             message.forEach(message => {

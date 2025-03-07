@@ -4,11 +4,24 @@
 <head>
     <%- include('partials/head') %>
         <title>Patient Profile - HealingNet Telemedicine</title>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
-        <link href="/css/style.css" rel="stylesheet">
+        <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet"> -->
 </head>
 
 <body>
+    <div class="alert-container">
+        <% if (typeof error !=='undefined') { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= error %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% } %>
+        <% if (typeof success !=='undefined') { %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% } %>
+    </div>
     <div class="container my-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -76,7 +89,7 @@
                                     <div class="mb-3">
                                         <label for="medical_history" class="form-label">Medical History</label>
                                         <textarea class="form-control" id="medical_history" name="medical_history"
-                                            rows="3" placeholder="Enter your medical history..."></textarea>
+                                            rows="3" value="<%= patients.medical_history %>" placeholder="Enter your medical history..."></textarea>
                                     </div>
                                     <!-- New File Upload Field for Medical Record -->
                                     <div class="mb-3">
@@ -84,18 +97,18 @@
                                             Record</label>
                                         <div class="input-group">
                                             <input type="file" class="form-control" id="medical_record_upload"
-                                                name="medical_record_upload">
+                                                name="medical_record_upload" value="<%= patients.medical_record_upload %>">
                                             <span class="input-group-text"><i class="fas fa-upload"></i></span>
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="emergency_contact" class="form-label">Emergency Contact</label>
-                                        <input type="text" class="form-control" id="emergency_contact"
+                                        <input type="text" class="form-control" id="emergency_contact" value="<%= patients.emergency_contact %>"
                                             name="emergency_contact" placeholder="Enter emergency contact details">
                                     </div>
                                     <div class="mb-3">
                                         <label for="marital_status" class="form-label">Marital Status</label>
-                                        <select class="form-select" id="marital_status" name="marital_status" required>
+                                        <select class="form-select" id="marital_status" name="marital_status" value="<%= patients.marital_status %>" required>
                                             <option value="Single">Single</option>
                                             <option value="Married">Married</option>
                                             <option value="Divorced">Divorced</option>
@@ -106,12 +119,12 @@
                                         <label for="chronic_conditions" class="form-label">Chronic or Recurring Medical
                                             Conditions</label>
                                         <textarea class="form-control" id="chronic_conditions" name="chronic_conditions"
-                                            rows="3"
+                                            rows="3" value="<%= patients.chronic_conditions %>"
                                             placeholder="Enter any chronic or recurring medical conditions..."></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label for="next_of_kin" class="form-label">Next of Kin</label>
-                                        <input type="text" class="form-control" id="next_of_kin" name="next_of_kin"
+                                        <input type="text" class="form-control" id="next_of_kin" name="next_of_kin" value="<%= patients.next_of_kin %>"
                                             placeholder="Enter next of kin contact details">
                                     </div>
                                 </div>

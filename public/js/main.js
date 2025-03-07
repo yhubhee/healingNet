@@ -102,3 +102,14 @@
 
 })(jQuery);
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    const message = document.querySelectorAll('.show');
+    if (message) {
+        setTimeout(() => {
+            message.forEach(message => {
+                message.style.display = 'none';
+            });
+        }, 5000); // Hide after 5 seconds
+    }
+});

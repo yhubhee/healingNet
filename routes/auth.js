@@ -21,7 +21,7 @@ router.post('/password_reset', forgot_pass.forgot_pass);
 router.post('/reset_pass', validatePasswordResetToken, forgot_pass.reset_pass);
 
 //Update Patients details
-router.post('/edit_profile', edit_profile.edit_profile) 
+router.post('/edit_profile',validateTokens, edit_profile.edit_profile) 
 // Appointment booking route
 router.post('/symptom_checker', validateTokens, bookappointment.symptom_checker);
 router.post('/appointment', validateTokens, bookappointment.bookappointment);

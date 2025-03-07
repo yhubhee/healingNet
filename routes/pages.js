@@ -6,6 +6,7 @@ const { doctorvalidateTokens } = require('../middlewares/authdoctor');
 const { validatePasswordResetToken } = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
 const { symptoms} = require('../controllers/symptomChecker');
+const { render } = require('ejs');
 
 
 router.get('/about', (req, res) => {
@@ -111,7 +112,7 @@ router.get('/reset_pass', validatePasswordResetToken, (req, res) => {
 router.get('/profile', validateTokens, (req, res) => {
     const { patient_id } = req.user; // Access the attached names and user_id
     const sql = `
-       select firstname, lastname, phone, email, date_joined, date_of_birth, gender, address from patients WHERE patient_id = ? ;
+       select firstname, lastname, phone, email, date_joined, date_of_birth, gender, address, medical_history, medical_record_upload, emergency_contact, marital_status, chronic_conditions, next_of_kin from patients WHERE patient_id = ? ;
     `;
     db.getConnection((err, connection) => {
         if (err) {
@@ -188,15 +189,16 @@ router.get('/dashboard', validateTokens, (req, res) => {
             console.error('Database query error:', err); // Debugging log
             return res.status(500).json({ error: 'Failed to fetch appointments' });
         }
+        
         const appointmentsNumber = results[0].count;
         res.render('dashboard', {
             firstname,
             lastname,
-            appointmentsNumber
+            appointmentsNumber,
+            
         });
     });
 });
-
 // Route to handle AJAX request for doctors
 router.get('/getDoctors', (req, res) => {
     // Extract the 'department' query parameter from the request URL

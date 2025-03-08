@@ -86,13 +86,13 @@
                                 </div>
 
                                 <div class="additional_info" style="display: block;">
-                                    <div class="mb-3">
+                                    <div class="mb-3 disabled">
                                         <label for="medical_history" class="form-label">Medical History</label>
                                         <textarea class="form-control" id="medical_history" name="medical_history"
                                             rows="3" value="<%= patients.medical_history %>" placeholder="Enter your medical history..."></textarea>
                                     </div>
                                     <!-- New File Upload Field for Medical Record -->
-                                    <div class="mb-3">
+                                    <div class="mb-3 disabled">
                                         <label for="medical_record_upload" class="form-label">Upload Medical
                                             Record</label>
                                         <div class="input-group">
@@ -101,28 +101,29 @@
                                             <span class="input-group-text"><i class="fas fa-upload"></i></span>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 disabled">
                                         <label for="emergency_contact" class="form-label">Emergency Contact</label>
                                         <input type="text" class="form-control" id="emergency_contact" value="<%= patients.emergency_contact %>"
                                             name="emergency_contact" placeholder="Enter emergency contact details">
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 disabled">
                                         <label for="marital_status" class="form-label">Marital Status</label>
                                         <select class="form-select" id="marital_status" name="marital_status" value="<%= patients.marital_status %>" required>
+                                            <option selected="Select Status"> Select Status</option>
                                             <option value="Single">Single</option>
                                             <option value="Married">Married</option>
                                             <option value="Divorced">Divorced</option>
                                             <option value="Widowed">Widowed</option>
                                         </select>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 disabled">
                                         <label for="chronic_conditions" class="form-label">Chronic or Recurring Medical
                                             Conditions</label>
                                         <textarea class="form-control" id="chronic_conditions" name="chronic_conditions"
                                             rows="3" value="<%= patients.chronic_conditions %>"
                                             placeholder="Enter any chronic or recurring medical conditions..."></textarea>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 disabled">
                                         <label for="next_of_kin" class="form-label">Next of Kin</label>
                                         <input type="text" class="form-control" id="next_of_kin" name="next_of_kin" value="<%= patients.next_of_kin %>"
                                             placeholder="Enter next of kin contact details">
@@ -140,10 +141,10 @@
 </body>
 <script src="/js/main.js"></script>
 <script> 
-const toggle_additional_info = document.querySelector('.toggle_additional_info');
-const additional_info = document.querySelector('.additional_info');
+    const toggle_additional_info = document.querySelector('.toggle_additional_info');
+    const additional_info = document.querySelector('.additional_info');
 
-toggle_additional_info.addEventListener("click",()=>{
+    toggle_additional_info.addEventListener("click",()=>{
    if(additional_info.style.display === 'none'){
         additional_info.style.display = 'block'
         toggle_additional_info.classList.replace("fa-plus", "fa-minus")
@@ -153,5 +154,10 @@ toggle_additional_info.addEventListener("click",()=>{
    }
 
 })
+
+document.addEventListener('click', function () {
+    const disabled = document.querySelectorAll('.disabled');
+    
+});
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>

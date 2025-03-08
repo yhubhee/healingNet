@@ -36,7 +36,7 @@ exports.register = (req, res) => {
         // const tokens = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
         
         pool.query(`insert into patients set ?`, { firstname: firstname, lastname: lastname,
-              phone: phone, email: email, date_joined: date_joined, date_of_birth: date_of_birth, gender: gender,  password: hashedpassword,  address: address, status:"Active"}, async (err, result) => {
+              phone: phone, email: email, date_joined: date_joined, date_of_birth: date_of_birth, gender: gender,  password: hashedpassword,  address: address, status:"active"}, async (err, result) => {
             if (err) {
                 console.log(err);
 

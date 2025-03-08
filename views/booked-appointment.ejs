@@ -19,7 +19,7 @@
                         <tr>
                             <th>Doctor's Name</th>
                             <th>Department</th>
-                            <th>Specialty</th>
+                            <th>Illness</th>
                             <th>Doctor's Email</th>
                             <th>Date</th>
                             <th>Time</th>
@@ -33,13 +33,13 @@
                             <tr>
                                 <td><%= appointment.doctor %></td>
                                 <td><%= appointment.department %></td>
-                                <td><%= appointment.specialty %></td>
+                                <td><%= appointment.illness %></td>
                                 <td><%= appointment.email %></td>
-                                <td><%= appointment.appointment_date %></td>
+                                <td><%= appointment.appointment_date.toISOString().split('T')[0] %></td>
                                 <td><%= appointment.appointment_time %></td>
                                 <td><%= appointment.appointment_id %></td>                               
                                 <td><span class="badge bg-success"><%= appointment.status %></span></td>
-                                <td><form action="/cancel-appointment" method="POST" class="d-inline cancel-form">
+                                <td><form action="/auth/cancel-appointment" method="POST" class="d-inline cancel-form">
                                     <input type="hidden" name="appointment_id" value="<%= appointment.appointment_id %>">
                                     <button type="submit" class="btn btn-danger float-end">Cancel Appointment</button>
                                 </form> </td>

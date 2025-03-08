@@ -5,7 +5,7 @@ const { validateTokens } = require('../middlewares/auth');
 const { doctorvalidateTokens } = require('../middlewares/authdoctor');
 const { validatePasswordResetToken } = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
-const { symptoms} = require('../controllers/symptomChecker');
+const { symptoms } = require('../controllers/symptomChecker');
 const { render } = require('ejs');
 
 
@@ -58,7 +58,7 @@ router.get('/homeappointment', (req, res) => {
     res.render('homeappointment');
 });
 router.get('/forgot_pass', (req, res) => {
-    res.render('forgot_pass');   
+    res.render('forgot_pass');
 });
 // console.log('Symptoms:', symptoms)
 router.get('/symptom_checker', (req, res) => {
@@ -99,7 +99,7 @@ router.get('/symptom_checker', (req, res) => {
         // error: null
     });
 });
-router.get('/symptom_results', (req, res)=>{
+router.get('/symptom_results', (req, res) => {
     res.render('symptom_results')
 });
 router.get('/reset_pass', validatePasswordResetToken, (req, res) => {
@@ -157,7 +157,7 @@ router.get('/settings', validateTokens, (req, res) => {
 router.get('/booked-appointment', validateTokens, (req, res) => {
     const { firstname, lastname, patient_id } = req.user; // Access the attached names and user_id
     const sql = `
-       select a.doctor, d.department, d.specialty, a.fullname, a.appointment_date, a.appointment_time, d.email,a.appointment_id, a.doctor_id, a.status from appointment a join doctors d on a.doctor_id = d.doctor_id WHERE patient_id = ? ;
+       select a.doctor, d.department, a.illness, a.fullname, a.appointment_date, a.appointment_time, d.email,a.appointment_id, a.doctor_id, a.status from appointment a join doctors d on a.doctor_id = d.doctor_id WHERE patient_id = ? ;
     `;
     db.getConnection((err, connection) => {
         if (err) {
@@ -182,23 +182,46 @@ router.get('/booked-appointment', validateTokens, (req, res) => {
 
 router.get('/dashboard', validateTokens, (req, res) => {
     const { firstname, lastname, patient_id } = req.user; // Access the attached names
-    const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ?';
+    const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ? AND status = "Scheduled"';
 
     db.query(sql, [patient_id], (err, results) => {
         if (err) {
-            console.error('Database query error:', err); // Debugging log
+            console.log('Database query error:', err);
             return res.status(500).json({ error: 'Failed to fetch appointments' });
         }
-        
+
         const appointmentsNumber = results[0].count;
         res.render('dashboard', {
             firstname,
             lastname,
-            appointmentsNumber,
-            
+            appointmentsNumber
+
         });
     });
 });
+router.get('/prescription', doctorvalidateTokens, (req, res) => {
+    const { doctor_id } = req.user;
+    const sql = `SELECT a.fullname, a.medication, a.dosage, a.frequency , a.instructions, a.date_prescribed, a.start_date, a.end_date, a.illness, a.prescriptions_id, p.symptoms FROM patients p join prescriptions a on p.patient_id = a.patient_id Where doctor_id = ?;`
+
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).send('Failed to fetch patients');
+        }
+        connection.query({ sql }, [doctor_id], (err, results) => {
+            console.log(doctor_id) // Doctor_id 
+            connection.release();
+            if (err) {
+                console.error('Database query error:', err);
+                return res.status(500).send('Failed to fetch patients');
+            }
+            res.render('prescriptions', {
+                prescription: results || [],
+            });
+        });
+    });
+
+})
 // Route to handle AJAX request for doctors
 router.get('/getDoctors', (req, res) => {
     // Extract the 'department' query parameter from the request URL
@@ -218,18 +241,18 @@ router.get('/getDoctors', (req, res) => {
 });
 
 // cancel appointment
-router.post('/cancel-appointment', (req, res) => {
-    const { appointment_id } = req.body;
-    const query = 'UPDATE appointment SET status = "Cancelled" WHERE appointment_id = ?';
+// router.post('/cancel-appointment', (req, res) => {
+//     const { appointment_id } = req.body;
+//     const query = 'UPDATE appointment SET status = "Cancelled" WHERE appointment_id = ?';
 
-    db.query(query, [appointment_id], (err, result) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Server error');
-        }
-        res.redirect('/booked-appointment');
-    });
-});
+//     db.query(query, [appointment_id], (err, result) => {
+//         if (err) {
+//             console.error(err);
+//             return res.status(500).send('Server error');
+//         }
+//         res.redirect('/booked-appointment');
+//     });
+// });
 
 
 // Doctor Section
@@ -258,14 +281,14 @@ router.get('/Doc_reset_pass', validateDoctor_reset_secret, (req, res) => {
 });
 router.get('/doc_patients', doctorvalidateTokens, (req, res) => {
     const { doctor_id } = req.user;
-    const sql = `SELECT  p.firstname, p.lastname, p.phone, p.email, p.date_of_birth, p.gender, p.address, p.patient_id  FROM patients p join appointment a on p.patient_id = a.patient_id Where doctor_id = ?;`
+    const sql = `SELECT  p.firstname, p.lastname, p.phone, p.email, p.date_of_birth, p.gender, p.address, p.patient_id, a.status FROM patients p JOIN appointment a ON p.patient_id = a.patient_id JOIN doctors d ON a.doctor_id = d.doctor_id WHERE d.doctor_id = 10 AND a.status = "Scheduled";`
 
     db.getConnection((err, connection) => {
         if (err) {
             console.error('Database connection error:', err);
             return res.status(500).send('Failed to fetch patients');
         }
-        connection.query([sql], [doctor_id], (err, results) => {
+        connection.query({ sql }, [doctor_id], (err, results) => {
             console.log(doctor_id) // Doctor_id 
             connection.release(); // Release the connection back to the pool
             if (err) {
@@ -274,12 +297,55 @@ router.get('/doc_patients', doctorvalidateTokens, (req, res) => {
             }
             res.render('doc_patients', {
                 patients: results || [],
-                patient_count
             });
         });
     });
 
 })
+router.get('/doc_prescription', doctorvalidateTokens, (req, res) => {
+    const { doctor_id } = req.user;
+
+    // Query for prescriptions
+    const sql1 = `
+        SELECT a.fullname, a.medication, a.dosage, a.frequency, a.instructions,   a.date_prescribed, a.start_date, a.end_date, a.illness, a.prescriptions_id, a.status, p.symptoms FROM patients p JOIN prescriptions a ON p.patient_id = a.patient_id WHERE a.doctor_id = ?;
+    `;
+
+    // Query for patients with scheduled appointments
+    const sql2 = `
+     SELECT p.firstname, p.patient_id FROM patients p JOIN appointment a ON p.patient_id = a.patient_id WHERE doctor_id = ?;
+    `;
+
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).send('Failed to fetch Prescription');
+        }
+
+        // Execute the first query (prescriptions)
+        connection.query(sql1, [doctor_id], (err, prescriptions) => {
+            if (err) {
+                console.error('Database query error for prescriptions:', err);
+                connection.release();
+                return res.status(500).send('Failed to fetch Prescription');
+            }
+
+            // Execute the second query (patients)
+            connection.query(sql2, [doctor_id], (err, patients) => {
+                connection.release(); // Release connection after both queries
+                if (err) {
+                    console.error('Database query error for patients:', err);
+                    return res.status(500).send('Failed to fetch Prescription');
+                }
+
+                // Render the template with separate data
+                res.render('doc_prescription', {
+                    doc_prescription: prescriptions || [],
+                    patients: patients || [],
+                });
+            });
+        });
+    });
+});
 router.get('/doctordashboard', doctorvalidateTokens, (req, res) => {
     const today = new Date
     console.log(today)

@@ -1557,7 +1557,7 @@ function symptomChecker(userSymptoms) {
                         // Calculate match percentage
                         const totalPossibleScore = (subData.common.length * 2) + subData.less_common.length;
                         const matchPercentage = totalPossibleScore > 0 ? (score / totalPossibleScore) * 100 : 0;
-
+                        
                         // Add to results if there’s a match
                         if (score > 0) {
                             results.push({
@@ -1581,3 +1581,5 @@ function symptomChecker(userSymptoms) {
 }
 
 module.exports = { symptoms, symptomChecker };
+
+

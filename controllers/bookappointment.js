@@ -1,8 +1,8 @@
 const pool = require('../database');
-const {symptomChecker} = require('../controllers/symptomChecker');
+const { symptomChecker } = require('../controllers/symptomChecker');
 
 exports.symptom_checker = (req, res) => {
-    const { firstname, lastname} = req.user; 
+    const { firstname, lastname, patient_id } = req.user;
     const { symptoms_list, symptoms_text } = req.body;
     let userSymptoms = [];
 
@@ -22,17 +22,29 @@ exports.symptom_checker = (req, res) => {
     }
 
     const possibleDiseases = symptomChecker(userSymptoms);
-    res.render('symptom_results', { 
-        possibleDiseases,
-        userSymptoms,
-        firstname,
-        lastname,
-     });
+    const symptomsString = userSymptoms.join(', ');
+    pool.query('UPDATE patients SET symptoms = ? WHERE patient_id = ?', [symptomsString, patient_id], (err, result) => {
+        if (err) {
+            console.error('Database update error:', err);
+            return res.render('symptom_results', {
+                possibleDiseases,
+                userSymptoms,
+                firstname,
+                lastname
+            });
+        }
+        res.render('symptom_results', {
+            possibleDiseases,
+            userSymptoms,
+            firstname,
+            lastname,
+        });
+    });
 };
 
 exports.bookappointment = (req, res) => {
-    const { department, specialty, doctor, fullname, email, illness, appointment_date, appointment_time } = req.body;
-    const { patient_id } = req.user; // Assuming user_id is available in req.user
+    const { illness, doctor, fullname, email, appointment_date, appointment_time } = req.body;
+    const { patient_id, firstname, lastname } = req.user; // Assuming user_id is available in req.user
 
     if (!email || !fullname) {
         return res.render('appointment', { error: 'Please fill all required fields' });
@@ -75,59 +87,36 @@ exports.bookappointment = (req, res) => {
             }
 
             const appointmentData = {
-                department,
-                specialty,
+                illness,
                 doctor,
                 fullname,
                 email,
-                illness,
                 appointment_date,
                 appointment_time,
                 patient_id,
                 doctor_id,
                 status: 'Scheduled'
             };
-
+            const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ? AND status = "Scheduled"';
             pool.query('INSERT INTO appointment SET ?', appointmentData, (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.render('appointment', { error: 'Failed to book appointment' });
-                } else {
-                    const firstname = req.user ? req.user.firstname : 'User';
-                    const lastname = req.user ? req.user.lastname : '';
-                    res.render('dashboard', {
+                }
+                pool.query(sql, [patient_id], (err, results) => {
+                    if (err) {
+                        console.log(err)
+                    }
+                    const appointmentsNumber = results[0].count;
+                    res.render('appointment', {
                         success: 'Appointment successfully booked ✅ The meeting link will be sent to your email',
                         redirect: true,
                         firstname,
-                        lastname
+                        lastname,
+                        appointmentsNumber
                     });
-                }
+                });
             });
         });
     });
 };
-
-
-// const symptom = {
-//     "Primary Care": {
-//         "Hypertension": {
-//             common: [
-//                 "Often asymptomatic (known as the 'silent killer')",
-//                 "Headaches (especially morning headaches)",
-//                 "Dizziness",
-//                 "Blurred vision"
-//             ],
-//             less_common: [
-//                 "Nosebleeds (rare)",
-//                 "Shortness of breath",
-//                 "Chest pain",
-//                 "Anxiety or nervousness"
-//             ],
-//             telemedicine_context: "Patients can report symptoms like headaches or dizziness via virtual consultation. Blood pressure monitoring devices (if available) can be used at home, with results shared remotely."
-//         }
-//     }
-// }
-// Object.keys
-// console.log(symptom.forEach(department => {
-    
-// }));

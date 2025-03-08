@@ -32,7 +32,7 @@
                                 <td><%= patients.lastname %></td>
                                 <td><%= patients.phone %></td>
                                 <td><%= patients.email %></td>
-                                <td><%= patients.date_of_birth %></td>
+                                <td><%= patients.date_of_birth.toISOString().split('T')[0] %></td>
                                 <td><%= patients.gender %></td>
                                 <td><%= patients.address %></td> 
                                 <td><%= patients.patient_id %></td>                                     

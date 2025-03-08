@@ -35,17 +35,34 @@ create database hospital_new; -- Your database name
 
 -- CREATE TABLE appointment (
 --     appointment_id INT PRIMARY KEY AUTO_INCREMENT,
---     department VARCHAR(255),
---     specialty VARCHAR(90),
+--     illness VARCHAR(200),
 --     doctor VARCHAR(90),
 --     fullname VARCHAR(50),
 --     email VARCHAR(200),
---     illness VARCHAR(200),
 --     appointment_date DATE,
 --     appointment_time TIME,
 --     patient_id INT,
 --     doctor_id INT,
 --     status VARCHAR(50),
+--     FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+--     FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
+-- );
+
+-- CREATE TABLE prescriptions (
+--     prescriptions_id INT PRIMARY KEY AUTO_INCREMENT,
+--     medication VARCHAR(255),
+--     dosage VARCHAR(255),
+--     frequency text (255),
+--     instructions text (255),
+--     date_prescribed date,
+--     start_date date,
+--     end_date date,
+--     illness VARCHAR(200),
+--     status VARCHAR(50),
+--     patient_id INT,
+--     doctor_id INT,
+--     appointment_id INT,
+--     FOREIGN KEY (appointment_id) REFERENCES appointment(appointment_id),
 --     FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
 --     FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
 -- );

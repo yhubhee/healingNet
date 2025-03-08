@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+        <title>Prescriptions - HealingNet</title>
+        <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Send Prescriptions</h2>
+
+        <% if (doc_prescription.length> 0) { %>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Patient Symptoms</th>
+                            <th>Medication</th>
+                            <th>Prescribed Date</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Dosage</th>
+                            <th>Instructions</th>
+                            <th>Frequency</th>
+                            <th>Patient ID</th>
+                            <th>Status</th>
+                            <th>Send Prescription</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% doc_prescription.forEach(doc_prescription=> { %>
+                            <tr>
+                                <form action="/auth/sendprescription" method="POST" class="d-inline send_prescription">
+                                    <!-- Hidden input for prescription ID (assumed field) -->
+                                    <input type="hidden" name="prescription_id"
+                                        value="<%= doc_prescription.prescription_id %>">
+
+                                    <!-- Patient-specific fields (readonly) -->
+                                    <td><input type="text" name="fullname" class="form-control"
+                                            value="<%= doc_prescription.fullname %>" readonly></td>
+                                    <td><input type="text" name="symptoms" class="form-control"
+                                            value="<%= doc_prescription.symptoms %>" readonly></td>
+
+                                    <!-- Editable prescription fields -->
+                                    <td><input type="text" name="medication" class="form-control"
+                                            value="<%= doc_prescription.medication %>"></td>
+                                    <td><input type="date" name="date_prescribed" class="form-control"
+                                            value="<%= doc_prescription.date_prescribed %>"></td>
+                                    <td><input type="date" name="start_date" class="form-control"
+                                            value="<%= doc_prescription.start_date %>"></td>
+                                    <td><input type="date" name="end_date" class="form-control"
+                                            value="<%= doc_prescription.end_date %>"></td>
+                                    <td><input type="text" name="dosage" class="form-control"
+                                            value="<%= doc_prescription.dosage %>"></td>
+                                    <td><input type="text" name="instructions" class="form-control"
+                                            value="<%= doc_prescription.instructions %>"></td>
+                                    <td><input type="text" name="frequency" class="form-control"
+                                            value="<%= doc_prescription.frequency %>"></td>
+
+                                    <!-- Patient ID (readonly) -->
+                                    <td><input type="text" name="patient_id" class="form-control"
+                                            value="<%= doc_prescription.patient_id %>" readonly></td>
+
+                                    <!-- Status (editable) -->
+                                    <td><input type="text" name="status" class="form-control"
+                                            value="<%= doc_prescription.status %>"></td>
+
+                                    <!-- Submit button -->
+                                    <td><button type="submit" class="btn btn-success float-end">Send
+                                            Prescription</button></td>
+                                </form>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+            </div>
+            <% } else { %>
+                <div class="alert alert-warning" role="alert">
+                    You have given no prescriptions. Insert one below.
+                </div>
+
+                <div class="mt-5 text-center">
+                    <button class="btn btn-primary py-3 px-5" onclick="showPrestable()"> <i
+                            class="fas fa-prescription-bottle-alt"></i> Create Prescription </button>
+                </div>
+
+                <div class="table-responsive mt-4 hide" style="display: none;">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Patient Symptoms</th>
+                                <th>Medication</th>
+                                <th>Prescribed Date</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Dosage</th>
+                                <th>Instructions</th>
+                                <th>Frequency</th>
+                                <!-- <th>Patient ID</th> -->
+                                <th>Status</th>
+                                <th>Send Prescription</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <form action="/auth/addprescription" method="POST"
+                                    class="d-inline add_prescription send_prescription">
+                                    <td>
+                                        <select name="patient_id" class="form-control" required>
+                                            <option value="">Select Patient</option>
+                                            <% patients.forEach(patient=> { %>
+                                                <option value="<%= patient.patient_id %>">
+                                                    <%= patient.firstname %>
+                                                </option>
+                                                <% }); %>
+                                        </select>
+                                    </td>
+                                    <td><textarea name="symptoms" class="form-control"
+                                            placeholder="Symptoms"> </textarea></td>
+                                    <td><input type="text" name="medication" class="form-control"
+                                            placeholder="Medication"></td>
+                                    <td><input type="date" name="date_prescribed" class="form-control"></td>
+                                    <td><input type="date" name="start_date" class="form-control"></td>
+                                    <td><input type="date" name="end_date" class="form-control"></td>
+                                    <td><input type="text" name="dosage" class="form-control" placeholder="Dosage"></td>
+                                    <td><input type="text" name="instructions" class="form-control"
+                                            placeholder="Instructions"></td>
+                                    <td><input type="text" name="frequency" class="form-control"
+                                            placeholder="Frequency"></td>
+                                    <!-- <td><input type="text" class="form-control" disabled placeholder="Selected via dropdown"></td> -->
+                                    <td><input type="text" name="status" class="form-control"
+                                            placeholder="e.g., Pending"></td>
+                                    <td><button type="submit" class="btn btn-primary float-end">Add
+                                            Prescription</button></td>
+                                </form>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <% } %>
+    </div>
+
+    <script src="/js/main.js"></script>
+    <script>
+        function sendPrescriptions() {
+            const form = document.querySelector('.send_prescription');
+            if (form) {
+                form.submit();
+            }
+        }
+    </script>
+    <script>
+        function showPrestable() {
+            const table = document.querySelector('.hide');
+            if (table.style.display === 'none') {
+                table.style.display = 'block';
+            } else {
+                table.style.display = 'none';
+            }
+        }</script>
+</body>
+
+</html>

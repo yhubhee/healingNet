@@ -176,7 +176,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link load-content" href="#" data-url="/prescriptions">
+              <a class="nav-link load-content" href="#" data-url="/prescription">
                 <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
               </a>
             </li>
@@ -281,8 +281,9 @@
     const time = document.getElementById('time');  
     let greetings = "";
 
-    const d = new Date();  
-    const hours = d.getHours();  
+    const d = new Date(); 
+    // let utc =   d.getUTCHours();
+    const hours = d.getUTCHours();  
 
     if ((hours >= 0) && (hours < 12)) {  
     greetings = "Good Morning, ";  

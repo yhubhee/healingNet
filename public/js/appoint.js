@@ -1,6 +1,6 @@
 // illness categorized by Department
 const illness = {
-   "Primary Care": [
+   "Primary Care and General Medicine": [
       "Hypertension",
       "flu",
       "diabetes",

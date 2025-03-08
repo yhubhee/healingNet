@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <title>Prescriptions - HealingNet</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4"> My Prescriptions</h2>
+        
+        <% if (prescription.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Medication</th>
+                            <th>Dosage</th>
+                            <th>Frequency</th>
+                            <th>instructions</th>
+                            <th>Prescribed Date</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Illness</th>
+                            <th>Prescriptions_id</th>
+                            <th>Patient Symptoms</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% prescription.forEach(prescription => { %>
+                            <tr>
+                                <td> <%= prescription.fullname %></td>
+                                <td> <%= prescription.medication %></td>
+                                <td> <%= prescription.dosage %></td>
+                                <td> <%= prescription.frequency  %></td>
+                                <td> <%= prescription.instructions %></td>
+                                <td> <%= prescription.date_prescribed.toISOString().split('T')[0]  %></td>
+                                <td> <%= prescription.start_date.toISOString().split('T')[0]  %></td>  
+                                <td> <%= prescription.end_date.toISOString().split('T')[0]  %></td>                                 
+                                <td><%= prescription.illness %></td>
+                                <td><%= prescription.prescriptions_id %></td>
+                                <td><%= prescription.symptoms  %></td>
+                                <!-- <td><span class="badge bg-success">Confirmed</span></td> -->
+                                
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="alert alert-warning" role="alert">
+                You have given no prescriptions.
+            </div>
+            <!-- <div class="text-center mt-4">
+                <a class="btn btn-primary btn-lg load-content" href="/appointment" target="_blank">
+                    <i class="fas fa-plus"></i> Create prescriptions
+                </a>
+            </div> -->
+        <% } %>
+    </div>
+
+    
+</body>
+<script src="/js/main.js"></script>
+</html>

@@ -26,8 +26,8 @@
             margin: -20px -20px 20px -20px; /* Adjust to fit container */
         }
         .table-responsive { margin-bottom: 20px; }
-        .btn-primary { background-color: #007bff; border-color: #0056b3; }
-        .btn-primary:hover { background-color: #0056b3; }
+        .btn-primary { background-color: #36cee2; border-color: #0056b3; }
+        /* .btn-primary:hover { background-color: #0056b3; } */
         .back-btn { margin-left: 10px; }
     </style>
 </head>
@@ -60,7 +60,7 @@
                                     <td><%= result.matchPercentage %>%</td>
                                     <td><%= result.telemedicine_context || 'No specific guidance available.' %></td>
                                     <td>
-                                        <a href="/appointment?department=<%= encodeURIComponent(result.department) %>&disease=<%= encodeURIComponent(result.disease) %>" class="btn btn-primary btn-sm">Book</a>
+                                        <a href="/appointment?department=<%= encodeURIComponent(result.department) %>&disease=<%= encodeURIComponent(result.disease) %>" class="btn btn-primary btn-sm">Book an Appointment</a>
                                     </td>
                                 </tr>
                             <% }); %>
@@ -71,11 +71,11 @@
                 <div class="alert alert-info" role="alert">
                     No matches found based on your symptoms. Consider consulting a General Practitioner for a thorough evaluation.
                 </div>
-                <a href="/book-appointment?department=Primary%20Care" class="btn btn-primary btn-sm">Book with GP</a>
+                <a href="/appointment?department=Primary%20Care" class="btn btn-primary btn-sm">Book with GP</a>
             <% } %>
 
             <div class="mt-4">
-                <a href="/symptom_checker" class="btn btn-secondary">Try Again</a>
+                <a href="/symptom_checker" class="btn btn-primary">Try Again</a>
                 <a href="/dashboard" class="btn btn-secondary back-btn">Back to Dashboard</a>
             </div>
         </div>
@@ -84,4 +84,4 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html> 

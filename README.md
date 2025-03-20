@@ -1,1 +1,1 @@
-Live on https://healing-net-rb34.vercel.app/
+Live on https://healing-net.vercel.app/

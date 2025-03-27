@@ -7,6 +7,7 @@ const login = require('../controllers/login');
 const forgot_pass = require('../controllers/forgot_pass');
 const doclogin = require('../controllers/doctorlogin');
 const { validateTokens } = require('../middlewares/auth');
+const { doctorvalidateTokens } = require('../middlewares/authdoctor');
 const {validatePasswordResetToken} = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
 const mail = require('../controllers/mail');
@@ -46,23 +47,110 @@ router.post('/cancel-appointment', (req, res) => {
 router.post('/doctorregister', register.doctorregister);
 router.post('/doctorlogin', doclogin.doctorlogin);
 
-// Send Mail
+// Send Mail From Contact Page
 router.post('/sendmail', mail.sendmail) 
+
 // Doctor's Password reset
 router.post('/Doc_password_Reset', forgot_pass.Doc_forgot_pass);
 router.post('/Doc_reset_pass', validateDoctor_reset_secret, forgot_pass.Doc_reset_pass);
 
 // send Prescription
-router.post('/addprescription',validateDoctor_reset_secret, (req, res) =>{
-    const { doctor_id } = req.body;
-    const  { medication, date_prescribed, start_date, end_date, dosage, instructions, frequency} = req.body
-    const data = { medication, date_prescribed, start_date, end_date, dosage, instructions, frequency};
-    pool.query('INSERT INTO prescriptions set ? WHERE patient_id = ?',[data, doctor_id ], (err, result) => {
-        if(err){
-            console.log(err)
+router.post('/createprescription', doctorvalidateTokens, (req, res) => {
+    const { doctor_id } = req.user;
+    const { patient_id, medication, date_prescribed, start_date, end_date, dosage, instructions, frequency, status } = req.body;
+
+    const data = {patient_id, doctor_id, medication, date_prescribed, start_date, end_date, dosage, instructions, frequency, status}
+
+    const sql1 = `
+        SELECT a.medication, a.dosage, a.frequency, a.instructions, a.date_prescribed, a.start_date, a.end_date, a.prescriptions_id, a.status, p.symptoms, CONCAT(p.firstname, ' ', p.lastname) AS fullname, p.patient_id FROM patients p JOIN prescriptions a ON p.patient_id = a.patient_id WHERE a.doctor_id = ?`;
+
+    const sql2 = `
+        SELECT CONCAT(p.firstname, ' ', p.lastname) AS fullname, p.patient_id, p.symptoms FROM patients p JOIN appointment a ON p.patient_id = a.patient_id JOIN doctors d ON a.doctor_id = d.doctor_id WHERE d.doctor_id = ? AND a.status = "Scheduled"`;
+
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).send('Failed to fetch Prescription');
         }
+
+        connection.query('INSERT INTO prescriptions SET ?', data, (err, result) => {
+            if (err) {
+                console.error('Database query error:', err);
+                connection.release();
+                return res.render('doc_prescription',{
+                    error: 'Failed to add prescription'
+                });
+            }
+            connection.query(sql1, [doctor_id], (err, prescriptions) => {
+                if (err) {
+                    console.error('Database query error for prescriptions:', err);
+                    connection.release();
+                    return res.status(500).send('Failed to fetch Prescription');
+                }
+    
+                // Execute the second query (patients)
+                connection.query(sql2, [doctor_id], (err, patients) => {
+                    connection.release(); // Release connection after both queries
+                    if (err) {
+                        console.error('Database query error for patients:', err);
+                        return res.status(500).send('Failed to fetch Prescription');
+                    }
+    
+                    // Render the template with separate data
+                    res.render('doc_prescription', {
+                        success: "Prescription added successfully",
+                        doc_prescription: prescriptions || [],
+                        patients: patients || [],
+                    });
+                });
+            });
+
+        });
+        
     });
-})
+
+    // pool.getConnection((err, connection) => {
+    //     connection.query('INSERT INTO prescriptions SET ?', data, (err, result) => {
+    //         if (err) {
+    //             console.error('Database query error:', err);
+    //             connection.release();
+    //             return res.render('doc_prescription',{
+    //                 error: 'Failed to add prescription'
+    //             });
+    //         }
+
+    //         connection.query(sql1, [doctor_id], (err, prescriptions) => {
+    //             if (err) {
+    //                 console.error('Database query error for prescriptions:', err);
+    //                 connection.release();
+    //                 return res.render('doc_prescription',{
+    //                     error: "Failed to fetch Prescription"
+    //                 });
+    //             }
+    //         });
+    //         res.render('doc_prescription', {
+    //             doc_prescription: prescriptions || [],
+    //             success: "Prescription added successfully"
+    //         });
+
+    //     });
+    // });
+   
+});
+// Delete Prescription
+router.post('/delete_prescription', doctorvalidateTokens,(req,res) =>{
+    const {prescriptions_id} = req.body
+    const query = 'UPDATE  prescriptions SET status = "Cancelled" WHERE prescriptions_id = ?';
+
+    pool.query(query, [prescriptions_id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Server error');
+        }
+        res.redirect('/doc_prescription');
+    });
+
+});
 
 module.exports = router;
 

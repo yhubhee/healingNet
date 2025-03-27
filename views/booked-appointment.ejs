@@ -6,14 +6,34 @@
     <!-- <link rel="stylesheet" href="/css/dashboard.css"> -->
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="mb-4">Booked Appointments
-            <button type="submit" class="btn bg-success float-end"><a href="/appointment"> Book a New Appointment </a></button>
+    <div class="alert-container">
+        <% if (typeof error !=='undefined') { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= error %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% } %>
+        <% if (typeof success !=='undefined') { %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% } %>
+      </div>
 
-        </h2>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-4">Booked Appointments</h2>
+            <div>
+                <% if (appointments.length > 0) { %>
+                    <button type="submit" class="btn bg-success float-end new_Appointment"><a href="/appointment"> Book a New Appointment </a></button>
+                <% } else { %>
+                <% } %>
+            </div>
+        </div>
         
         <% if (appointments.length > 0) { %>
-            <div class="table-responsive">
+            <div class="table-responsive table table_show">
                 <table class="table table-bordered table-hover">
                     <thead class="table-primary">
                         <tr>
@@ -58,17 +78,7 @@
                 </a>
             </div>
         <% } %>
-        
-        <!-- Create Appointment Button -->
     </div>
 </body>
 <script src="/js/main.js"></script>
-<script>
-    function cancelAppointment() {
-        const form = document.querySelector('.cancel-form');
-        if (form) {
-            form.submit();
-        }
-    }
-</script>
 </html>

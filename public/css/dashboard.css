@@ -36,10 +36,85 @@
 } */
 
   @media (max-width: 991.98px) {
-
-    /* If you want to add a sidebar toggle button on mobile,
-         you can adjust its display here */
     #sidebarToggle {
       display: block;
     }
   }
+/* Dark Mode Toggle Styles */
+.theme-toggle {
+  display: flex !important;
+  align-items: center;
+  background-color: #e9ecef;
+  border-radius: 50rem;
+  padding: 0.25rem;
+  width: 3rem;
+  height: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  overflow: hidden;
+}
+
+[data-bs-theme="dark"] .theme-toggle {
+  background-color: #495057;
+}
+
+.theme-toggle .icon {
+  font-size: 1rem;
+  color: #6c757d;
+  transition: transform 0.3s ease;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle .sun {
+  color: #f1c40f;
+}
+
+.theme-toggle .moon {
+  color: #adb5bd;
+}
+
+/* Active state animations */
+.theme-toggle.light .sun {
+  transform: translateX(0);
+}
+
+.theme-toggle.light .moon {
+  transform: translateX(1.5rem);
+}
+
+.theme-toggle.dark .sun {
+  transform: translateX(-1.5rem);
+}
+
+.theme-toggle.dark .moon {
+  transform: translateX(0);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
+  .theme-toggle {
+      width: 2.5rem;
+      height: 1.25rem;
+  }
+  .theme-toggle .icon {
+      font-size: 0.875rem;
+      width: 1.25rem;
+      height: 1.25rem;
+  }
+  .theme-toggle.light .moon {
+      transform: translateX(1.25rem);
+  }
+  .theme-toggle.dark .sun {
+      transform: translateX(-1.25rem);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .theme-toggle {
+      display: none; /* Optional: hide on very small screens */
+  }
+}

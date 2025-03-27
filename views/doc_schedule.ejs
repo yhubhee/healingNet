@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+    <title>Doctor Schedule - HealingNet</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <style>
+        /* Custom Calendar Styling */
+        .calendar {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #13C5DD;
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 0 0 8px 8px;
+        }
+        .calendar-grid div {
+            padding: 10px;
+            text-align: center;
+            background-color: white;
+            border: 1px solid #dee2e6;
+            cursor: pointer;
+        }
+        .calendar-grid div:hover {
+            background-color: #f8f9fa;
+        }
+        .calendar-grid .day-name {
+            background-color: #f1f3f5;
+            font-weight: bold;
+        }
+        .calendar-grid .selected {
+            background-color: #13C5DD;
+            color: white;
+        }
+        .calendar-grid .empty {
+            background-color: #f8f9fa;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .calendar-grid {
+                grid-template-columns: repeat(7, 1fr);
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <!-- Doctor's Schedule Section -->
+        <div class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Doctor's Schedule</h2>
+                <div>
+                    <button type="button" class="btn btn-primary ms-2" onclick="showAppointmentForm()">Add Appointment</button>
+                </div>
+            </div>
+
+            <!-- Calendar View -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="calendar">
+                        <div class="calendar-header">
+                            <button class="btn btn-light" onclick="changeMonth(-1)">&lt; Previous</button>
+                            <h4 id="calendar-month-year" class="mb-0"></h4>
+                            <button class="btn btn-light" onclick="changeMonth(1)">Next &gt;</button>
+                        </div>
+                        <div class="calendar-grid" id="calendar-grid">
+                            <!-- Calendar will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+
+    <script src="/js/main.js"></script>
+    <script>
+        // Calendar Logic
+        let currentDate = new Date();
+        let selectedDate = new Date();
+
+        // Sample appointments data (replace with actual data from your backend)
+        const appointments = [
+            { date: "2025-03-11", time: "09:00", patient: "John Doe", reason: "Flu Symptoms", status: "Confirmed" },
+            { date: "2025-03-11", time: "10:00", patient: "Jane Smith", reason: "Follow-up", status: "Pending" },
+            { date: "2025-03-12", time: "11:00", patient: "Alice Brown", reason: "Check-up", status: "Confirmed" }
+        ];
+
+        function renderCalendar() {
+            const monthYearElement = document.getElementById('calendar-month-year');
+            const calendarGrid = document.getElementById('calendar-grid');
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            monthYearElement.textContent = `${currentDate.toLocaleString('default', { month: 'long' })} ${year}`;
+            calendarGrid.innerHTML = '';
+
+            // Add day names
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            days.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day-name';
+                dayElement.textContent = day;
+                calendarGrid.appendChild(dayElement);
+            });
+
+            // Add empty cells before the first day
+            for (let i = 0; i < firstDay; i++) {
+                const emptyElement = document.createElement('div');
+                emptyElement.className = 'empty';
+                calendarGrid.appendChild(emptyElement);
+            }
+
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.textContent = day;
+                const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                if (dateString === selectedDate.toISOString().split('T')[0]) {
+                    dayElement.className = 'selected';
+                }
+                dayElement.onclick = () => selectDate(dateString);
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        function changeMonth(delta) {
+            currentDate.setMonth(currentDate.getMonth() + delta);
+            renderCalendar();
+        }
+
+        function selectDate(dateString) {
+            selectedDate = new Date(dateString);
+            document.getElementById('selected-date').textContent = selectedDate.toDateString();
+            renderAppointments();
+            renderCalendar();
+        }
+
+        function renderAppointments() {
+            const tbody = document.getElementById('appointments-body');
+            tbody.innerHTML = '';
+            const selectedDateString = selectedDate.toISOString().split('T')[0];
+            const filteredAppointments = appointments.filter(appt => appt.date === selectedDateString);
+
+            if (filteredAppointments.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="5" class="text-center">No appointments scheduled.</td>';
+                tbody.appendChild(row);
+            } else {
+                filteredAppointments.forEach(appt => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${appt.time}</td>
+                        <td>${appt.patient}</td>
+                        <td>${appt.reason}</td>
+                        <td>${appt.status}</td>
+                        <td>
+                            <a href="/appointment-details/${appt.date}/${appt.time}" class="btn btn-info btn-sm">View Details</a>
+                            <button class="btn btn-danger btn-sm" onclick="cancelAppointment('${appt.date}', '${appt.time}')">Cancel</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+        }
+
+        function cancelAppointment(date, time) {
+            // Placeholder for cancel logic
+            alert(`Cancel appointment on ${date} at ${time}`);
+        }
+
+        function showPrestable() {
+            const formContainer = document.querySelector('.hide');
+            formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function showAppointmentForm() {
+            const formContainer = document.querySelector('.appointment-form');
+            formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Initial render
+        renderCalendar();
+        selectDate(currentDate.toISOString().split('T')[0]);
+    </script>
+</body>
+
+</html>

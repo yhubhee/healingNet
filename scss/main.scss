@@ -1,0 +1,6 @@
+// Import Bootstrap's SCSS files
+@import 'bootstrap/scss/bootstrap';
+
+// Import custom SCSS partials
+@import 'bootstrap/scss/_alert';
+// ...import other partials as needed...

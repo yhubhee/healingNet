@@ -14,8 +14,7 @@
                 <table class="table table-bordered table-hover">
                     <thead class="table-primary">
                         <tr>
-                            <th>Patient's Firstname</th>
-                            <th>Patient's Lastname</th>
+                            <th>Patient's Fullname</th>
                             <th>Patient's Phonenumber</th>
                             <th>Patient Email</th>
                             <th>Patient's D.O.B</th>
@@ -28,8 +27,7 @@
                     <tbody>
                         <% patients.forEach(patients => { %>
                             <tr>
-                                <td><%= patients.firstname %></td>
-                                <td><%= patients.lastname %></td>
+                                <td><%= patients.patientname %></td>
                                 <td><%= patients.phone %></td>
                                 <td><%= patients.email %></td>
                                 <td><%= patients.date_of_birth.toISOString().split('T')[0] %></td>

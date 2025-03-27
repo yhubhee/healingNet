@@ -14,7 +14,7 @@
                 <table class="table table-bordered table-hover">
                     <thead class="table-primary">
                         <tr>
-                            <th>Full Name</th>
+                            <th>Doctor Name</th>
                             <th>Medication</th>
                             <th>Dosage</th>
                             <th>Frequency</th>
@@ -24,7 +24,7 @@
                             <th>End Date</th>
                             <th>Illness</th>
                             <th>Prescriptions_id</th>
-                            <th>Patient Symptoms</th>
+                            <th>Doctor_id</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,7 +40,7 @@
                                 <td> <%= prescription.end_date.toISOString().split('T')[0]  %></td>                                 
                                 <td><%= prescription.illness %></td>
                                 <td><%= prescription.prescriptions_id %></td>
-                                <td><%= prescription.symptoms  %></td>
+                                <td><%= prescription.doctor_id   %></td>
                                 <!-- <td><span class="badge bg-success">Confirmed</span></td> -->
                                 
                             </tr>
@@ -50,13 +50,8 @@
             </div>
         <% } else { %>
             <div class="alert alert-warning" role="alert">
-                You have given no prescriptions.
+                You have been given no prescriptions.
             </div>
-            <!-- <div class="text-center mt-4">
-                <a class="btn btn-primary btn-lg load-content" href="/appointment" target="_blank">
-                    <i class="fas fa-plus"></i> Create prescriptions
-                </a>
-            </div> -->
         <% } %>
     </div>
 

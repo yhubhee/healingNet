@@ -81,6 +81,12 @@
         <div class="collapse navbar-collapse" id="navbarContent">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item me-3">
+              <div class="theme-toggle light" id="themeToggle" aria-label="Toggle theme">
+                  <i class="fas fa-sun icon sun"></i>
+                  <i class="fas fa-moon icon moon"></i>
+              </div>
+          </li>
+            <li class="nav-item me-3">
               <a class="nav-link" href="#">
                 <i class="fas fa-bell"></i> Notifications
               </a>
@@ -176,7 +182,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link load-content" href="#" data-url="/prescription">
+              <a class="nav-link load-content" href="#" data-url="/prescriptions   ">
                 <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
               </a>
             </li>
@@ -242,8 +248,9 @@
             <div class="card shadow-sm">
               <div class="card-header">Prescriptions</div>
               <div class="card-body">
-                <p class="card-text">Your prescription has been updated.</p>
-                <a href="#" class="btn btn-info btn-sm text-white">View Prescriptions</a>
+                <p class="card-text"><%= prescriptions %></p>
+                <a aria-current="page" href="#"
+                data-url="prescriptions" class="btn btn-info btn-sm text-white load-content">View Prescriptions</a>
               </div>
             </div>
           </div>
@@ -298,7 +305,10 @@
     const name = time.textContent;  
     time.textContent = greetings + name;  
     console.log(time);  
+
   </script>
+
+
 </body>
 
 </html>

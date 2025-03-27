@@ -33,7 +33,9 @@ const doctorvalidateTokens = (req, res, next) =>{
         }
     }
     catch(err){
-        return res.status(400).json({error: err})
+        return res.render('doctorlogin', {
+            error: 'Invalid token, please log in again.',
+        });
     }
 }
 // Password reset tokens

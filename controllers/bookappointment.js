@@ -1,4 +1,6 @@
 const pool = require('../database');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 const { symptomChecker } = require('../controllers/symptomChecker');
 
 exports.symptom_checker = (req, res) => {
@@ -75,13 +77,13 @@ exports.bookappointment = (req, res) => {
         const doctor_id = doctorResults[0].doctor_id;
 
         // Prevent two patients from booking a doctor at the same time
-        const checkAppointmentQuery = 'SELECT * FROM appointment WHERE doctor_id = ? AND appointment_date = ? AND appointment_time = ?';
+        const checkAppointmentQuery = 'SELECT * FROM appointment WHERE doctor_id = ? AND appointment_date = ? AND appointment_time = ? And status = "Scheduled"';
         pool.query(checkAppointmentQuery, [doctor_id, appointment_date, appointment_time], (err, appointmentResults) => {
             if (err) {
                 console.log(err);
                 return res.render('appointment', { error: 'Failed to check existing appointments' });
             }
-
+            console.log(appointmentResults);
             if (appointmentResults.length > 0) {
                 return res.render('appointment', { error: 'The doctor already has an appointment at the specified time. Please choose a different time IN 2 HRS.' });
             }
@@ -115,8 +117,42 @@ exports.bookappointment = (req, res) => {
                         lastname,
                         appointmentsNumber
                     });
+                    const transporter = nodemailer.createTransport({
+                        host: process.env.EMAIL_HOST,
+                        port: process.env.EMAIL_PORT,
+                        secure: process.env.EMAIL_SECURE,
+                        auth: {
+                            user: process.env.EMAIL_USER,
+                            pass: process.env.EMAIL_PASS,
+                        },
+                        tls: {
+                            rejectUnauthorized: false
+                        }
+                    });
+                
+                    // Define email content
+                    const mailOptions = {
+                        from: email,
+                        to: process.env.EMAIL_USER,
+                        subject: "Booked Appointment",
+                        html:   `Hey ${fullname} you just booked an online appointment with ${doctor} on ${appointment_date} at ${appointment_time} with the illness ${illness}`
+                
+                    };
+                    transporter.sendMail(mailOptions, (error, info) => {
+                        if (error) {
+                            console.error('Error sending email:', error);
+                            return res.render('appointment', {
+                                error: 'Failed to send email. Please try again later.',
+                            });
+                        }
+                
+                        console.log('Email sent:', info.response);
+                        return res.render('appointment', {
+                            success: 'Email sent successfull',
+                        });
+                    });
                 });
-            });
+            });          
         });
     });
 };

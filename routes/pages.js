@@ -6,8 +6,6 @@ const { doctorvalidateTokens } = require('../middlewares/authdoctor');
 const { validatePasswordResetToken } = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
 const { symptoms } = require('../controllers/symptomChecker');
-const { render } = require('ejs');
-
 
 router.get('/about', (req, res) => {
     res.render('about');
@@ -154,6 +152,7 @@ router.get('/settings', validateTokens, (req, res) => {
     });
 });
 
+// Patients
 router.get('/booked-appointment', validateTokens, (req, res) => {
     const { firstname, lastname, patient_id } = req.user; // Access the attached names and user_id
     const sql = `
@@ -181,39 +180,56 @@ router.get('/booked-appointment', validateTokens, (req, res) => {
 });
 
 router.get('/dashboard', validateTokens, (req, res) => {
+    const date = new Date().toISOString().split('T')[0];
     const { firstname, lastname, patient_id } = req.user; // Access the attached names
-    const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ? AND status = "Scheduled"';
 
-    db.query(sql, [patient_id], (err, results) => {
+    const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ? AND status = "Scheduled" AND appointment_date = ?';
+
+    const sql2 = `SELECT CONCAT(d.firstname, ' ', d.lastname) AS fullname, a.date_prescribed FROM doctors d JOIN prescriptions a ON d.doctor_id = a.doctor_id JOIN patients p ON a.patient_id = p.patient_id WHERE p.patient_id =  ? AND a.status = "prescribed" ORDER BY fullname ASC limit 1;`
+
+    db.query(sql, [patient_id, date], (err, results1) => {
         if (err) {
             console.log('Database query error:', err);
             return res.status(500).json({ error: 'Failed to fetch appointments' });
         }
 
-        const appointmentsNumber = results[0].count;
-        res.render('dashboard', {
-            firstname,
-            lastname,
-            appointmentsNumber
+        db.query(sql2, [patient_id], (error, result2) => {
+            if (error) {
+                console.log('Database query error:', error);
+                return res.status(500).json({ error: 'Failed to fetch prescriptions' });
+            }
+            let prescriptions = "Your prescription has been given no prescription yet.";
+            if(result2.length > 0){
+                prescriptions = `Your prescription has been updated by Dr. ${result2[0].fullname} on ${result2[0].date_prescribed}`;
+            }
+            console.log(result2);
 
+            const appointmentsNumber = results1[0].count || "no";
+            res.render('dashboard', {
+                firstname,
+                lastname,
+                appointmentsNumber,
+                prescriptions
+
+            });
         });
     });
 });
-router.get('/prescription', doctorvalidateTokens, (req, res) => {
-    const { doctor_id } = req.user;
-    const sql = `SELECT a.fullname, a.medication, a.dosage, a.frequency , a.instructions, a.date_prescribed, a.start_date, a.end_date, a.illness, a.prescriptions_id, p.symptoms FROM patients p join prescriptions a on p.patient_id = a.patient_id Where doctor_id = ?;`
+router.get('/prescriptions', validateTokens, (req, res) => {
+    const { patient_id } = req.user;
+    const sql = `SELECT pr.medication, pr.dosage, pr.frequency, pr.instructions, pr.date_prescribed, pr.start_date, pr.end_date, pr.prescriptions_id, pr.status, CONCAT(d.firstname, ' ', d.lastname) AS fullname, a.illness, d.doctor_id FROM doctors d JOIN prescriptions pr ON d.doctor_id = pr.doctor_id JOIN appointment a ON pr.patient_id = a.patient_id WHERE pr.patient_id = ?;`
 
     db.getConnection((err, connection) => {
         if (err) {
             console.error('Database connection error:', err);
-            return res.status(500).send('Failed to fetch patients');
+            return res.status(500).send('Failed to fetch prescription');
         }
-        connection.query({ sql }, [doctor_id], (err, results) => {
-            console.log(doctor_id) // Doctor_id 
+        connection.query(sql, [patient_id], (err, results) => {
+            console.log(patient_id) // Doctor_id 
             connection.release();
             if (err) {
                 console.error('Database query error:', err);
-                return res.status(500).send('Failed to fetch patients');
+                return res.status(500).send('Failed to fetch prescription');
             }
             res.render('prescriptions', {
                 prescription: results || [],
@@ -222,7 +238,7 @@ router.get('/prescription', doctorvalidateTokens, (req, res) => {
     });
 
 })
-// Route to handle AJAX request for doctors
+
 router.get('/getDoctors', (req, res) => {
     // Extract the 'department' query parameter from the request URL
     const department = req.query.department;
@@ -240,21 +256,6 @@ router.get('/getDoctors', (req, res) => {
     });
 });
 
-// cancel appointment
-// router.post('/cancel-appointment', (req, res) => {
-//     const { appointment_id } = req.body;
-//     const query = 'UPDATE appointment SET status = "Cancelled" WHERE appointment_id = ?';
-
-//     db.query(query, [appointment_id], (err, result) => {
-//         if (err) {
-//             console.error(err);
-//             return res.status(500).send('Server error');
-//         }
-//         res.redirect('/booked-appointment');
-//     });
-// });
-
-
 // Doctor Section
 router.get('/doctorsignup', (req, res) => {
     res.render('doctorsignup');
@@ -264,9 +265,6 @@ router.get('/doctorlogin', (req, res) => {
 });
 router.get('/doctorlogout', (req, res) => {
     res.render('doctorlogin')
-})
-router.get('/schedule', (req, res) => {
-    res.render('schedule')
 })
 // Password reset
 router.get('/Doc_forgot_pass', (req, res) => {
@@ -279,9 +277,10 @@ router.get('/Doc_reset_pass', validateDoctor_reset_secret, (req, res) => {
     }
     res.render('Doc_reset_pass', { token: token });
 });
+// Patients
 router.get('/doc_patients', doctorvalidateTokens, (req, res) => {
     const { doctor_id } = req.user;
-    const sql = `SELECT  p.firstname, p.lastname, p.phone, p.email, p.date_of_birth, p.gender, p.address, p.patient_id, a.status FROM patients p JOIN appointment a ON p.patient_id = a.patient_id JOIN doctors d ON a.doctor_id = d.doctor_id WHERE d.doctor_id = 10 AND a.status = "Scheduled";`
+    const sql = `SELECT CONCAT(p.firstname, ' ', p.lastname) AS patientname, p.phone, p.email, p.date_of_birth, p.gender, p.address, p.patient_id, a.status FROM patients p JOIN appointment a ON p.patient_id = a.patient_id JOIN doctors d ON a.doctor_id = d.doctor_id WHERE d.doctor_id = ? AND a.status = "Scheduled";`
 
     db.getConnection((err, connection) => {
         if (err) {
@@ -302,18 +301,19 @@ router.get('/doc_patients', doctorvalidateTokens, (req, res) => {
     });
 
 })
+// Prescription
 router.get('/doc_prescription', doctorvalidateTokens, (req, res) => {
     const { doctor_id } = req.user;
 
     // Query for prescriptions
     const sql1 = `
-        SELECT a.fullname, a.medication, a.dosage, a.frequency, a.instructions,   a.date_prescribed, a.start_date, a.end_date, a.illness, a.prescriptions_id, a.status, p.symptoms FROM patients p JOIN prescriptions a ON p.patient_id = a.patient_id WHERE a.doctor_id = ?;
+        SELECT a.medication, a.dosage, a.frequency, a.instructions, a.date_prescribed, a.start_date, a.end_date, a.prescriptions_id, a.status, p.symptoms, CONCAT(p.firstname, ' ', p.lastname) AS fullname, p.patient_id FROM patients p JOIN prescriptions a ON p.patient_id = a.patient_id WHERE a.doctor_id = ?;
     `;
 
     // Query for patients with scheduled appointments
     const sql2 = `
-     SELECT p.firstname, p.patient_id FROM patients p JOIN appointment a ON p.patient_id = a.patient_id WHERE doctor_id = ?;
-    `;
+   SELECT CONCAT(p.firstname, ' ', p.lastname) AS fullname, p.patient_id, p.symptoms FROM patients p JOIN appointment a ON p.patient_id = a.patient_id JOIN doctors d ON a.doctor_id = d.doctor_id WHERE d.doctor_id = ? AND a.status = "Scheduled";
+    `
 
     db.getConnection((err, connection) => {
         if (err) {
@@ -346,31 +346,71 @@ router.get('/doc_prescription', doctorvalidateTokens, (req, res) => {
         });
     });
 });
+// Dashboard
 router.get('/doctordashboard', doctorvalidateTokens, (req, res) => {
-    const today = new Date
-    console.log(today)
-    const doc_count = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ?';
-    const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE doctor_id = ?';
+    const date = new Date().toISOString().split('T')[0];
+    // console.log(date)
     const { firstname, lastname, doctor_id } = req.user; // Access the attached names
-    db.query(sql, [doctor_id], (err, results) => {
+
+    const sql1 = 'SELECT COUNT(*) AS count FROM appointment WHERE doctor_id = ? AND status = "Scheduled" AND appointment_date = ?';
+
+    const sql2 = `SELECT COUNT(DISTINCT a.patient_id) AS COUNT, CONCAT(p.firstname, ' ', p.lastname) AS patientname, p.phone, p.email, p.date_of_birth, p.gender, p.address, p.patient_id, a.status FROM patients p JOIN appointment a ON p.patient_id = a.patient_id JOIN doctors d ON a.doctor_id = d.doctor_id WHERE d.doctor_id = ? AND a.status = "Scheduled"`;
+
+    const sql3 = `SELECT appointment_date FROM appointment WHERE appointment_date > ? AND status = "Scheduled " ORDER BY appointment_date ASC LIMIT 1`;
+
+    db.query(sql1, [doctor_id, date], (err, result1) => {
         if (err) {
-            console.error('Database query error:', err); // Debugging log
+            console.error('Database query error:', err);
             return res.status(500).json({ error: 'Failed to fetch appointments' });
         }
-        const patient_count = results[0].count
-        const doc_appointmentsCount = results[0].count;
-        res.render('doctordashboard', {
-            firstname,
-            lastname,
-            doc_appointmentsCount,
-            patient_count
+
+        db.query(sql2, [doctor_id], (err, result2) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return res.status(500).json({ error: 'Failed to fetch appointments' });
+            }
+
+            db.query(sql3, [date], (err, result3) => {
+                if (err) {
+                    console.error('Database query error:', err);
+                    return res.status(500).json({ error: 'Failed to fetch appointments' });
+                }
+
+                let nextAppointmentMessage = "You have no upcoming appointments.";
+                if (result3.length > 0) {
+                    const nextAppointmentDate = new Date(result3[0].appointment_date);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0); // Normalize to midnight
+                    nextAppointmentDate.setHours(0, 0, 0, 0); // Normalize to midnight
+                    const timeDiff = nextAppointmentDate - today;
+                    console.log(timeDiff)
+                    const daysUntilAppointment = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+                    if (daysUntilAppointment === 0) {
+                        nextAppointmentMessage = "Your next appointment is today.";
+                    } else if (daysUntilAppointment > 0) {
+                        nextAppointmentMessage = `Your next appointment is in ${daysUntilAppointment} days.`;
+                    }
+                }
+                const patient_count = result2[0].COUNT || "no";
+                const doc_appointmentsCount = result1[0].count || "no";
+
+                res.render('doctordashboard', {
+                    firstname,
+                    lastname,
+                    doc_appointmentsCount,
+                    patient_count,
+                    upcomingappointment: nextAppointmentMessage
+                });
+            });
         });
-    })
+    });
 });
+// Doctor Appointment
 router.get('/doc_appointment', doctorvalidateTokens, (req, res) => {
     const { firstname, lastname, doctor_id } = req.user; // Access the attached names and user_id
     const sql = `
-    select a.fullname, a.email, a.appointment_date, a.appointment_time, a.appointment_id, a.patient_id, a.illness, a.status from appointment a join patients p on a.patient_id = p.patient_id Where doctor_id = ?; 
+    select a.fullname, a.email, a.appointment_date, a.appointment_time, a.appointment_id, a.patient_id, a.illness, a.status from appointment a join patients p on a.patient_id = p.patient_id JOIN doctors d ON a.doctor_id = d.doctor_id WHERE d.doctor_id = 10 AND a.status = "Scheduled"; 
     `
     db.query(sql, [doctor_id], (err, results) => {
         if (err) {
@@ -385,6 +425,11 @@ router.get('/doc_appointment', doctorvalidateTokens, (req, res) => {
 
     });
 });
+// Doctor Schedule
+router.get('/doc_schedule', doctorvalidateTokens, (req, res) => {
 
+    res.render('doc_schedule')
+
+})
 module.exports = router;
 

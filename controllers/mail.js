@@ -15,7 +15,7 @@ exports.sendmail = (req, res) => {
         },
         tls: {
             rejectUnauthorized: false
-}
+        }
     });
 
     // Define email content
@@ -24,8 +24,8 @@ exports.sendmail = (req, res) => {
         to: process.env.EMAIL_USER,
         subject: subject,
         html: `
-                <p>From ${fullname}</p>
-                <p>${message}></p>
+            <p>From ${fullname}</p>
+            <p>${message}></p>
               `
     };
     transporter.sendMail(mailOptions, (error, info) => {

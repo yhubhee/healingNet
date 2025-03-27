@@ -4,7 +4,7 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-:root {
+ :root {
     --bs-blue: #0d6efd;
     --bs-indigo: #6610f2;
     --bs-purple: #6f42c1;
@@ -2584,7 +2584,6 @@ textarea.form-control-lg {
     clip: rect(0, 0, 0, 0);
     pointer-events: none
 }
-
 .btn-check[disabled]+.btn,
 .btn-check:disabled+.btn {
     pointer-events: none;
@@ -6919,6 +6918,9 @@ fieldset:disabled .btn {
         background-color: #EFF5F9;
         border-color: #EFF5F9
     }
+    .symptom{
+        margin-bottom: 10px;
+    }
 }
 
 @media (min-width: 768px) {
@@ -7759,7 +7761,22 @@ fieldset:disabled .btn {
 .p-5 {
     padding: 3rem !important
 }
-
+/* @media (min-width: 576px) {
+    .p-5{
+        padding: 1rem !important;
+    }
+    .m-5 {
+        margin: 1rem !important
+    }
+} */
+@media (max-width: 768px) {
+    .p-5{
+        padding: 1rem !important;
+    }
+    .m-5 {
+        margin: 1rem !important
+    }
+}
 .px-0 {
     padding-right: 0 !important;
     padding-left: 0 !important
@@ -8134,121 +8151,6 @@ fieldset:disabled .btn {
     background-color: #fff !important
     /* background-color: #000 !important */
 }
-.alert-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1050;
-    width: 300px;
-}
-.alert {
-    position: relative;
-    padding: 1rem 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: 8px
-}
-
-.alert-heading {
-    color: inherit
-}
-
-.alert-link {
-    font-weight: 700
-}
-
-.alert-dismissible {
-    padding-right: 3rem
-}
-
-.alert-dismissible .btn-close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    padding: 1.25rem 1rem
-}
-
-.alert-primary {
-    color: #0b7685;
-    background-color: #d0f3f8;
-    border-color: #b8eef5
-}
-
-.alert-primary .alert-link {
-    color: #095e6a
-}
-
-.alert-secondary {
-    color: #202f55;
-    background-color: #d7dce8;
-    border-color: #c2cadd
-}
-
-.alert-secondary .alert-link {
-    color: #1a2644
-}
-
-.alert-success {
-    color: #0f5132;
-    background-color: #d1e7dd;
-    border-color: #badbcc
-}
-
-.alert-success .alert-link {
-    color: #0c4128
-}
-
-.alert-info {
-    color: #055160;
-    background-color: #cff4fc;
-    border-color: #b6effb
-}
-
-.alert-info .alert-link {
-    color: #04414d
-}
-
-.alert-warning {
-    color: #664d03;
-    background-color: #fff3cd;
-    border-color: #ffecb5
-}
-
-.alert-warning .alert-link {
-    color: #523e02
-}
-
-.alert-danger {
-    color: #842029;
-    background-color: #f8d7da;
-    border-color: #f5c2c7
-}
-
-.alert-danger .alert-link {
-    color: #6a1a21
-}
-
-.alert-light {
-    color: #606264;
-    background-color: #fcfdfe;
-    border-color: #fafcfd
-}
-
-.alert-light .alert-link {
-    color: #4d4e50
-}
-
-.alert-dark {
-    color: #11192e;
-    background-color: #d2d4db;
-    border-color: #bbbfca
-}
-
-.alert-dark .alert-link {
-    color: #0e1425
-}
-
 .bg-transparent {
     background-color: rgba(0, 0, 0, 0) !important
 }
@@ -11653,3 +11555,101 @@ fieldset:disabled .btn {
     }
 }
 
+.alert {
+    position: relative;
+    padding: 1rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+  }
+  
+  .alert-heading {
+    color: inherit;
+  }
+  
+  .alert-link {
+    font-weight: 700;
+  }
+  
+  .alert-dismissible {
+    padding-right: 3rem;
+  }
+  .alert-dismissible .btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: 1.25rem 1rem;
+  }
+  
+  .alert-primary {
+    color: rgb(7.8, 66, 151.8);
+    background-color: rgb(206.6, 226, 254.6);
+    border-color: rgb(182.4, 211.5, 254.4);
+  }
+  .alert-primary .alert-link {
+    color: rgb(6.24, 52.8, 121.44);
+  }
+  
+  .alert-secondary {
+    color: rgb(64.8, 70.2, 75);
+    background-color: rgb(225.6, 227.4, 229);
+    border-color: rgb(210.9, 213.6, 216);
+  }
+  .alert-secondary .alert-link {
+    color: rgb(51.84, 56.16, 60);
+  }
+  
+  .alert-success {
+    color: rgb(15, 81, 50.4);
+    background-color: rgb(209, 231, 220.8);
+    border-color: rgb(186, 219, 203.7);
+  }
+  .alert-success .alert-link {
+    color: rgb(12, 64.8, 40.32);
+  }
+  
+  .alert-info {
+    color: rgb(5.2, 80.8, 96);
+    background-color: rgb(206.6, 244.4, 252);
+    border-color: rgb(182.4, 239.1, 250.5);
+  }
+  .alert-info .alert-link {
+    color: rgb(4.16, 64.64, 76.8);
+  }
+  
+  .alert-warning {
+    color: rgb(102, 77.2, 2.8);
+    background-color: rgb(255, 242.6, 205.4);
+    border-color: rgb(255, 236.4, 180.6);
+  }
+  .alert-warning .alert-link {
+    color: rgb(81.6, 61.76, 2.24);
+  }
+  
+  .alert-danger {
+    color: rgb(132, 31.8, 41.4);
+    background-color: rgb(248, 214.6, 217.8);
+    border-color: rgb(244.5, 194.4, 199.2);
+  }
+  .alert-danger .alert-link {
+    color: rgb(105.6, 25.44, 33.12);
+  }
+  
+  .alert-light {
+    color: rgb(99.2, 99.6, 100);
+    background-color: rgb(253.6, 253.8, 254);
+    border-color: rgb(252.9, 253.2, 253.5);
+  }
+  .alert-light .alert-link {
+    color: rgb(79.36, 79.68, 80);
+  }
+  
+  .alert-dark {
+    color: rgb(19.8, 22.2, 24.6);
+    background-color: rgb(210.6, 211.4, 212.2);
+    border-color: rgb(188.4, 189.6, 190.8);
+  }
+  .alert-dark .alert-link {
+    color: rgb(15.84, 17.76, 19.68);
+  }

@@ -1,6 +1,5 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-// const { createToken, validateTokens } = require('./middlewares/auth');
 const env = require('dotenv');
 const pool = require('./database');
 const pagesRoutes = require('./routes/pages');

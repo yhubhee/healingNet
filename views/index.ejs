@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('partials/head') %>
-<title>HealingNet - Trusted Telemedicine Platform for Online Consultations and Health Resources</title>
+    <title>HealingNet - Trusted Telemedicine Platform for Online Consultations and Health Resources</title>
 
     <body>
         <%- include('partials/header') %>
@@ -9,16 +9,18 @@
             <div class="container-fluid bg-primary py-5 mb-5 hero-header">
                 <div class="container py-5">
                     <div class="row justify-content-start">
-                        <div class="col-lg-8 text-center text-lg-start fade-in">
+                        <div class="col-lg-8 text-center text-lg-start">
                             <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
                                 style="border-color: rgba(256, 256, 256, .3) !important;">Welcome To HealingNet</h5>
                             <h1 class="display-1 text-white mb-md-4">Best Healthcare Solution In Your City</h1>
                             <div class="pt-2">
-                                <a href="/search" class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2">Find Doctor</a>
+                                <a href="/about" class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2">Find
+                                    Doctor</a>
                                 <a href="/appointment"
-                                    class="btn btn-outline-light rounded-pill py-md-3 px-md-5 mx-2 blue">Appointment</a> 
-                                    <a href="/homeappointment"
-                                    class="btn btn-outline-light rounded-pill py-md-3 px-md-5 mx-2 home_app" style="margin-top: 10px;">Home Appointment</a>
+                                    class="btn btn-outline-light rounded-pill py-md-3 px-md-5 mx-2 blue">Appointment</a>
+                                <a href="/homeappointment"
+                                    class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2 home_app"
+                                    style="margin-top: 10px;">Home Appointment</a>
                             </div>
                         </div>
                     </div>
@@ -39,41 +41,52 @@
                         </div>
                         <div class="col-lg-7">
                             <div class="mb-4">
-                                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5" data-aos="fade-in">About Us
+                                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
+                                    data-aos="fade-in">About Us
                                 </h5>
-                                <h1 class="display-4" data-aos="fade-in">Best Medical Care For Yourself and Your Family</h1>
+                                <h1 class="display-4" data-aos="fade-in">Best Medical Care For Yourself and Your Family
+                                </h1>
                             </div>
                             <%- include('partials/about-p') %>
 
-                            <div class="row g-3 pt-3">
-                                <div class="col-sm-3 col-6">
-                                    <div class="bg-light text-center rounded-circle py-4">
-                                        <i class="fa fa-3x fa-user-md text-primary mb-3"></i>
-                                        <h6 class="mb-0">Qualified<small class="d-block text-primary">Doctors</small>
-                                        </h6>
+                                <div class="row g-3 pt-3">
+                                    <div class="col-sm-3 col-6">
+                                        <div class="bg-light text-center rounded-circle py-4">
+                                            <i class="fa fa-3x fa-user-md text-primary mb-3"></i>
+                                            <h6 class="mb-0">Qualified<small
+                                                    class="d-block text-primary">Doctors</small>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-6">
+                                        <div class="bg-light text-center rounded-circle py-4">
+                                            <i class="fa fa-3x fa-video text-primary mb-3"></i>
+                                            <h6 class="mb-0">Video<small class="d-block text-primary">
+                                                    Consultation</small>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-6">
+                                        <div class="bg-light text-center rounded-circle py-4">
+                                            <i class="fa fa-3x fa-calendar-check text-primary mb-3"></i>
+                                            <h6 class="mb-0">Regular<small
+                                                    class="d-block text-primary">Follow-ups</small>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-6">
+                                        <div class="bg-light text-center rounded-circle py-4">
+                                            <i class="fa fa-3x fa-pills text-primary mb-3"></i>
+                                            <h6 class="mb-0">Prescription
+                                                <small class="d-block text-primary">Management</small>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <a class="btn btn-dark rounded-pill py-3 px-5" href="/about"
+                                            style="margin-top: 10px;">About Us</a>
                                     </div>
                                 </div>
-                                <div class="col-sm-3 col-6">
-                                    <div class="bg-light text-center rounded-circle py-4">
-                                        <i class="fa fa-3x fa-procedures text-primary mb-3"></i>
-                                        <h6 class="mb-0">Emergency<small class="d-block text-primary">Services</small>
-                                        </h6>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-6">
-                                    <div class="bg-light text-center rounded-circle py-4">
-                                        <i class="fa fa-3x fa-microscope text-primary mb-3"></i>
-                                        <h6 class="mb-0">Accurate<small class="d-block text-primary">Testing</small>
-                                        </h6>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-6">
-                                    <div class="bg-light text-center rounded-circle py-4">
-                                        <i class="fa fa-3x fa-ambulance text-primary mb-3"></i>
-                                        <h6 class="mb-0">Free<small class="d-block text-primary">Ambulance</small></h6>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,86 +101,105 @@
                         <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Services</h5>
                         <h1 class="display-4">Excellent Medical Services</h1>
                     </div>
-                    <div class="row g-5">
-                        <div class="col-lg-4 col-md-6">
-                            <div
-                                class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
-                                <div class="service-icon mb-4">
-                                    <i class="fa fa-2x fa-user-md text-white"></i>
-                                </div>
-                                <h4 class="mb-3">Emergency Care</h4>
-                                <p class="m-0">In urgent situations, our emergency care services allow you to connect with a qualified medical professional quickly.</p>
-                                <a class="btn btn-lg btn-primary rounded-pill" href="/appointment">
-                                    <i class="bi bi-arrow-right"></i>
-                                </a>
+                    <div class="d-flex justify-content-around mb-3">
+                        <div id="div1" class="mb-3 btn btn-dark rounded-pill py-3">
+                            <h4 class="text-primary"> Individuals </h4>
+                        </div>
+                        <div id="div2" class="mb-3 btn-color-mine btn rounded-pill py-3">
+                            <h4 class="text-primary">Family </h4>
+                        </div>
+                        <div id="div3" class="mb-3 btn-color-mine btn rounded-pill py-3">
+                            <h4 class="text-primary"> Student </h4>
+                        </div>
+                        <!-- <div id="div4" class="mb-3 btn-color-mine btn rounded-pill py-3">
+                            <h4 class="text-primary"> Clinicians </h4>
+                        </div> -->
+                    </div>
+                    <hr>
+                    <div id="div1_con" class="row gx-5 my-5">
+                        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;" data-aos="fade-in">
+                            <div class="position-relative h-100">
+                                <img class="position-absolute w-100 h-100 rounded" src="/img/video-consulting.jpg"
+                                    style="object-fit: cover;">
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div
-                                class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
-                                <div class="service-icon mb-4">
-                                    <i class="fa fa-2x fa-procedures text-white"></i>
-                                </div>
-                                <h4 class="mb-3">Operation & Surgery</h4>
-                                <p class="m-0"> Our network of experienced surgeons can provide insight into potential procedures, discuss risks, and help prepare you for surgery if needed. </p>
-                                <a class="btn btn-lg btn-primary rounded-pill" href="/appointment">
-                                    <i class="bi bi-arrow-right"></i>
-                                </a>
+                        <div class="col-lg-7">
+                            <div class="mb-4">
+                                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
+                                    data-aos="fade-in">Video Consulting
+                                </h5>
+                                <h1 class="display-4" data-aos="fade-in">Best Medical Care For Individuals of All Ages
+                                </h1>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div
-                                class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
-                                <div class="service-icon mb-4">
-                                    <i class="fa fa-2x fa-stethoscope text-white"></i>
-                                </div>
-                                <h4 class="mb-3">Outdoor Checkup</h4>
-                                <p class="m-0">Our healthcare professionals can provide tips for injury prevention, managing allergies, and overall wellness in nature.</p>
-                                <a class="btn btn-lg btn-primary rounded-pill" href="/appointment">
-                                    <i class="bi bi-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div
-                                class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
-                                <div class="service-icon mb-4">
-                                    <i class="fa fa-2x fa-ambulance text-white"></i>
-                                </div>
-                                <h4 class="mb-3">Ambulance Service</h4>
-                                <p class="m-0">When emergencies strike, getting to a medical facility quickly can be crucial. HealingNet partners with reliable ambulance services to ensure that you receive timely transport in critical situations.</p>
-                                <a class="btn btn-lg btn-primary rounded-pill" href="/appointment">
-                                    <i class="bi bi-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div
-                                class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
-                                <div class="service-icon mb-4">
-                                    <i class="fa fa-2x fa-pills text-white"></i>
-                                </div>
-                                <h4 class="mb-3">Medicine & Pharmacy</h4>
-                                <p class="m-0">Managing your prescriptions has never been easier. Through HealingNet, you can consult with our healthcare providers regarding necessary medications. </p>
-                                <a class="btn btn-lg btn-primary rounded-pill" href="/appointment">
-                                    <i class="bi bi-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div
-                                class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
-                                <div class="service-icon mb-4">
-                                    <i class="fa fa-2x fa-microscope text-white"></i>
-                                </div>
-                                <h4 class="mb-3">Blood Testing</h4>
-                                <p class="m-0">Understanding your health through regular testing is essential. HealingNet collaborates with certified labs to provide blood testing services that are easy to access. </p>
-                                <a class="btn btn-lg btn-primary rounded-pill" href="/appointment">
-                                    <i class="bi bi-arrow-right"></i>
-                                </a>
+                            <p class="mb-4" data-aos="fade-in">At HealingNet, we understand that your time is valuable.
+                                That's why we offer
+                                convenient video consultations with our experienced healthcare professionals. Whether
+                                you're at home or on the go, you can access quality medical care from the comfort of
+                                your own space.
+                            </p>
+                            <div class="col-lg-6 mb-5 mb-lg-0">
+                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/individuals"
+                                    style="margin-top: 10px;">Read More</a>
                             </div>
                         </div>
                     </div>
+
+                    <div id="div2_con" class="row gx-5 my-5" style="display: none;">
+                        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;" data-aos="fade-in">
+                            <div class="position-relative h-100">
+                                <img class="position-absolute w-100 h-100 rounded" src="/img/family_consultation.jfif"
+                                    style="object-fit: cover;">
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="mb-4">
+                                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
+                                    data-aos="fade-in">Family Care
+                                </h5>
+                                <h1 class="display-4" data-aos="fade-in">Best Medical Care For Family members of All
+                                    Ages
+                                </h1>
+                            </div>
+                            <p class="mb-4" data-aos="fade-in">At HealingNet, we understand that your family's health is
+                                a top priority. That's why we offer comprehensive family care services to ensure that
+                                every member of your family receives the best possible medical attention. Our
+                                experienced healthcare professionals are dedicated to providing personalized care for
+                                individuals of all ages, from infants to seniors.</p>
+                            <div class="col-lg-6 mb-5 mb-lg-0">
+                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/individuals"
+                                    style="margin-top: 10px;">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="div3_con" class="row gx-5 my-5" style="display: none;">
+                        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;" data-aos="fade-in">
+                            <div class="position-relative h-100">
+                                <img class="position-absolute w-100 h-100 rounded" src="/img/Student.avif"
+                                    style="object-fit: cover;">
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="mb-4">
+                                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
+                                    data-aos="fade-in">Student plan
+                                </h5>
+                                <h1 class="display-4" data-aos="fade-in">Best Medical Care For Students of All Ages
+                                </h1>
+                            </div>
+                            <p class="mb-4" data-aos="fade-in">HealingNet is committed to supporting students' health
+                                and well-being. Our student plan offers comprehensive medical services tailored to the
+                                unique needs of students, ensuring that they have access to quality healthcare while
+                                pursuing their education. With our convenient online platform, students can easily
+                                schedule appointments, access medical advice, and receive the care they need to thrive
+                                academically and personally. </p>
+                            <div class="col-lg-6 mb-5 mb-lg-0">
+                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/students"
+                                    style="margin-top: 10px;">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <!-- Services End -->
@@ -183,10 +215,14 @@
                                 </h5>
                                 <h1 class="display-4">Make An Appointment For Your Family</h1>
                             </div>
-                            <p class="text-white mb-5">At HealingNet, scheduling an appointment has never been easier. Our user-friendly online platform allows you to book appointments at your convenience, ensuring that you can access the care you need without the hassle of traditional office visits. 
+                            <p class="text-white mb-5">At HealingNet, scheduling an appointment has never been easier.
+                                Our user-friendly online platform allows you to book appointments at your convenience,
+                                ensuring that you can access the care you need without the hassle of traditional office
+                                visits.
                             </p>
                             <a class="btn btn-dark rounded-pill py-3 px-5 me-3" href="/search">Find Doctor</a>
-                            <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/appointment" style="margin-top: 10px;">Read More</a>
+                            <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/appointment"
+                                style="margin-top: 10px;">Read More</a>
                         </div>
                         <div class="col-lg-6">
                             <div class="bg-light text-center rounded p-5">
@@ -195,7 +231,8 @@
                                     <div class="row g-3">
                                         <div class="col-12 col-sm-6">
                                             <input name="Illness" type="text" class="form-control bg-white border-0"
-                                                placeholder="Your Illness" id="illness_Select" onchange="updateDoctors()" style="height: 55px;" required>
+                                                placeholder="Your Illness" id="illness_Select"
+                                                onchange="updateDoctors()" style="height: 55px;" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <select name="doctor" class="form-select bg-white border-0"
@@ -239,652 +276,170 @@
             </div>
             <!-- Appointment End -->
 
-
-            <!-- Pricing Plan Start -->
+            <!-- Premium Features Start -->
             <div class="container-fluid py-5" data-aos="fade-in">
                 <div class="container">
                     <div class="text-center mx-auto mb-5" style="max-width: 500px;">
-                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Medical Packages
-                        </h5>
-                        <h1 class="display-4">Awesome Medical Programs</h1>
+                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Premium Features</h5>
+                        <h1 class="display-4">Explore Our Premium Features</h1>
                     </div>
-                    <div class="owl-carousel price-carousel position-relative" style="padding: 0 45px 45px 45px;">
-                        <div class="bg-light rounded text-center">
-                            <div class="position-relative">
-                                <img class="img-fluid rounded-top" src="img/price-1.jpg" alt="">
-                                <div class="position-absolute w-100 h-100 top-50 start-50 translate-middle rounded-top d-flex flex-column align-items-center justify-content-center"
-                                    style="background: rgba(29, 42, 77, .8);">
-                                    <h3 class="text-white">Primary & General Care</h3>
-                                    <h1 class="display-4 text-white mb-0">
-                                        <small class="align-top fw-normal"
-                                            style="font-size: 22px; line-height: 45px;">$</small>150<small
-                                            class="align-bottom fw-normal" style="font-size: 16px; line-height: 40px;">/
-                                            Year</small>
-                                    </h1>
+                    <div class="row g-5">
+                        <!-- Advanced Video Consultation -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <!-- Front Side -->
+                                    <div class="flip-card-front service-item bg-light rounded">
+                                        <div class="service-icon mb-4">
+                                            <i class="fa fa-2x fa-stethoscope text-white"></i>
+                                        </div>
+                                        <h4 class="mb-3">Advanced Video Consultation</h4>
+                                        <p class="m-0">High-quality, HIPAA-compliant video conferencing with
+                                            multi-party support for patients, doctors, specialists, or family.</p>
+                                        <a class="btn btn-lg btn-primary rounded-pill mt-3" href="/appointment">
+                                            <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                    <!-- Back Side -->
+                                    <div class="flip-card-back">
+                                        <h5>Your Health First</h5>
+                                        <p>Premium enables you meet with mutiple doctor in a single meeting</p>
+                                        <a class="btn btn-light2 btn-sm mt-2" href="/appointment">Book Now</a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="text-center py-5">
-                                <p> Preventive Medicine</p>
-                                <p> Public Health</p>
-                                <p> General Surgery</p>
-                                <p> Occupational Medicine</p>
-                                <p> Emergency Medicine</p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 my-2">Apply Now</a>
-                            </div>
                         </div>
-                        <div class="bg-light rounded text-center">
-                            <div class="position-relative">
-                                <img class="img-fluid rounded-top" src="img/price-2.jpg" alt="">
-                                <div class="position-absolute w-100 h-100 top-50 start-50 translate-middle rounded-top d-flex flex-column align-items-center justify-content-center"
-                                    style="background: rgba(29, 42, 77, .8);">
-                                    <h3 class="text-white">Mental Health</h3>
-                                    <h1 class="display-4 text-white mb-0">
-                                        <small class="align-top fw-normal"
-                                            style="font-size: 22px; line-height: 45px;">$</small>250<small
-                                            class="align-bottom fw-normal" style="font-size: 16px; line-height: 40px;">/
-                                            Year</small>
-                                    </h1>
+
+                        <!-- AI Health Assistant -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <!-- Front Side -->
+                                    <div class="flip-card-front service-item bg-light rounded">
+                                        <div class="service-icon mb-4">
+                                            <i class="fa fa-2x fa-brain text-white"></i>
+                                        </div>
+                                        <h4 class="mb-3">AI Health Assistant</h4>
+                                        <p class="m-0">Get personalized health advice and preliminary diagnoses
+                                            with our AI-powered assistant.</p>
+                                        <a class="btn btn-lg btn-primary rounded-pill mt-3" href="/appointment">
+                                            <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                    <!-- Back Side -->
+                                    <div class="flip-card-back">
+                                        <h5>Health Matters</h5>
+                                        <p>Leverage the power of our resourceful ai triage in getting personalized diagnoses</p>
+                                        <a class="btn btn-light2 btn-sm mt-2" href="/appointment">Get Support</a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="text-center py-5">
-                               <p>Addiction Medicine</p>
-                                <p>Psychiatry </p>
-                                <p>Psychology</p>
-                                <p>Psychiatric Nursing</p>
-                                <p>Social Work <p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 my-2">Apply Now</a>
-                            </div>
                         </div>
-                        <div class="bg-light rounded text-center">
-                            <div class="position-relative">
-                                <img class="img-fluid rounded-top" src="img/price-3.jpg" alt="">
-                                <div class="position-absolute w-100 h-100 top-50 start-50 translate-middle rounded-top d-flex flex-column align-items-center justify-content-center"
-                                    style="background: rgba(29, 42, 77, .8);">
-                                    <h3 class="text-white">Women's Health</h3>
-                                    <h1 class="display-4 text-white mb-0">
-                                        <small class="align-top fw-normal"
-                                            style="font-size: 22px; line-height: 45px;">$</small>300<small
-                                            class="align-bottom fw-normal" style="font-size: 16px; line-height: 40px;">/
-                                            Year</small>
-                                    </h1>
+
+                        <!-- Home Appointments -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="flip-card">
+                                <div class="flip-card-inner">
+                                    <!-- Front Side -->
+                                    <div class="flip-card-front service-item bg-light rounded">
+                                        <div class="service-icon mb-4">
+                                            <i class="fa fa-2x fa-heartbeat text-white"></i>
+                                        </div>
+                                        <h4 class="mb-3">Home Appointments</h4>
+                                        <p class="m-0">Schedule in-person visits from healthcare professionals to
+                                            your home.</p>
+                                        <a class="btn btn-lg btn-primary rounded-pill mt-3" href="/appointment">
+                                            <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                    <!-- Back Side -->
+                                    <div class="flip-card-back">
+                                        <h5>Priorize Your Health</h5>
+                                        <p>Get medical care from your most trusted practitioner directly in your home
+                                        </p>
+                                        <a class="btn btn-light2 btn-sm mt-2" href="/appointment">Start Now</a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="text-center py-5">
-                                <p>Obstetrics and Gynecology</p>
-                                <p>Gynecologic Oncology</p>
-                                <p>Maternal-Fetal Medicine</p> 
-                                <p>Reproductive Endocrinology</p>
-                                <p>Urogynecology</p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 my-2">Apply Now</a>
-                            </div>
                         </div>
-                        <div class="bg-light rounded text-center">
-                            <div class="position-relative">
-                                <img class="img-fluid rounded-top" src="img/price-4.jpg" alt="">
-                                <div class="position-absolute w-100 h-100 top-50 start-50 translate-middle rounded-top d-flex flex-column align-items-center justify-content-center"
-                                    style="background: rgba(29, 42, 77, .8);">
-                                    <h3 class="text-white">Children's Health </h3>
-                                    <h1 class="display-4 text-white mb-0">
-                                        <small class="align-top fw-normal"
-                                            style="font-size: 22px; line-height: 45px;">$</small>500 <small
-                                            class="align-bottom fw-normal" style="font-size: 16px; line-height: 40px;">/
-                                            Year</small>
-                                    </h1>
-                                </div>
-                            </div>
-                            <div class="text-center py-5">
-                                <p>Pediatric Cardiology</p>
-                                <p>Pediatric Neurology</p>
-                                <p>Pediatric Oncology</p>
-                                <p>Pediatric Surgery</p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 my-2">Apply Now</a>
-                            </div>
-                        </div>
-                        <div class="bg-light rounded text-center">
-                            <div class="position-relative">
-                                <img class="img-fluid rounded-top" src="img/price-4.jpg" alt="">
-                                <div class="position-absolute w-100 h-100 top-50 start-50 translate-middle rounded-top d-flex flex-column align-items-center justify-content-center"
-                                    style="background: rgba(29, 42, 77, .8);">
-                                    <h3 class="text-white">Pain & Specialized Care</h3>
-                                    <h1 class="display-4 text-white mb-0">
-                                        <small class="align-top fw-normal"
-                                            style="font-size: 22px; line-height: 45px;">$</small>300 <small
-                                            class="align-bottom fw-normal" style="font-size: 16px; line-height: 40px;">/
-                                            Year</small>
-                                    </h1>
-                                </div>
-                            </div>
-                            <div class="text-center py-5">
-                                <p>Anesthesiology</p>
-                                <p>Pain Management</p>
-                                <p>Intensive Care Unit (ICU)</p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 my-2">Apply Now</a>
-                            </div>
-                        </div>
-                        <div class="bg-light rounded text-center">
-                            <div class="position-relative">
-                                <img class="img-fluid rounded-top" src="img/price-4.jpg" alt="">
-                                <div class="position-absolute w-100 h-100 top-50 start-50 translate-middle rounded-top d-flex flex-column align-items-center justify-content-center"
-                                    style="background: rgba(29, 42, 77, .8);">
-                                    <h3 class="text-white">Rehabilitation & Allied Health</h3>
-                                    <h1 class="display-4 text-white mb-0">
-                                        <small class="align-top fw-normal"
-                                            style="font-size: 22px; line-height: 45px;">$</small>300 <small
-                                            class="align-bottom fw-normal" style="font-size: 16px; line-height: 40px;">/
-                                            Year</small>
-                                    </h1>
-                                </div>
-                            </div>
-                            <div class="text-center py-5">
-                                <p>Audiology</p>
-                                <p>Chiropractic Care</p>
-                                <p>Dietetics and Nutrition</p>
-                                <p>Occupational Therapy</p>
-                                <p>Physical Therapy</p>
-                                <p>Speech Therapy</p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 my-2">Apply Now</a>
-                            </div>
-                        </div>
-                        <div class="bg-light rounded text-center">
-                            <div class="position-relative">
-                                <img class="img-fluid rounded-top" src="img/price-4.jpg" alt="">
-                                <div class="position-absolute w-100 h-100 top-50 start-50 translate-middle rounded-top d-flex flex-column align-items-center justify-content-center"
-                                    style="background: rgba(29, 42, 77, .8);">
-                                    <h3 class="text-white">Diagnostic & Laboratory Medicine</h3>
-                                    <h1 class="display-4 text-white mb-0">
-                                        <small class="align-top fw-normal"
-                                            style="font-size: 22px; line-height: 45px;">$</small>500 <small
-                                            class="align-bottom fw-normal" style="font-size: 16px; line-height: 40px;">/
-                                            Year</small>
-                                    </h1>
-                                </div>
-                            </div>
-                            <div class="text-center py-5">
-                                <p>Laboratory</p>
-                                <p>Microbiology</p>
-                                <p>Nuclear Medicine</p>
-                                <p>Pathology</p>
-                                <p>Radiology</p>
-                                <p>Virology</p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 my-2">Apply Now</a>
-                            </div>
-                        </div>
-                        <div class="bg-light rounded text-center">
-                            <div class="position-relative">
-                                <img class="img-fluid rounded-top" src="img/price-4.jpg" alt="">
-                                <div class="position-absolute w-100 h-100 top-50 start-50 translate-middle rounded-top d-flex flex-column align-items-center justify-content-center"
-                                    style="background: rgba(29, 42, 77, .8);">
-                                    <h3 class="text-white">Oncology & Cancer Care</h3>
-                                    <h1 class="display-4 text-white mb-0">
-                                        <small class="align-top fw-normal"
-                                            style="font-size: 22px; line-height: 45px;">$</small>1000 <small
-                                            class="align-bottom fw-normal" style="font-size: 16px; line-height: 40px;">/
-                                            Year</small>
-                                    </h1>
-                                </div>
-                            </div>
-                            <div class="text-center py-5">
-                                <p>Oncology</p>
-                                <p>Gynecologic Oncology</p>
-                                <p>Pediatric Oncology</p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 my-2">Apply Now</a>
-                            </div>
-                        </div>
-                        <div class="bg-light rounded text-center">
-                            <div class="position-relative">
-                                <img class="img-fluid rounded-top" src="img/price-4.jpg" alt="">
-                                <div class="position-absolute w-100 h-100 top-50 start-50 translate-middle rounded-top d-flex flex-column align-items-center justify-content-center"
-                                    style="background: rgba(29, 42, 77, .8);">
-                                    <h3 class="text-white">Surgical Specialties</h3>
-                                    <h1 class="display-4 text-white mb-0">
-                                        <small class="align-top fw-normal"
-                                            style="font-size: 22px; line-height: 45px;">$</small>1500 <small
-                                            class="align-bottom fw-normal" style="font-size: 16px; line-height: 40px;">/
-                                            Year</small>
-                                    </h1>
-                                </div>
-                            </div>
-                            <div class="text-center py-5">
-                                <p>Neurosurgery </p>
-                                <p>Gynecologic Oncology</p>
-                                <p>Orthopedic Surgery</p>
-                                <p>Otolaryngology (ENT) </p>
-                                <p>Pediatric Surgery</p>
-                                <p>Plastic Surgery</p>
-                                <p>Urogynecology</p>
-                                <p>Urology</p>
-                                <p>Vascular Surgery</p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 my-2">Apply Now</a>
-                            </div>
-                        </div>
-                        <div class="bg-light rounded text-center">
-                            <div class="position-relative">
-                                <img class="img-fluid rounded-top" src="img/price-4.jpg" alt="">
-                                <div class="position-absolute w-100 h-100 top-50 start-50 translate-middle rounded-top d-flex flex-column align-items-center justify-content-center"
-                                    style="background: rgba(29, 42, 77, .8);">
-                                    <h3 class="text-white">Internal Medicine & Subspecialties</h3>
-                                    <h1 class="display-4 text-white mb-0">
-                                        <small class="align-top fw-normal"
-                                            style="font-size: 22px; line-height: 45px;">$</small>2000 <small
-                                            class="align-bottom fw-normal" style="font-size: 16px; line-height: 40px;">/
-                                            Year</small>
-                                    </h1>
-                                </div>
-                            </div>
-                            <div class="text-center py-5">
-                                <p>Cardiology </p>
-                                <p>Endocrinology</p>
-                                <p>Gastroenterology</p>
-                                <p>Hematology</p>
-                                <p>Infectious Diseases</p>
-                                <p>Nephrology</p>
-                                <p>Neurology</p>
-                                <p>Pulmonology</p>
-                                <p>Rheumatology</p>
-                                <a href="" class="btn btn-primary rounded-pill py-3 px-5 my-2">Apply Now</a>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="text-center mt-5">
+                        <a href="/signup" class="btn btn-dark rounded-pill py-3 px-5">Go Premium Now</a>
                     </div>
                 </div>
             </div>
-            <!-- Pricing Plan End -->
-
-
-            <!-- Team Start -->
-            <div class="container-fluid py-5" data-aos="fade-in">
-                <div class="container">
-                    <div class="text-center mx-auto mb-5" style="max-width: 500px;">
-                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Our Doctors</h5>
-                        <h1 class="display-4">Qualified Healthcare Professionals</h1>
-                    </div>
-                    <div class="owl-carousel team-carousel position-relative">
-                        <div class="team-item">
-                            <div class="row g-0 bg-light rounded overflow-hidden">
-                                <div class="col-12 col-sm-5 h-100">
-                                    <img class="img-fluid h-100" src="img/team-1.jpg" style="object-fit: cover;">
-                                </div>
-                                <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                    <div class="mt-auto p-4">
-                                        <h3>Dr. John Edward</h3>
-                                        <h6 class="fw-normal fst-italic text-primary mb-4">Cardiology Specialist</h6>
-                                        <p class="m-0"><p class="m-0">Dr. John Edward is a highly experienced cardiology specialist dedicated to providing exceptional care with over 20 years of experience. </p>
-                                    </div>
-                                    <div class="d-flex mt-auto border-top p-4">
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-twitter"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i
-                                                class="fab fa-linkedin-in"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-item">
-                            <div class="row g-0 bg-light rounded overflow-hidden">
-                                <div class="col-12 col-sm-5 h-100">
-                                    <img class="img-fluid h-100" src="img/team-2.jpg" style="object-fit: cover;">
-                                </div>
-                                <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                    <div class="mt-auto p-4">
-                                        <h3>Dr. James Ambrose</h3>
-                                        <h6 class="fw-normal fst-italic text-primary mb-4">Reproductive Endocrinology</h6>
-                                        <p class="m-0">Dr. James Ambrose is a renowned reproductive endocrinology specialist with over 15 years of experience in helping patients with fertility issues and hormonal disorders.</p>
-                                    </div>
-                                    <div class="d-flex mt-auto border-top p-4">
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-twitter"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i
-                                                class="fab fa-linkedin-in"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-item">
-                            <div class="row g-0 bg-light rounded overflow-hidden">
-                                <div class="col-12 col-sm-5 h-100">
-                                    <img class="img-fluid h-100" src="img/team-3.jpg" style="object-fit: cover;">
-                                </div>
-                                <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                    <div class="mt-auto p-4">
-                                        <h3>Dr.Emily Johnson </h3>
-                                        <h6 class="fw-normal fst-italic text-primary mb-4">Pediatric Cardiology</h6>
-                                        <p class="m-0">Dr. Emily Johnson is a dedicated pediatric cardiology specialist with over 10 years of experience .</p>
-                                    </div>
-                                    <div class="d-flex mt-auto border-top p-4">
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-twitter"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i
-                                                class="fab fa-linkedin-in"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-item">
-                            <div class="row g-0 bg-light rounded overflow-hidden">
-                                <div class="col-12 col-sm-5 h-100">
-                                    <img class="img-fluid h-100" src="/img/team/team_5_2.jpg" style="object-fit: cover;">
-                                </div>
-                                <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                    <div class="mt-auto p-4">
-                                        <h3>Dr.Emily Johnson </h3>
-                                        <h6 class="fw-normal fst-italic text-primary mb-4">Addiction Medicine</h6>
-                                        <p class="m-0"></p>
-                                    </div>
-                                    <div class="d-flex mt-auto border-top p-4">
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-twitter"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i
-                                                class="fab fa-linkedin-in"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-item">
-                            <div class="row g-0 bg-light rounded overflow-hidden">
-                                <div class="col-12 col-sm-5 h-100">
-                                    <img class="img-fluid h-100" src="/img/team/team_5_6.jpg" style="object-fit: cover;">
-                                </div>
-                                <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                    <div class="mt-auto p-4">
-                                        <h3>Dr.Emily Johnson </h3>
-                                        <h6 class="fw-normal fst-italic text-primary mb-4">Anesthesiology</h6>
-                                        <p class="m-0"></p>
-                                    </div>
-                                    <div class="d-flex mt-auto border-top p-4">
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-twitter"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i
-                                                class="fab fa-linkedin-in"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-item">
-                            <div class="row g-0 bg-light rounded overflow-hidden">
-                                <div class="col-12 col-sm-5 h-100">
-                                    <img class="img-fluid h-100" src="/img/team/team_5_1.jpg" style="object-fit: cover;">
-                                </div>
-                                <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                    <div class="mt-auto p-4">
-                                        <h3>Dr.Emily Johnson </h3>
-                                        <h6 class="fw-normal fst-italic text-primary mb-4">Audiology</h6>
-                                        <p class="m-0"></p>
-                                    </div>
-                                    <div class="d-flex mt-auto border-top p-4">
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-twitter"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i
-                                                class="fab fa-linkedin-in"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-item">
-                            <div class="row g-0 bg-light rounded overflow-hidden">
-                                <div class="col-12 col-sm-5 h-100">
-                                    <img class="img-fluid h-100" src="/img/team/team_3_1.jpg" style="object-fit: cover;">
-                                </div>
-                                <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                    <div class="mt-auto p-4">
-                                        <h3>Dr.Emily Johnson </h3>
-                                        <h6 class="fw-normal fst-italic text-primary mb-4">Cardiothoracic Surgery</h6>
-                                        <p class="m-0"></p>
-                                    </div>
-                                    <div class="d-flex mt-auto border-top p-4">
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-twitter"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i
-                                                class="fab fa-linkedin-in"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-item">
-                            <div class="row g-0 bg-light rounded overflow-hidden">
-                                <div class="col-12 col-sm-5 h-100">
-                                    <img class="img-fluid h-100" src="/img/team/team_1_1.jpg" style="object-fit: cover;">
-                                </div>
-                                <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                    <div class="mt-auto p-4">
-                                        <h3>Dr.Emily Johnson </h3>
-                                        <h6 class="fw-normal fst-italic text-primary mb-4">Chiropractic Care</h6>
-                                        <p class="m-0"></p>
-                                    </div>
-                                    <div class="d-flex mt-auto border-top p-4">
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-twitter"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i
-                                                class="fab fa-linkedin-in"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-item">
-                            <div class="row g-0 bg-light rounded overflow-hidden">
-                                <div class="col-12 col-sm-5 h-100">
-                                    <img class="img-fluid h-100" src="/img/team/team_1_2.jpg" style="object-fit: cover;">
-                                </div>
-                                <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                    <div class="mt-auto p-4">
-                                        <h3>Dr.Emily Johnson </h3>
-                                        <h6 class="fw-normal fst-italic text-primary mb-4">Dermatology</h6>
-                                        <p class="m-0"></p>
-                                    </div>
-                                    <div class="d-flex mt-auto border-top p-4">
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-twitter"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i
-                                                class="fab fa-linkedin-in"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-item">
-                            <div class="row g-0 bg-light rounded overflow-hidden">
-                                <div class="col-12 col-sm-5 h-100">
-                                    <img class="img-fluid h-100" src="/img/team/team_1_3.jpg" style="object-fit: cover;">
-                                </div>
-                                <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                    <div class="mt-auto p-4">
-                                        <h3>Dr.Emily Johnson </h3>
-                                        <h6 class="fw-normal fst-italic text-primary mb-4">Dietetics and Nutrition</h6>
-                                        <p class="m-0"></p>
-                                    </div>
-                                    <div class="d-flex mt-auto border-top p-4">
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-twitter"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#"><i
-                                                class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#"><i
-                                                class="fab fa-linkedin-in"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Team End -->
-
-
-            <!-- Search Start -->
-            <div class="container-fluid bg-primary my-5 py-5" data-aos="fade-in">
-                <div class="container py-5">
-                    <div class="text-center mx-auto mb-5" style="max-width: 500px;">
-                        <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Find A Doctor</h5>
-                        <h1 class="display-4 mb-4">Find A Healthcare Professionals</h1>
-                        <h5 class="text-white fw-normal"> Select your department to view doctors</h5>
-                    </div>
-                    <div class="mx-auto" style="width: 100%; max-width: 600px;">
-                        <div class="input-group">
-                            <select class="form-select border-primary w-25" id="departmentSelect" style="height: 60px;">
-                                <%- include('partials/department') %>
-                            </select>
-                            <input type="text" id="search" class="form-control border-primary w-50" placeholder="Keyword">
-                            <button class="btn btn-dark border-0 w-25">Search</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Search End -->
 
 
             <!-- Testimonial Start -->
-            <div class="container-fluid py-5" data-aos="zoom-in">
-                <div class="container">
-                    <div class="text-center mx-auto mb-5" style="max-width: 500px;">
-                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Testimonial</h5>
-                        <h1 class="display-4">Patients Say About Our Services</h1>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <div class="owl-carousel testimonial-carousel">
-                                <div class="testimonial-item text-center">
-                                    <div class="position-relative mb-5">
-                                        <img class="img-fluid rounded-circle mx-auto" src="img/testimonial-1.jpg"
-                                            alt="">
-                                        <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle"
-                                            style="width: 60px; height: 60px;">
-                                            <i class="fa fa-quote-left fa-2x text-primary"></i>
-                                        </div>
-                                    </div>
-                                    <p class="fs-4 fw-normal">"HealingNet has been a lifesaver for me. The online platform made it so easy to book appointments, and the care I received was top-notch. Highly recommend!"  </p>
-                                    <hr class="w-25 mx-auto">
-                                    <h3> Jane Smith</h3>
-                                    <h6 class="fw-normal text-primary mb-3">Software Engineer</h6>
+            <div class="container-fluid py-5 bg-light my-3" data-aos="zoom-in">
+                            <div class="container">
+                                <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+                                    <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">
+                                        Testimonial</h5>
+                                    <h1 class="display-4">Patients Say About Our Services</h1>
                                 </div>
-                                <div class="testimonial-item text-center">
-                                    <div class="position-relative mb-5">
-                                        <img class="img-fluid rounded-circle mx-auto" src="img/testimonial-2.jpg"
-                                            alt="">
-                                        <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle"
-                                            style="width: 60px; height: 60px;">
-                                            <i class="fa fa-quote-left fa-2x text-primary"></i>
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-8">
+                                        <div class="owl-carousel testimonial-carousel">
+                                            <div class="testimonial-item text-center">
+                                                <div class="position-relative mb-5">
+                                                    <img class="img-fluid rounded-circle mx-auto"
+                                                        src="img/testimonial-1.jpg" alt="">
+                                                    <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle"
+                                                        style="width: 60px; height: 60px;">
+                                                        <i class="fa fa-quote-left fa-2x text-primary"></i>
+                                                    </div>
+                                                </div>
+                                                <p class="fs-4 fw-normal">"HealingNet has been a lifesaver for me. The
+                                                    online
+                                                    platform made it so easy to book appointments, and the care I received
+                                                    was
+                                                    top-notch. Highly recommend!" </p>
+                                                <hr class="w-25 mx-auto">
+                                                <h3> Jane Smith</h3>
+                                                <h6 class="fw-normal text-primary mb-3">Software Engineer</h6>
+                                            </div>
+                                            <div class="testimonial-item text-center">
+                                                <div class="position-relative mb-5">
+                                                    <img class="img-fluid rounded-circle mx-auto"
+                                                        src="img/testimonial-2.jpg" alt="">
+                                                    <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle"
+                                                        style="width: 60px; height: 60px;">
+                                                        <i class="fa fa-quote-left fa-2x text-primary"></i>
+                                                    </div>
+                                                </div>
+                                                <p class="fs-4 fw-normal"> "The doctors at HealingNet are incredibly
+                                                    knowledgeable
+                                                    and compassionate. I felt truly cared for and supported throughout my
+                                                    treatment."</p>
+                                                <hr class="w-25 mx-auto">
+                                                <h3>John Ben</h3>
+                                                <h6 class="fw-normal text-primary mb-3">Teacher</h6>
+                                            </div>
+                                            <div class="testimonial-item text-center">
+                                                <div class="position-relative mb-5">
+                                                    <img class="img-fluid rounded-circle mx-auto"
+                                                        src="img/testimonial-3.jpg" alt="">
+                                                    <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle"
+                                                        style="width: 60px; height: 60px;">
+                                                        <i class="fa fa-quote-left fa-2x text-primary"></i>
+                                                    </div>
+                                                </div>
+                                                <p class="fs-4 fw-normal">"I had a wonderful experience with HealingNet. The
+                                                    convenience of online scheduling and the quality of care I received were
+                                                    exceptional." </p>
+                                                <hr class="w-25 mx-auto">
+                                                <h3>Blessing James</h3>
+                                                <h6 class="fw-normal text-primary mb-3"> Graphic Designer</h6>
+                                            </div>
                                         </div>
                                     </div>
-                                    <p class="fs-4 fw-normal"> "The doctors at HealingNet are incredibly knowledgeable and compassionate. I felt truly cared for and supported throughout my treatment."</p>
-                                    <hr class="w-25 mx-auto">
-                                    <h3>John Ben</h3>
-                                    <h6 class="fw-normal text-primary mb-3">Teacher</h6>
-                                </div>
-                                <div class="testimonial-item text-center">
-                                    <div class="position-relative mb-5">
-                                        <img class="img-fluid rounded-circle mx-auto" src="img/testimonial-3.jpg"
-                                            alt="">
-                                        <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle"
-                                            style="width: 60px; height: 60px;">
-                                            <i class="fa fa-quote-left fa-2x text-primary"></i>
-                                        </div>
-                                    </div>
-                                    <p class="fs-4 fw-normal">"I had a wonderful experience with HealingNet. The convenience of online scheduling and the quality of care I received were exceptional." </p>
-                                    <hr class="w-25 mx-auto">
-                                    <h3>Blessing James</h3>
-                                    <h6 class="fw-normal text-primary mb-3"> Graphic Designer</h6>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!-- Testimonial End -->
-
-
-            <!-- Blog Start -->
-            <!-- <div class="container-fluid py-5">
-                <div class="container">
-                    <div class="text-center mx-auto mb-5" style="max-width: 500px;">
-                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Blog Post</h5>
-                        <h1 class="display-4">Our Latest Medical Blog Posts</h1>
-                    </div>
-                    <div class="row g-5">
-                        <div class="col-xl-4 col-lg-6">
-                            <div class="bg-light rounded overflow-hidden">
-                                <img class="img-fluid w-100" src="img/blog-1.jpg" alt="">
-                                <div class="p-4">
-                                    <a class="h3 d-block mb-3" href="">Dolor clita vero elitr sea stet dolor justo
-                                        diam</a>
-                                    <p class="m-0">Dolor lorem eos dolor duo et eirmod sea. Dolor sit magna
-                                        rebum clita rebum dolor stet amet justo</p>
-                                </div>
-                                <div class="d-flex justify-content-between border-top p-4">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle me-2" src="img/user.jpg" width="25" height="25"
-                                            alt="">
-                                        <small>John Doe</small>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <small class="ms-3"><i class="far fa-eye text-primary me-1"></i>12345</small>
-                                        <small class="ms-3"><i class="far fa-comment text-primary me-1"></i>123</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-6">
-                            <div class="bg-light rounded overflow-hidden">
-                                <img class="img-fluid w-100" src="img/blog-2.jpg" alt="">
-                                <div class="p-4">
-                                    <a class="h3 d-block mb-3" href="">Dolor clita vero elitr sea stet dolor justo
-                                        diam</a>
-                                    <p class="m-0">Dolor lorem eos dolor duo et eirmod sea. Dolor sit magna
-                                        rebum clita rebum dolor stet amet justo</p>
-                                </div>
-                                <div class="d-flex justify-content-between border-top p-4">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle me-2" src="img/user.jpg" width="25" height="25"
-                                            alt="">
-                                        <small>John Doe</small>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <small class="ms-3"><i class="far fa-eye text-primary me-1"></i>12345</small>
-                                        <small class="ms-3"><i class="far fa-comment text-primary me-1"></i>123</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-6">
-                            <div class="bg-light rounded overflow-hidden">
-                                <img class="img-fluid w-100" src="img/blog-3.jpg" alt="">
-                                <div class="p-4">
-                                    <a class="h3 d-block mb-3" href="">Dolor clita vero elitr sea stet dolor justo
-                                        diam</a>
-                                    <p class="m-0">Dolor lorem eos dolor duo et eirmod sea. Dolor sit magna
-                                        rebum clita rebum dolor stet amet justo</p>
-                                </div>
-                                <div class="d-flex justify-content-between border-top p-4">
-                                    <div class="d-flex align-items-center">
-                                        <img class="rounded-circle me-2" src="img/user.jpg" width="25" height="25"
-                                            alt="">
-                                        <small>John Doe</small>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <small class="ms-3"><i class="far fa-eye text-primary me-1"></i>12345</small>
-                                        <small class="ms-3"><i class="far fa-comment text-primary me-1"></i>123</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- Blog End -->
-            <%- include('partials/footer') %>
+        <%- include('partials/footer') %>
     </body>
     <script src="/js/appoint.js"></script>
+
 </html>

@@ -3361,6 +3361,16 @@ fieldset:disabled .btn {
     background-color: #f1f7fa;
     border-color: #f1f6fa
 }
+.btn-light2{
+    color: #000;
+    background-color: #EFF5F9;
+    border-color: #EFF5F9
+}
+.btn-light2:hover {
+    color: #fff;
+    background-color: #192441;
+    border-color: #17223e
+}
 
 .btn-check:focus+.btn-light,
 .btn-light:focus {
@@ -3406,6 +3416,11 @@ fieldset:disabled .btn {
     background-color: #192441;
     border-color: #17223e
 }
+.btn-color-mine:hover{
+    background-color: #192441;
+    border-color: #17223e
+}
+
 
 .btn-check:focus+.btn-dark,
 .btn-dark:focus {

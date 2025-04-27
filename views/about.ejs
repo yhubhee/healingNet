@@ -4,77 +4,154 @@
 
 <body>
     <%- include('partials/header') %>
-
-    <!-- About Start -->
-    <div class="container-fluid py-5">
+     <!-- About Start -->
+    <div class="container-fluid py-5 fade-bottom" data-aos="fade-in">
         <div class="container">
             <div class="row gx-5">
-                <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">
+                <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;" data-aos="fade-in">
                     <div class="position-relative h-100">
-                        <img class="position-absolute w-100 h-100 rounded" src="img/about.jpg" style="object-fit: cover;">
+                        <img class="position-absolute w-100 h-100 rounded" src="/img/healingnet2.webp"
+                        style="object-fit: fill;">
                     </div>
                 </div>
                 <div class="col-lg-7">
                     <div class="mb-4">
-                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">About Us</h5>
-                        <h1 class="display-4">Best Medical Care For Yourself and Your Family</h1>
+                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
+                            data-aos="fade-in">About Us
+                        </h5>
+                        <h1 class="display-4" data-aos="fade-in">Best Medical Care For Yourself and Your Family
+                        </h1>
                     </div>
                     <%- include('partials/about-p') %>
-                    <p> Whether you need a routine check-up, a consultation for a specific concern, or ongoing management of a chronic condition, HealingNet brings the doctor’s office to your home. </p>
 
-                    <div class="row g-3 pt-3">
-                        <div class="col-sm-3 col-6">
-                            <div class="bg-light text-center rounded-circle py-4">
-                                <i class="fa fa-3x fa-user-md text-primary mb-3"></i>
-                                <h6 class="mb-0">Qualified<small class="d-block text-primary">Doctors</small></h6>
+                        <div class="row g-3 pt-3">
+                            <div class="col-sm-3 col-6">
+                                <div class="bg-light text-center rounded-circle py-4">
+                                    <i class="fa fa-3x fa-user-md text-primary mb-3"></i>
+                                    <h6 class="mb-0">Qualified<small
+                                            class="d-block text-primary">Doctors</small>
+                                    </h6>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-3 col-6">
-                            <div class="bg-light text-center rounded-circle py-4">
-                                <i class="fa fa-3x fa-procedures text-primary mb-3"></i>
-                                <h6 class="mb-0">Emergency<small class="d-block text-primary">Services</small></h6>
+                            <div class="col-sm-3 col-6">
+                                <div class="bg-light text-center rounded-circle py-4">
+                                    <i class="fa fa-3x fa-video text-primary mb-3"></i>
+                                    <h6 class="mb-0">Video<small
+                                            class="d-block text-primary">
+                                            Consultation</small>
+                                    </h6>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-3 col-6">
-                            <div class="bg-light text-center rounded-circle py-4">
-                                <i class="fa fa-3x fa-microscope text-primary mb-3"></i>
-                                <h6 class="mb-0">Accurate<small class="d-block text-primary">Testing</small></h6>
+                            <div class="col-sm-3 col-6">
+                                <div class="bg-light text-center rounded-circle py-4">
+                                    <i class="fa fa-3x fa-calendar-check text-primary mb-3"></i>
+                                    <h6 class="mb-0">Regular<small class="d-block text-primary">Follow-ups</small>
+                                    </h6>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-3 col-6">
-                            <div class="bg-light text-center rounded-circle py-4">
-                                <i class="fa fa-3x fa-ambulance text-primary mb-3"></i>
-                                <h6 class="mb-0">Free<small class="d-block text-primary">Ambulance</small></h6>
+                            <div class="col-sm-3 col-6">
+                                <div class="bg-light text-center rounded-circle py-4">
+                                    <i class="fa fa-3x fa-pills text-primary mb-3"></i>
+                                    <h6 class="mb-0">Prescription
+                                        <small class="d-block text-primary">Management</small>
+                                    </h6>
+                                </div>
                             </div>
+                            <div class="col-12 text-center">
+                                <a class="btn btn-dark rounded-pill py-3 px-5" href="/about" style="margin-top: 10px;">Donate Here</a>
+                            </div> 
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- About End -->
 
-
-    <!-- Search Start -->
-    <div class="container-fluid bg-primary my-5 py-5">
-        <div class="container py-5">
+    <!-- Specialties Section Start -->
+    <div class="container-fluid py-5 bg-light" data-aos="fade-in">
+        <div class="container">
             <div class="text-center mx-auto mb-5" style="max-width: 500px;">
-                <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Find A Doctor</h5>
-                <h1 class="display-4 mb-4">Find A Healthcare Professionals</h1>
-                <h5 class="text-white fw-normal"> Select your department to view doctors</h5>
+                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Our Specialties</h5>
+                <h1 class="display-4">Comprehensive Healthcare Services</h1>
             </div>
-            <div class="mx-auto" style="width: 100%; max-width: 600px;">
-                <div class="input-group">
-                    <select class="form-select border-primary w-25" id="departmentSelect" style="height: 60px;">
-                        <%- include('partials/department') %>
-                    </select>
-                    <input type="text" id="search" class="form-control border-primary w-50" placeholder="Keyword">
-                    <button class="btn btn-dark border-0 w-25">Search</button>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="specialty-card bg-white rounded shadow-sm p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-lungs fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="text-primary mb-3">Respiratory</h4>
+                        <p class="mb-0">Cough/Cold, Asthma.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="specialty-card bg-white rounded shadow-sm p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-stethoscope fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="text-primary mb-3">Digestive</h4>
+                        <p class="mb-0">Nausea/Vomiting, Abdominal Pain.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="specialty-card bg-white rounded shadow-sm p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-allergies fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="text-primary mb-3">Skin</h4>
+                        <p class="mb-0">Allergy Rash, Cuts/Grazes, Lumps/Bumps.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="specialty-card bg-white rounded shadow-sm p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-virus fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="text-primary mb-3">Malaria</h4>
+                        <p class="mb-0">Back Pain, Joint Pain.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="specialty-card bg-white rounded shadow-sm p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-female fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="text-primary mb-3">Obstetrics/Gynaecology</h4>
+                        <p class="mb-0">Pregnancy Advice, Pelvic Pain, Pre & Post Natal Advice.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="specialty-card bg-white rounded shadow-sm p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-heartbeat fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="text-primary mb-3">Wellness</h4>
+                        <p class="mb-0">Obesity, Diet Advice, General Body Wellbeing.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="specialty-card bg-white rounded shadow-sm p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-running fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="text-primary mb-3">Musculoskeletal</h4>
+                        <p class="mb-0">Back Pain, Joint Pain, Sports Injuries.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="specialty-card bg-white rounded shadow-sm p-4 h-100 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-diagnoses fa-3x text-primary"></i>
+                        </div>
+                        <h4 class="text-primary mb-3">Chronic Disease</h4>
+                        <p class="mb-0">Typhoid, Diabetes, High Blood Pressure.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Search End -->
+    <!-- Specialties Section End -->
 
 
     <!-- Team Start -->

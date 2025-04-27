@@ -1,50 +1,38 @@
 <!-- Navbar Start -->
- <div class="container-fluid sticky-top bg-white shadow-sm">
+<div class="container-fluid sticky-top bg-white shadow-sm">
     <div class="container">
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
+            <!-- Logo and Brand -->
             <a class="navbar-brand" href="/">
                 <img src="/img/healingnet2.webp" alt="HealingNet Logo" style="height: 50px; margin-right: 10px;">
+                <h1 class="m-0 text-primary d-inline">HealingNet</h1>
             </a>
-            <h1 class="m-0 text-primary"> HealingNet</h1>
-            <!-- <a href="/" class="navbar-brand">
-                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-clinic-medical me-2"></i>HealingNet</h1>
-            </a> -->
+            <!-- Toggler for Mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <!-- Navigation Links -->
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
                     <a href="/" class="nav-item nav-link active">Home</a>
                     <a href="/about" class="nav-item nav-link">About</a>
-                    <a href="/service" class="nav-item nav-link">Service</a>
-                    <a href="/price" class="nav-item nav-link">Pricing</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Service</a>
                         <div class="dropdown-menu m-0">
-                            <!-- <a href="/blog" class="dropdown-item">Blog Grid</a> -->
-                            <!-- <a href="/detail" class="dropdown-item">Blog Detail</a> -->
-                            <a href="/team" class="dropdown-item">The Team</a>
-                            <a href="/testimonial" class="dropdown-item">Testimonial</a>
-                            <a href="/appointment" class="dropdown-item">Appointment</a>
-                            <a href="/search" class="dropdown-item">Search</a>
+                            <a href="/individuals" class="dropdown-item">Individuals</a>
+                            <a href="/student" class="dropdown-item">Students</a>
+                            <a href="/clinicians" class="dropdown-item">Clinicians</a>
                         </div>
                     </div>
-                    <a href="/contact" class="nav-link dropdown  signup-dropdown">Contact</a>
-
-                  <div class="nav-item dropdown signup-dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" id="signupDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sign Up</a>
-                        <div class="dropdown-menu m-0" aria-labelledby="signupDropdown">
-                            <a href="/signup" target="_blank" class="dropdown-item">Sign Up as Patient</a>
-                            <a href="/doctorsignup" target="_blank" class="dropdown-item">Sign Up as Doctor</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown signup-dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Log in</a>
-                        <div class="dropdown-menu m-0" aria-labelledby="loginDropdown">
-                            <a href="/login" target="_blank" class="dropdown-item">Log in as Patient</a>
-                            <a href="/doctorlogin" target="_blank" class="dropdown-item">Log in as Doctor</a>
-                        </div>
-                    </div>
+                    <a href="/price" class="nav-item nav-link">Pricing</a>
+                    <a href="/contact" class="nav-item nav-link">Contact</a>
+                    <a href="/login" class="nav-item nav-link d-flex align-items-center gap-2">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        Sign in
+                    </a>
+                    <div class="menu_nav"> <a href="/signup" class=" btn btn-primary rounded-pill py-3 px-3">
+                            Get Started
+                        </a> </div>
                 </div>
             </div>
         </nav>

@@ -6,15 +6,24 @@ const { doctorvalidateTokens } = require('../middlewares/authdoctor');
 const { validatePasswordResetToken } = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
 const { symptoms} = require('../controllers/symptomChecker');
-const { render } = require('ejs');
 
 
 router.get('/about', (req, res) => {
     res.render('about');
 });
-router.get('/service', (req, res) => {
-    res.render('service');
+router.get('/individuals', (req, res) => {
+    res.render('individuals');
 });
+router.get('/family', (req, res) => {
+    res.render('family');
+});
+router.get('/student', (req, res) => {
+    res.render('student');
+});
+router.get('/clinicians', (req, res) => {
+    res.render('clinicians');
+});
+
 // router.get('/service-details', (req, res) => {
 //     res.render('service-details');
 // });

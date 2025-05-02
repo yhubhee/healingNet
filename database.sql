@@ -57,7 +57,6 @@ create database hospital_new; -- Your database name
 -- email varchar(100),
 -- password varchar(200),
 -- status varchar (50),
--- gender varchar(30)
 -- );
 
 

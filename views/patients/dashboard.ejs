@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/head') %>
+    <link href="/css/dashboard.css" rel="stylesheet">
+</head>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var defaultMainContent = document.querySelector(".main-content").innerHTML;
+
+    // Function to reinitialize Bootstrap dropdowns
+    function initializeDropdowns() {
+        document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(dropdownToggle => {
+            const clone = dropdownToggle.cloneNode(true);
+            dropdownToggle.parentNode.replaceChild(clone, dropdownToggle);
+            new bootstrap.Dropdown(clone);
+        });
+    }
+
+    document.querySelectorAll(".load-content").forEach(function (link) {
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+            let url = this.getAttribute("data-url");
+
+            if (url === "/patients/dashboard") {
+                document.querySelector(".main-content").innerHTML = defaultMainContent;
+                initializeDropdowns();
+            } else {
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        const mainContent = document.querySelector(".main-content");
+                        mainContent.innerHTML = html;
+
+                        // Re-run inline scripts in the loaded content
+                        mainContent.querySelectorAll("script:not([src])").forEach(script => {
+                            const newScript = document.createElement("script");
+                            newScript.text = script.textContent;
+                            document.body.appendChild(newScript);
+                            document.body.removeChild(newScript);
+                        });
+
+                        // Re-run external scripts if needed (e.g., Bootstrap)
+                        const existingBootstrap = document.querySelector('script[src*="bootstrap"]');
+                        if (!existingBootstrap) {
+                            const bootstrapScript = document.createElement("script");
+                            bootstrapScript.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js";
+                            bootstrapScript.async = true;
+                            document.body.appendChild(bootstrapScript);
+                        }
+
+                        // Reinitialize dropdowns after content load
+                        setTimeout(initializeDropdowns, 0);
+                    })
+                    .catch(error => console.error("Error loading page:", error));
+            }
+        });
+    });
+
+    // Initialize dropdowns on initial page load
+    initializeDropdowns();
+});
+
+</script>
+
+<body>
+  <!-- Top Navigation Bar -->
+  <div class="container-fluid sticky-top bg-white shadow-sm">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
+        <a class="navbar-brand" href="/">
+          <img src="/img/healingnet2.webp" alt="HealingNet Logo" style="height: 50px; margin-right: 10px;">
+        </a>
+        <!-- Display the title on medium and larger screens -->
+        <h1 class="m-0 text-primary d-none d-lg-block">HealingNet</h1>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+          aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item me-3">
+              <a class="nav-link" href="#">
+                <i class="fas fa-bell"></i> Notifications
+              </a>
+            </li>
+            <li class="nav-item dropdown signup-dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <img src="/img/avatar.jpg" alt="Profile" class="rounded-circle" width="30" height="30">
+                <%= firstname %>
+                <%= lastname %>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                <li><a class="dropdown-item load-content" href="#" data-url="/patients/profile">My Profile</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+
+                <li>
+                  <a class="dropdown-item load-content" aria-current="page" href="#" data-url="/patients/dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item load-content" href="#" data-url="/patients/booked-appointment">
+                    <i class="fas fa-calendar-check"></i> Appointments
+                  </a>
+                </li>
+                <!-- <li>
+                  <a class="dropdown-item load-content" href="#" data-url="/home-appointment">
+                    <i class="fas fa-calendar-check"></i> Home Appointments
+                  </a>
+                </li> -->
+                <li>
+                  <a class="dropdown-item load-content" href="#" data-url="/patients/medical-records">
+                    <i class="fas fa-notes-medical"></i> Medical Records
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item load-content" href="#" data-url="/patients/prescriptions">
+                    <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item load-content" href="#" data-url="/patients/billing">
+                    <i class="fas fa-wallet"></i> Billing
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/patients/settings">
+                    <i class="fas fa-cogs"></i> Settings
+                  </a>
+                </li>
+
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="/patients/logout">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- Navbar End -->
+    </div>
+  </div>
+
+  <!-- Dashboard Container -->
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar Navigation -->
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="position-sticky pt-3">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link  load-content" aria-current="page" href="#" data-url="/patients/dashboard">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link load-content" href="#" data-url="/patients/booked-appointment">
+                <i class="fas fa-calendar-check"></i> Appointments
+              </a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link load-content" href="#" data-url="/home-appointment">
+                <i class="fas fa-calendar-check"></i> Home Appointments
+              </a>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link load-content" href="#" data-url="/patients/medical-records">
+                <i class="fas fa-notes-medical"></i> Medical Records
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link load-content" href="#" data-url="/patients/prescriptions">
+                <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link load-content" href="#" data-url="/patients/billing">
+                <i class="fas fa-wallet"></i> Billing
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/patients/settings">
+                <i class="fas fa-cogs"></i> Settings
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main Dashboard Content -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 main-content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+          <h1 class="h2" id="time"><%= firstname %> <%= lastname %></h1> 
+          
+         
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+              <button class="btn btn-sm btn-outline-secondary">Share</button>
+              <button class="btn btn-sm btn-outline-secondary">Export</button>
+            </div>
+            <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+              <i class="fas fa-calendar"></i> This Week
+            </button>
+          </div>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="row">
+          <!-- Upcoming Appointments Card -->
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-header">Upcoming Appointments</div>
+              <div class="card-body">
+                <p class="card-text">You have <%= appointmentsNumber %> appointment scheduled for today.</p>
+                <!-- <a href="#" class="btn btn-primary btn-sm">View Details</a> -->
+                <a class="btn btn-primary btn-sm load-content" aria-current="page" href="#"
+                  data-url="/booked-appointment"> View Details</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Medical Records Card -->
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-header">Medical Records</div>
+              <div class="card-body">
+                <p class="card-text">New lab results are now available.</p>
+                <a href="#" class="btn btn-secondary btn-sm">View Records</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Prescriptions Card -->
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-header">Prescriptions</div>
+              <div class="card-body">
+                <p class="card-text">Your prescription has been updated.</p>
+                <a href="#" class="btn btn-info btn-sm text-white">View Prescriptions</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Billing Information Card -->
+          <div class="col-md-6 col-lg-6 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-header">Billing Information</div>
+              <div class="card-body">
+                <p class="card-text">Your last payment was on 5th Feb 2025.</p>
+                <a href="#" class="btn btn-warning btn-sm">View Billing</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Health Tips / Announcements Card -->
+          <div class="col-md-6 col-lg-6 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-header">Health Tips & Announcements</div>
+              <div class="card-body">
+                <p class="card-text">Remember to stay hydrated and maintain a balanced diet.</p>
+                <a href="#" class="btn btn-success btn-sm">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <!-- JavaScript Libraries -->
+  <%- include('../partials/footer') %>
+  <Script>
+    const time = document.getElementById('time');  
+    let greetings = "";
+
+    const d = new Date();  
+    const hours = d.getHours();  
+
+    if ((hours >= 0) && (hours < 12)) {  
+    greetings = "Good Morning, ";  
+    } else if ((hours >= 12) && (hours < 18)) {  
+    greetings = "Good Afternoon, ";
+    } else if ((hours >= 18) && (hours < 22)) {  
+    greetings = "Good Evening, ";  
+    } else {  
+    greetings = "Good Night, ";    
+    }  
+
+    const name = time.textContent;  
+    time.textContent = greetings + name;  
+    console.log(time);  
+  </script>
+</body>
+
+</html>
+
+<!-- toLocaleTimeString() -->

@@ -1,25 +1,8 @@
-  body {
-    font-family: 'Roboto', sans-serif;
-  }
+
 
   .sidebar {
     height: 100vh;
     overflow-y: auto;
-  }
-
-  .nav-link.active {
-    background-color: #f8f9fa;
-    font-weight: bold;
-  }
-
-  .card-header {
-    font-weight: bold;
-  }
-
-  /* Custom styling (if needed) */
-  .navbar-brand img {
-    height: 50px;
-    margin-right: 10px;
   }
 
   /* Optionally hide the HealingNet title on small screens */

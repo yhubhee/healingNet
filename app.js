@@ -26,7 +26,7 @@ app.use('/', pagesRoutes);
 app.use('/auth', require('./routes/auth'));
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('ui/index');
 });
 app.get('/patients', (req, res) => {
     const sql = 'SELECT * FROM patients';

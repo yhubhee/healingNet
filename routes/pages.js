@@ -1,24 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../database');
+const {Admin_validate_Tokens} = require('../middlewares/admin_auth')
 const { validateTokens } = require('../middlewares/auth');
 const { doctorvalidateTokens } = require('../middlewares/authdoctor');
 const { validatePasswordResetToken } = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
 const { symptoms} = require('../controllers/symptomChecker');
 
-
-router.get('/about', (req, res) => {
-    res.render('about');
+// BASIC UI SECTION
+router.get('/ui/about', (req, res) => {
+    res.render('ui/about');
 });
-router.get('/individuals', (req, res) => {
-    res.render('individuals');
+router.get('/ui/individuals', (req, res) => {
+    res.render('ui/individuals');
 });
-router.get('/family', (req, res) => {
-    res.render('family');
-});
-router.get('/student', (req, res) => {
-    res.render('student');
+router.get('/ui/student', (req, res) => {
+    res.render('ui/student');
 });
 router.get('/clinicians', (req, res) => {
     res.render('clinicians');
@@ -27,50 +25,47 @@ router.get('/clinicians', (req, res) => {
 // router.get('/service-details', (req, res) => {
 //     res.render('service-details');
 // });
-router.get('/price', (req, res) => {
-    res.render('price');
+router.get('/ui/price', (req, res) => {
+    res.render('ui/price');
 });
-router.get('/testimonial', (req, res) => {
-    res.render('testimonial');
+router.get('/ui/testimonial', (req, res) => {
+    res.render('ui/testimonial');
 });
-router.get('/contact', (req, res) => {
-    res.render('contact');
+router.get('/ui/contact', (req, res) => {
+    res.render('ui/contact');
 });
 // router.get('/blog', (req, res) => {
 //     res.render('blog');
 // });
-// router.get('/detail', (req, res) => {
-//     res.render('detail');
+router.get('/ui/detail', (req, res) => {
+    res.render('ui/detail');
+});
+// router.get('/ui/team', (req, res) => {
+//     res.render('ui/team');
 // });
-router.get('/team', (req, res) => {
-    res.render('team');
+router.get('/ui/search', (req, res) => {
+    res.render('ui/search');
 });
-router.get('/search', (req, res) => {
-    res.render('search');
+router.get('/ui/signup', (req, res) => {
+    res.render('ui/signup');
 });
-router.get('/logout', (req, res) => {
-    res.render('login')
-})
-router.get('/features', (req, res) => {
-    res.render('features');
+router.get('/ui/login', (req, res) => {
+    res.render('ui/login');
 });
-router.get('/signup', (req, res) => {
-    res.render('signup');
+router.get('/ui/appointment', (req, res) => {
+    res.render('ui/appointment');
 });
-router.get('/login', (req, res) => {
-    res.render('login');
+router.get('/ui/homeappointment', (req, res) => {
+    res.render('ui/homeappointment');
 });
-router.get('/appointment', (req, res) => {
-    res.render('appointment');
+router.get('/ui/premuim', (req, res) => {
+    res.render('ui/premuim');
 });
-router.get('/homeappointment', (req, res) => {
-    res.render('homeappointment');
-});
-router.get('/forgot_pass', (req, res) => {
-    res.render('forgot_pass');   
+router.get('/ui/forgot_pass', (req, res) => {
+    res.render('ui/forgot_pass');   
 });
 // console.log('Symptoms:', symptoms)
-router.get('/symptom_checker', (req, res) => {
+router.get('/ui/symptom_checker', (req, res) => {
     const allSymptoms = new Set();
 
     Object.keys(symptoms).forEach(department => {
@@ -103,22 +98,37 @@ router.get('/symptom_checker', (req, res) => {
     });
 
     const symptomList = Array.from(allSymptoms).sort();
-    res.render('symptom_checker', {
+    res.render('ui/symptom_checker', {
         symptomList: symptomList,
         // error: null
     });
 });
-router.get('/symptom_results', (req, res)=>{
-    res.render('symptom_results')
+router.get('/ui/symptom_results', (req, res)=>{
+    res.render('ui/symptom_results')
 });
-router.get('/reset_pass', validatePasswordResetToken, (req, res) => {
+router.get('/ui/reset_pass', validatePasswordResetToken, (req, res) => {
     const token = req.query.token;
     if (!token) {
         return res.render('forgot_pass', { error: 'Missing reset token' });
     }
-    res.render('reset_pass', { token: token });
+    res.render('ui/reset_pass', { token: token });
 });
-router.get('/profile', validateTokens, (req, res) => {
+
+// Student Section
+router.get('/student/student', (req, res) =>{
+    res.render('student/student')
+})
+router.get('/student/student_signup', (req, res) =>{
+    res.render('student/student_signup')
+})
+router.get('/student/student_login', (req, res) =>{
+    res.render('student/student_login')
+})
+// Patients Section
+router.get('/patients/logout', (req, res) => {
+    res.render('ui/login')
+})
+router.get('/patients/profile', validateTokens, (req, res) => {
     const { patient_id } = req.user; // Access the attached names and user_id
     const sql = `
        select firstname, lastname, phone, email, date_joined, date_of_birth, gender, address, medical_history, medical_record_upload, emergency_contact, marital_status, chronic_conditions, next_of_kin from patients WHERE patient_id = ? ;
@@ -134,13 +144,13 @@ router.get('/profile', validateTokens, (req, res) => {
                 console.error('Database query error:', err);
                 return res.status(500).send('Failed to fetch your details');
             }
-            res.render('profile', {
+            res.render('patients/profile', {
                 patient: results || []
             });
         });
     });
 });
-router.get('/settings', validateTokens, (req, res) => {
+router.get('/patients/settings', validateTokens, (req, res) => {
     const { patient_id } = req.user; // Access the attached names and user_id
     const sql = `
        select firstname, lastname, phone, email, date_joined, date_of_birth, gender, address from patients WHERE patient_id = ? ;
@@ -156,14 +166,14 @@ router.get('/settings', validateTokens, (req, res) => {
                 console.error('Database query error:', err);
                 return res.status(500).send('Failed to fetch your details');
             }
-            res.render('settings', {
+            res.render('patients/settings', {
                 patient: results || []
             });
         });
     });
 });
 
-router.get('/booked-appointment', validateTokens, (req, res) => {
+router.get('/patients/booked-appointment', validateTokens, (req, res) => {
     const { firstname, lastname, patient_id } = req.user; // Access the attached names and user_id
     const sql = `
        select a.doctor, d.department, d.specialty, a.fullname, a.appointment_date, a.appointment_time, d.email,a.appointment_id, a.doctor_id, a.status from appointment a join doctors d on a.doctor_id = d.doctor_id WHERE patient_id = ? ;
@@ -180,7 +190,7 @@ router.get('/booked-appointment', validateTokens, (req, res) => {
                 console.error('Database query error:', err);
                 return res.status(500).send('Failed to fetch appointments');
             }
-            res.render('booked-appointment', {
+            res.render('patients/booked-appointment', {
                 firstname,
                 lastname,
                 appointments: results || []
@@ -189,7 +199,7 @@ router.get('/booked-appointment', validateTokens, (req, res) => {
     });
 });
 
-router.get('/dashboard', validateTokens, (req, res) => {
+router.get('/patients/dashboard', validateTokens, (req, res) => {
     const { firstname, lastname, patient_id } = req.user; // Access the attached names
     const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ?';
 
@@ -200,7 +210,7 @@ router.get('/dashboard', validateTokens, (req, res) => {
         }
         
         const appointmentsNumber = results[0].count;
-        res.render('dashboard', {
+        res.render('patients/dashboard', {
             firstname,
             lastname,
             appointmentsNumber,
@@ -208,6 +218,8 @@ router.get('/dashboard', validateTokens, (req, res) => {
         });
     });
 });
+
+
 // Route to handle AJAX request for doctors
 router.get('/getDoctors', (req, res) => {
     // Extract the 'department' query parameter from the request URL
@@ -242,11 +254,11 @@ router.post('/cancel-appointment', (req, res) => {
 
 
 // Doctor Section
-router.get('/doctorsignup', (req, res) => {
-    res.render('doctorsignup');
+router.get('/doctor/doctorsignup', (req, res) => {
+    res.render('doctor/doctorsignup');
 });
-router.get('/doctorlogin', (req, res) => {
-    res.render('doctorlogin');
+router.get('/doctor/doctorlogin', (req, res) => {
+    res.render('doctor/doctorlogin');
 });
 router.get('/doctorlogout', (req, res) => {
     res.render('doctorlogin')
@@ -254,16 +266,16 @@ router.get('/doctorlogout', (req, res) => {
 router.get('/schedule', (req, res) => {
     res.render('schedule')
 })
-// Password reset
-router.get('/Doc_forgot_pass', (req, res) => {
-    res.render('Doc_forgot_pass');
+// Doctor Password reset
+router.get('/doctor/Doc_forgot_pass', (req, res) => {
+    res.render('doctor/Doc_forgot_pass');
 });
-router.get('/Doc_reset_pass', validateDoctor_reset_secret, (req, res) => {
+router.get('/doctor/Doc_reset_pass', validateDoctor_reset_secret, (req, res) => {
     const token = req.query.token;
     if (!token) {
         return res.render('Doc_forgot_pass');
     }
-    res.render('Doc_reset_pass', { token: token });
+    res.render('doctor/Doc_reset_pass', { token: token });
 });
 router.get('/doc_patients', doctorvalidateTokens, (req, res) => {
     const { doctor_id } = req.user;
@@ -329,5 +341,30 @@ router.get('/doc_appointment', doctorvalidateTokens, (req, res) => {
     });
 });
 
+// Admin Section
+router.get('/admin/admin_dashboard', Admin_validate_Tokens, (req, res) => {
+    const { firstname, lastname, admin_id } = req.user; // Access the attached names?';
+
+    db.query(admin_id , (err, results) => {
+        if (err) {
+            console.error('Database query error:', err);
+        }
+        res.render('admin/admin_dashboard', {
+            firstname,
+            lastname,
+            
+        });
+    });
+});
+
+router.get('/admin/admin_signup', (req, res) => {
+    res.render('admin/admin_signup');
+});
+router.get('/admin/admin_login', (req, res) => {
+    res.render('admin/admin_login');
+});
+router.get('/admin/add_doctor', (req, res) => {
+    res.render('admin/add_doctor');
+});
 module.exports = router;
 

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head') %>
+<%- include('../partials/head') %>
     <title>HealingNet - Trusted Telemedicine Platform for Online Consultations and Health Resources</title>
 
     <body>
-        <%- include('partials/header') %>
+        <%- include('../partials/header') %>
             <!-- Hero Start -->
             <div class="container-fluid bg-primary py-5 mb-5 hero-header">
                 <div class="container py-5">
@@ -14,13 +14,13 @@
                                 style="border-color: rgba(256, 256, 256, .3) !important;">Welcome To HealingNet</h5>
                             <h1 class="display-1 text-white mb-md-4">Best Healthcare Solution In Your City</h1>
                             <div class="pt-2">
-                                <a href="/about" class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2">Find
+                                <a href="/ui/search" class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2">Find
                                     Doctor</a>
-                                <a href="/appointment"
+                                <a href="/ui/appointment"
                                     class="btn btn-outline-light rounded-pill py-md-3 px-md-5 mx-2 blue">Appointment</a>
-                                <a href="/homeappointment"
+                                <a href="/ui/premuim"
                                     class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2 home_app"
-                                    style="margin-top: 10px;">Home Appointment</a>
+                                    style="margin-top: 10px;">Go Premium</a>
                             </div>
                         </div>
                     </div>
@@ -47,46 +47,45 @@
                                 <h1 class="display-4" data-aos="fade-in">Best Medical Care For Yourself and Your Family
                                 </h1>
                             </div>
-                            <%- include('partials/about-p') %>
+                            <%- include('../partials/about-p') %>
 
-                                <div class="row g-3 pt-3">
-                                    <div class="col-sm-3 col-6">
-                                        <div class="bg-light text-center rounded-circle py-4">
-                                            <i class="fa fa-3x fa-user-md text-primary mb-3"></i>
-                                            <h6 class="mb-0">Qualified<small
-                                                    class="d-block text-primary">Doctors</small>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 col-6">
-                                        <div class="bg-light text-center rounded-circle py-4">
-                                            <i class="fa fa-3x fa-video text-primary mb-3"></i>
-                                            <h6 class="mb-0">Video<small class="d-block text-primary">
-                                                    Consultation</small>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 col-6">
-                                        <div class="bg-light text-center rounded-circle py-4">
-                                            <i class="fa fa-3x fa-calendar-check text-primary mb-3"></i>
-                                            <h6 class="mb-0">Regular<small
-                                                    class="d-block text-primary">Follow-ups</small>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 col-6">
-                                        <div class="bg-light text-center rounded-circle py-4">
-                                            <i class="fa fa-3x fa-pills text-primary mb-3"></i>
-                                            <h6 class="mb-0">Prescription
-                                                <small class="d-block text-primary">Management</small>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 text-center">
-                                        <a class="btn btn-dark rounded-pill py-3 px-5" href="/about"
-                                            style="margin-top: 10px;">About Us</a>
+                            <div class="row g-3 pt-3">
+                                <div class="col-sm-3 col-6">
+                                    <div class="specialty-card bg-light text-center rounded-circle py-4">
+                                        <i class="fa fa-3x fa-user-md text-primary mb-3"></i>
+                                        <h6 class="mb-0">Qualified<small
+                                                class="d-block text-primary">Doctors</small>
+                                        </h6>
                                     </div>
                                 </div>
+                                <div class="col-sm-3 col-6">
+                                    <div class="specialty-card bg-light text-center rounded-circle py-4">
+                                        <i class="fa fa-3x fa-video text-primary mb-3"></i>
+                                        <h6 class="mb-0">Video<small
+                                                class="d-block text-primary">
+                                                Consultation</small>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-6">
+                                    <div class="specialty-card bg-light text-center rounded-circle py-4">
+                                        <i class="fa fa-3x fa-calendar-check text-primary mb-3"></i>
+                                        <h6 class="mb-0">Regular<small class="d-block text-primary">Follow-ups</small>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-6">
+                                    <div class="specialty-card bg-light text-center rounded-circle py-4">
+                                        <i class="fa fa-3x fa-pills text-primary mb-3"></i>
+                                        <h6 class="mb-0">Prescription
+                                            <small class="d-block text-primary">Management</small>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <a class="btn btn-dark rounded-pill py-3 px-5" href="/ui/about" style="margin-top: 10px;">Donate Here</a>
+                                </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,20 +100,24 @@
                         <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Services</h5>
                         <h1 class="display-4">Excellent Medical Services</h1>
                     </div>
-                    <div class="d-flex justify-content-around mb-3">
-                        <div id="div1" class="mb-3 btn btn-dark rounded-pill py-3">
-                            <h4 class="text-primary"> Individuals </h4>
+                    <div class="d-flex flex-wrap justify-content-center gap-3 mb-3">
+                        <div id="div1" class="btn btn-dark rounded-pill py-3 px-4 text-center">
+                            <h5 class="text-primary mb-0">Individuals</h5>
                         </div>
-                        <div id="div2" class="mb-3 btn-color-mine btn rounded-pill py-3">
-                            <h4 class="text-primary">Family </h4>
+                        <div id="div2" class="btn btn-color-mine rounded-pill py-3 px-4 text-center">
+                            <h5 class="text-primary mb-0">Family</h5>
                         </div>
-                        <div id="div3" class="mb-3 btn-color-mine btn rounded-pill py-3">
-                            <h4 class="text-primary"> Student </h4>
+                        <div id="div3" class="btn btn-color-mine rounded-pill py-3 px-4 text-center">
+                            <h5 class="text-primary mb-0">Student</h5>
                         </div>
-                        <!-- <div id="div4" class="mb-3 btn-color-mine btn rounded-pill py-3">
-                            <h4 class="text-primary"> Clinicians </h4>
-                        </div> -->
+                        <div id="div4" class="btn btn-color-mine rounded-pill py-3 px-4 text-center">
+                            <h5 class="text-primary mb-0">Clinicians</h5>
+                        </div>
+                        <div id="div5" class="btn btn-color-mine rounded-pill py-3 px-4 text-center">
+                            <h5 class="text-primary mb-0">Organisations</h5>
+                        </div>
                     </div>
+                    
                     <hr>
                     <div id="div1_con" class="row gx-5 my-5">
                         <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;" data-aos="fade-in">
@@ -138,7 +141,7 @@
                                 your own space.
                             </p>
                             <div class="col-lg-6 mb-5 mb-lg-0">
-                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/individuals"
+                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/ui/individuals"
                                     style="margin-top: 10px;">Read More</a>
                             </div>
                         </div>
@@ -166,7 +169,7 @@
                                 experienced healthcare professionals are dedicated to providing personalized care for
                                 individuals of all ages, from infants to seniors.</p>
                             <div class="col-lg-6 mb-5 mb-lg-0">
-                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/individuals"
+                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/ui/individuals"
                                     style="margin-top: 10px;">Read More</a>
                             </div>
                         </div>
@@ -194,7 +197,35 @@
                                 schedule appointments, access medical advice, and receive the care they need to thrive
                                 academically and personally. </p>
                             <div class="col-lg-6 mb-5 mb-lg-0">
-                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/students"
+                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/student/student"
+                                    style="margin-top: 10px;">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="div4_con" class="row gx-5 my-5" style="display: none;">
+                        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;" data-aos="fade-in">
+                            <div class="position-relative h-100">
+                                <img class="position-absolute w-100 h-100 rounded" src="/img/clinicians.jpg"
+                                    style="object-fit: fill;">
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="mb-4">
+                                <div class="alert-container2">
+                                    <div class="alert alert-danger">
+                                        <p> Coming Soon</p>
+                                    </div>
+                                </div>
+                                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
+                                    data-aos="fade-in">Clinicians
+                                </h5>
+                                <h1 class="display-4" data-aos="fade-in">Best Medical Care For Clinicians
+                                </h1>
+                            </div>
+                            <p class="mb-4" data-aos="fade-in">HealingNet provides </p>
+                            <div class="col-lg-6 mb-5 mb-lg-0">
+                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/student/student"
                                     style="margin-top: 10px;">Read More</a>
                             </div>
                         </div>
@@ -220,8 +251,8 @@
                                 ensuring that you can access the care you need without the hassle of traditional office
                                 visits.
                             </p>
-                            <a class="btn btn-dark rounded-pill py-3 px-5 me-3" href="/search">Find Doctor</a>
-                            <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/appointment"
+                            <a class="btn btn-dark rounded-pill py-3 px-5 me-3" href="/ui/search">Find Doctor</a>
+                            <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/ui/appointment"
                                 style="margin-top: 10px;">Read More</a>
                         </div>
                         <div class="col-lg-6">
@@ -280,7 +311,8 @@
             <div class="container-fluid py-5" data-aos="fade-in">
                 <div class="container">
                     <div class="text-center mx-auto mb-5" style="max-width: 500px;">
-                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Premium Features</h5>
+                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Premium Features
+                        </h5>
                         <h1 class="display-4">Explore Our Premium Features</h1>
                     </div>
                     <div class="row g-5">
@@ -327,9 +359,10 @@
                                         </a>
                                     </div>
                                     <!-- Back Side -->
-                                    <div class="flip-card-back">
+                                    <div class="flip-card-back premium">
                                         <h5>Health Matters</h5>
-                                        <p>Leverage the power of our resourceful ai triage in getting personalized diagnoses</p>
+                                        <p style="color:#1D2A4D;">Leverage the power of our resourceful ai triage in getting personalized
+                                            diagnoses</p>
                                         <a class="btn btn-light2 btn-sm mt-2" href="/appointment">Get Support</a>
                                     </div>
                                 </div>
@@ -364,82 +397,142 @@
                         </div>
                     </div>
                     <div class="text-center mt-5">
-                        <a href="/signup" class="btn btn-dark rounded-pill py-3 px-5">Go Premium Now</a>
+                        <a href="/ui/premuim" class="btn btn-dark rounded-pill py-3 px-5">Go Premium Now</a>
                     </div>
                 </div>
             </div>
 
+   <!-- Donations Section Start -->
+<div class="container-fluid py-5 fade-bottom" data-aos="fade-in">
+    <div class="container">
+      <div class="row gx-5 align-items-center">
+        
+        <!-- Image Column -->
+        <div class="col-lg-5 mb-5 mb-lg-0">
+          <div class="position-relative h-100">
+            <img 
+              src="/img/donate.jpg" 
+              alt="Support HealingNet" 
+              class="position-absolute w-100 h-100 rounded" 
+              style="object-fit: cover;"
+            >
+          </div>
+        </div>
+  
+        <!-- Content Column -->
+        <div class="col-lg-7">
+          <div class="mb-4">
+            <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">
+              Support Us
+            </h5>
+            <h1 class="display-4">Like Our Commitment?</h1>
+          </div>
+          <p>
+            HealingNet Premium is dedicated to bringing you the best in telemedicine—
+            from advanced video consultations to 24/7 AI health guidance. Your donations
+            help us expand our network, improve our platform, and reach more people in need.
+          </p>
+          <p>
+            Choose a level below to make a difference:
+          </p>
+  
+          <!-- Donation Tiers -->
+          <div class="d-flex flex-wrap gap-3 mb-4">
+            <button type="button" class="btn btn-light rounded-pill py-2 px-4">
+              Bronze — $10
+            </button>
+            <button type="button" class="btn btn-light rounded-pill py-2 px-4">
+              Silver — $25
+            </button>
+            <button type="button" class="btn btn-light rounded-pill py-2 px-4">
+              Gold — $50
+            </button>
+            <button type="button" class="btn btn-light rounded-pill py-2 px-4">
+              Platinum — $100
+            </button>
+          </div>
+  
+          <!-- Primary CTA -->
+          <a href="/donate" class="btn btn-primary rounded-pill px-5 py-3">
+            Donate Here
+          </a>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  <!-- Donations Section End -->
+  
 
             <!-- Testimonial Start -->
             <div class="container-fluid py-5 bg-light my-3" data-aos="zoom-in">
-                            <div class="container">
-                                <div class="text-center mx-auto mb-5" style="max-width: 500px;">
-                                    <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">
-                                        Testimonial</h5>
-                                    <h1 class="display-4">Patients Say About Our Services</h1>
-                                </div>
-                                <div class="row justify-content-center">
-                                    <div class="col-lg-8">
-                                        <div class="owl-carousel testimonial-carousel">
-                                            <div class="testimonial-item text-center">
-                                                <div class="position-relative mb-5">
-                                                    <img class="img-fluid rounded-circle mx-auto"
-                                                        src="img/testimonial-1.jpg" alt="">
-                                                    <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle"
-                                                        style="width: 60px; height: 60px;">
-                                                        <i class="fa fa-quote-left fa-2x text-primary"></i>
-                                                    </div>
-                                                </div>
-                                                <p class="fs-4 fw-normal">"HealingNet has been a lifesaver for me. The
-                                                    online
-                                                    platform made it so easy to book appointments, and the care I received
-                                                    was
-                                                    top-notch. Highly recommend!" </p>
-                                                <hr class="w-25 mx-auto">
-                                                <h3> Jane Smith</h3>
-                                                <h6 class="fw-normal text-primary mb-3">Software Engineer</h6>
-                                            </div>
-                                            <div class="testimonial-item text-center">
-                                                <div class="position-relative mb-5">
-                                                    <img class="img-fluid rounded-circle mx-auto"
-                                                        src="img/testimonial-2.jpg" alt="">
-                                                    <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle"
-                                                        style="width: 60px; height: 60px;">
-                                                        <i class="fa fa-quote-left fa-2x text-primary"></i>
-                                                    </div>
-                                                </div>
-                                                <p class="fs-4 fw-normal"> "The doctors at HealingNet are incredibly
-                                                    knowledgeable
-                                                    and compassionate. I felt truly cared for and supported throughout my
-                                                    treatment."</p>
-                                                <hr class="w-25 mx-auto">
-                                                <h3>John Ben</h3>
-                                                <h6 class="fw-normal text-primary mb-3">Teacher</h6>
-                                            </div>
-                                            <div class="testimonial-item text-center">
-                                                <div class="position-relative mb-5">
-                                                    <img class="img-fluid rounded-circle mx-auto"
-                                                        src="img/testimonial-3.jpg" alt="">
-                                                    <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle"
-                                                        style="width: 60px; height: 60px;">
-                                                        <i class="fa fa-quote-left fa-2x text-primary"></i>
-                                                    </div>
-                                                </div>
-                                                <p class="fs-4 fw-normal">"I had a wonderful experience with HealingNet. The
-                                                    convenience of online scheduling and the quality of care I received were
-                                                    exceptional." </p>
-                                                <hr class="w-25 mx-auto">
-                                                <h3>Blessing James</h3>
-                                                <h6 class="fw-normal text-primary mb-3"> Graphic Designer</h6>
-                                            </div>
+                <div class="container">
+                    <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">
+                            Testimonial</h5>
+                        <h1 class="display-4">Patients Say About Our Services</h1>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="owl-carousel testimonial-carousel">
+                                <div class="testimonial-item text-center">
+                                    <div class="position-relative mb-5">
+                                        <img class="img-fluid rounded-circle mx-auto" src="img/testimonial-1.jpg"
+                                            alt="">
+                                        <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle"
+                                            style="width: 60px; height: 60px;">
+                                            <i class="fa fa-quote-left fa-2x text-primary"></i>
                                         </div>
                                     </div>
+                                    <p class="fs-4 fw-normal">"HealingNet has been a lifesaver for me. The
+                                        online
+                                        platform made it so easy to book appointments, and the care I received
+                                        was
+                                        top-notch. Highly recommend!" </p>
+                                    <hr class="w-25 mx-auto">
+                                    <h3> Jane Smith</h3>
+                                    <h6 class="fw-normal text-primary mb-3">Software Engineer</h6>
+                                </div>
+                                <div class="testimonial-item text-center">
+                                    <div class="position-relative mb-5">
+                                        <img class="img-fluid rounded-circle mx-auto" src="img/testimonial-2.jpg"
+                                            alt="">
+                                        <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle"
+                                            style="width: 60px; height: 60px;">
+                                            <i class="fa fa-quote-left fa-2x text-primary"></i>
+                                        </div>
+                                    </div>
+                                    <p class="fs-4 fw-normal"> "The doctors at HealingNet are incredibly
+                                        knowledgeable
+                                        and compassionate. I felt truly cared for and supported throughout my
+                                        treatment."</p>
+                                    <hr class="w-25 mx-auto">
+                                    <h3>John Ben</h3>
+                                    <h6 class="fw-normal text-primary mb-3">Teacher</h6>
+                                </div>
+                                <div class="testimonial-item text-center">
+                                    <div class="position-relative mb-5">
+                                        <img class="img-fluid rounded-circle mx-auto" src="img/testimonial-3.jpg"
+                                            alt="">
+                                        <div class="position-absolute top-100 start-50 translate-middle d-flex align-items-center justify-content-center bg-white rounded-circle"
+                                            style="width: 60px; height: 60px;">
+                                            <i class="fa fa-quote-left fa-2x text-primary"></i>
+                                        </div>
+                                    </div>
+                                    <p class="fs-4 fw-normal">"I had a wonderful experience with HealingNet. The
+                                        convenience of online scheduling and the quality of care I received were
+                                        exceptional." </p>
+                                    <hr class="w-25 mx-auto">
+                                    <h3>Blessing James</h3>
+                                    <h6 class="fw-normal text-primary mb-3"> Graphic Designer</h6>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- Testimonial End -->
-        <%- include('partials/footer') %>
+            <%- include('../partials/footer') %>
     </body>
-    <script src="/js/appoint.js"></script>
-
+    <!-- <script src="../js/appoint.js"></script> -->
 </html>

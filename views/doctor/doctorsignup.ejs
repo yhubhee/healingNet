@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <%- include('partials/head') %>
+    <%- include('../partials/head') %>
     <link href="/css/signup.css" rel="stylesheet">
         <title>Doctor Signup for HealingNet - Trusted Telemedicine Platform for Online Consultations and Health
             Resources</title>
@@ -28,7 +28,7 @@
         <% if (typeof redirect !=='undefined' && redirect) { %>
             <script>
                 setTimeout(() => {
-                    window.location.href = '/doctorlogin';
+                    window.location.href = '/doctor/doctorlogin';
                 }, 1000); // Redirect after 3 seconds
                 </script>
             <% } %>
@@ -91,7 +91,7 @@
                         <div class="form-group mb-3">
                             <label for="department">Department</label>
                             <select name="department" id="departmentSelect" class="form-select" onchange="updateSpecialties()" required>
-                                <%- include('partials/department') %>
+                              <%- include('../partials/department') %>
                             </select>
                         </div>
 

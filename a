@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Solutions | HealingNet</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom button styles from your theme -->
+  <style>
+    .btn-get-started {
+      background-color: #624bff;
+      color: #ffffff;
+      padding: .5rem 1.5rem;
+      border-radius: 9999px;
+      font-weight: bold;
+      font-size: 1rem;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-get-started:hover {
+      background-color: #5039cc;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="/">HealingNet</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/employers">Employers</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/students">Students</a></li>
+          <li class="nav-item"><a class="btn-get-started ms-3" href="/signup">Get Started</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-primary text-white text-center py-5" style="background: url('/img/student-hero.jpg') center/cover no-repeat;">
+    <div class="container position-relative" style="z-index: 1;">
+      <h1 class="display-4 fw-bold mb-3">Telemedicine for Students</h1>
+      <p class="lead mb-4">Affordable, 24/7 access to healthcare & counseling—anytime, anywhere.</p>
+      <a href="/signup" class="btn-get-started">Get Started</a>
+    </div>
+    <div class="overlay" style="position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.5);"></div>
+  </section>
+
+  <!-- Why Choose HealingNet -->
+  <section class="py-5">
+    <div class="container text-center">
+      <h2 class="fw-bold mb-4">Why Students Love HealingNet</h2>
+      <div class="row g-4">
+        <div class="col-md-3">
+          <i class="bi bi-currency-dollar fs-1 mb-3 text-primary"></i>
+          <h5>Student Pricing</h5>
+          <p>Low monthly & annual plans built for tight budgets.</p>
+        </div>
+        <div class="col-md-3">
+          <i class="bi bi-chat-dots fs-1 mb-3 text-primary"></i>
+          <h5>Virtual Counseling</h5>
+          <p>Licensed counselors & therapists online whenever you need.</p>
+        </div>
+        <div class="col-md-3">
+          <i class="bi bi-clock fs-1 mb-3 text-primary"></i>
+          <h5>24/7 Access</h5>
+          <p>Medical & mental health support around the clock.</p>
+        </div>
+        <div class="col-md-3">
+          <i class="bi bi-building fs-1 mb-3 text-primary"></i>
+          <h5>Campus Integration</h5>
+          <p>Works with your school’s health services for seamless care.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Plans -->
+  <section class="bg-light py-5">
+    <div class="container">
+      <h2 class="fw-bold text-center mb-5">Student Plans</h2>
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+              <h5 class="card-title">Monthly Plan</h5>
+              <p class="display-5 fw-bold text-primary">₦500<span class="fs-6">/mo</span></p>
+              <ul class="list-unstyled mb-4">
+                <li>Unlimited GP visits</li>
+                <li>1 counseling session/mo</li>
+                <li>Secure chat support</li>
+              </ul>
+              <a href="/signup" class="btn-get-started">Choose Plan</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card h-100 shadow-sm border-primary">
+            <div class="card-body text-center">
+              <h5 class="card-title">Annual Plan</h5>
+              <p class="display-5 fw-bold text-primary">₦5,000<span class="fs-6">/yr</span></p>
+              <ul class="list-unstyled mb-4">
+                <li>Unlimited GP visits</li>
+                <li>12 counseling sessions</li>
+                <li>Priority messaging</li>
+              </ul>
+              <a href="/signup" class="btn-get-started">Choose Plan</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Student Testimonials -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="fw-bold text-center mb-5">What Students Say</h2>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <blockquote class="blockquote p-4 bg-white rounded shadow-sm">
+            <p class="mb-3">“HealingNet saved me on exam week when I was too stressed to visit the campus clinic. Quick, confidential, and so easy!”</p>
+            <footer class="blockquote-footer">Aisha, University of Lagos</footer>
+          </blockquote>
+        </div>
+        <div class="col-md-6">
+          <blockquote class="blockquote p-4 bg-white rounded shadow-sm">
+            <p class="mb-3">“Affordable and professional—my go-to for both flu symptoms and anxiety counseling.”</p>
+            <footer class="blockquote-footer">Chinedu, Covenant University</footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-5 text-center bg-primary text-white">
+    <div class="container">
+      <h2 class="fw-bold mb-3">Ready to Get Started?</h2>
+      <p class="mb-4">Join thousands of students getting quality care anytime, anywhere.</p>
+      <a href="/signup" class="btn btn-light btn-lg rounded-pill px-4">Sign Up Now</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 bg-dark text-light text-center small">
+    &copy; 2025 HealingNet. All rights reserved.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

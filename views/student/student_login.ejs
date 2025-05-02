@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+        <title>Patients Signup - HealingNet</title>
+</head>
+
+<body>
+    <!-- Alert Messages (Top-Right) -->
+    <div class="alert-container">
+        <% if (typeof error !=='undefined' ) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= error %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <% } %>
+                <% if (typeof success !=='undefined' ) { %>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <%= success %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <% } %>
+    </div>
+    <% if (typeof redirect !=='undefined' && redirect) { %>
+        <script>
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 1000); // Redirect after 3 seconds
+        </script>
+        <% } %>
+
+        <section class="rounded-top py-5">
+            <div class="container">
+              <div class="row shadow-lg g-0 bg-light rounded overflow-hidden">
+                
+                <!-- Left Image Column -->
+                <div class="col-lg-6">
+                  <img src="/img/how_it_works.png" alt="Sign up" class="img-fluid h-100 w-100" style="object-fit: cover;">
+                </div>
+                
+                <!-- Right Form Column -->
+                <div class="col-lg-6 bg-white text-center p-5">
+                  <h1 class="text-uppercase border-bottom border-5 border-primary pb-2 mb-4 d-inline-block">Student Log In</h1>                  
+                  <form action="/auth/student_login" method="POST" id="signupForm" class="text-start">
+                    <div class="mb-3">
+                      <label for="email" class="form-label">Email Address</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
+                    </div>          
+                    <div class="mb-4 position-relative">
+                      <label for="password" class="form-label">Create Password</label>
+                      <input type="password" class="form-control" id="password" name="password" placeholder="Input Your Password" required>
+                      <i class="fa-solid fa-eye-slash showpass" id="password-icon" style="position: absolute; top: 38px; right: 15px; cursor: pointer;"></i>
+                    </div>
+                    <div class="d-grid">
+                      <button type="submit" class="btn btn-primary rounded-pill">Create Account</button>
+                    </div>
+                    <p class="text-center mt-3">
+                        Don't have an account? <a href="/studen/student_signup" class="text-primary">Signup Today</a>
+                    </p>
+                    <p class="text-center mt-3">
+                        Already have an account? <a href="/ui/login" class="text-primary">Log in as a Patient</a>
+                        <br>
+                    </p>
+                  </form>
+                </div>
+          
+              </div>
+            </div>
+          </section>
+          
+<%- include('../partials/footer') %>
+<script src="../js/signup.js"></script>
+</body>
+
+</html>

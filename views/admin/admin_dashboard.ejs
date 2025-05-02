@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <%- include('partials/head') %>
+  <%- include('../partials/head') %>
     <link href="/css/dashboard.css" rel="stylesheet">
 </head>
 <script>
@@ -23,7 +22,7 @@
             event.preventDefault();
             let url = this.getAttribute("data-url");
 
-            if (url === "/dashboard") {
+            if (url === "/admin/admin_dashboard") {
                 document.querySelector(".main-content").innerHTML = defaultMainContent;
                 initializeDropdowns();
             } else {
@@ -93,52 +92,33 @@
                 <%= lastname %>
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                <li><a class="dropdown-item load-content" href="#" data-url="/profile">My Profile</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
                 <li>
-                  <hr class="dropdown-divider">
-                </li>
-
-                <li>
-                  <a class="dropdown-item active load-content" aria-current="page" href="#" data-url="/dashboard">
+                  <a class="dropdown-item load-content" aria-current="page" href="#" data-url="/patients/dashboard">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/booked-appointment">
+                  <a class="dropdown-item load-content" href="#" data-url="/patients/booked-appointment">
                     <i class="fas fa-calendar-check"></i> Appointments
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/home-appointment">
-                    <i class="fas fa-calendar-check"></i> Home Appointments
+                  <a class="dropdown-item load-content" href="#" data-url="/patients/medical-records">
+                    <i class="fa fa-1x fa-user-md"></i> Add Doctor
                   </a>
                 </li>
+    
                 <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/medical-records">
-                    <i class="fas fa-notes-medical"></i> Medical Records
+                  <a class="dropdown-item load-content" href="#" data-url="/patients/medical-records">
+                    <i class="fa fa-1x fa-user-md"></i> Doctor List
                   </a>
                 </li>
-                <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/prescriptions">
-                    <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/billing">
-                    <i class="fas fa-wallet"></i> Billing
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/settings">
-                    <i class="fas fa-cogs"></i> Settings
-                  </a>
-                </li>
+                
 
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                <li><a class="dropdown-item" href="/admin/admin_login">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -156,38 +136,24 @@
         <div class="position-sticky pt-3">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active load-content" aria-current="page" href="#" data-url="/dashboard">
+              <a class="nav-link load-content" aria-current="page" href="#" data-url="/admin/admin_dashboard">
                 <i class="fas fa-tachometer-alt"></i> Dashboard
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link load-content" href="#" data-url="/booked-appointment">
+              <a class="nav-link load-content" href="#" data-url="/admin/total_appointment">
                 <i class="fas fa-calendar-check"></i> Appointments
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link load-content" href="#" data-url="/home-appointment">
-                <i class="fas fa-calendar-check"></i> Home Appointments
+              <a class="nav-link load-content" href="#" data-url="/admin/add_doctor">
+                <i class="fa fa-1x fa-user-md"></i> Add Doctor
               </a>
             </li>
+
             <li class="nav-item">
-              <a class="nav-link load-content" href="#" data-url="/medical-records">
-                <i class="fas fa-notes-medical"></i> Medical Records
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link load-content" href="#" data-url="/prescriptions">
-                <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link load-content" href="#" data-url="/billing">
-                <i class="fas fa-wallet"></i> Billing
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/settings">
-                <i class="fas fa-cogs"></i> Settings
+              <a class="nav-link load-content" href="#" data-url="/admin/doctor_list">
+                <i class="fa fa-1x fa-user-md"></i> Doctor List
               </a>
             </li>
           </ul>
@@ -197,7 +163,7 @@
       <!-- Main Dashboard Content -->
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 main-content">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-          <h1 class="h2" id="time"><%= firstname %> <%= lastname %></h1> 
+          <h1 class="h2" id="time"> Admin <%= firstname %> <%= lastname %></h1> 
           
          
           <div class="btn-toolbar mb-2 mb-md-0">
@@ -213,12 +179,12 @@
 
         <!-- Dashboard Cards -->
         <div class="row">
-          <!-- Upcoming Appointments Card -->
+          <!-- Doctors -->
           <div class="col-md-6 col-lg-4 mb-4">
             <div class="card shadow-sm">
-              <div class="card-header">Upcoming Appointments</div>
+              <div class="card-header">Total Doctors</div>
               <div class="card-body">
-                <p class="card-text">You have <%= appointmentsNumber %> appointment scheduled for today.</p>
+                <p class="card-text">You have no doctor.</p>
                 <!-- <a href="#" class="btn btn-primary btn-sm">View Details</a> -->
                 <a class="btn btn-primary btn-sm load-content" aria-current="page" href="#"
                   data-url="/booked-appointment"> View Details</a>
@@ -226,24 +192,24 @@
             </div>
           </div>
 
-          <!-- Medical Records Card -->
+          <!-- Patients -->
           <div class="col-md-6 col-lg-4 mb-4">
             <div class="card shadow-sm">
-              <div class="card-header">Medical Records</div>
+              <div class="card-header">Total Patients</div>
               <div class="card-body">
-                <p class="card-text">New lab results are now available.</p>
-                <a href="#" class="btn btn-secondary btn-sm">View Records</a>
+                <p class="card-text">You have no patients.</p>
+                <a href="#" class="btn btn-secondary btn-sm">View Patients</a>
               </div>
             </div>
           </div>
 
-          <!-- Prescriptions Card -->
+          <!-- Appointments  -->
           <div class="col-md-6 col-lg-4 mb-4">
             <div class="card shadow-sm">
-              <div class="card-header">Prescriptions</div>
+              <div class="card-header">Total Appointments</div>
               <div class="card-body">
-                <p class="card-text">Your prescription has been updated.</p>
-                <a href="#" class="btn btn-info btn-sm text-white">View Prescriptions</a>
+                <p class="card-text">There has been no appointments so far...</p>
+                <a href="#" class="btn btn-info btn-sm text-white">View Appointments</a>
               </div>
             </div>
           </div>
@@ -251,23 +217,34 @@
 
         <div class="row">
           <!-- Billing Information Card -->
-          <div class="col-md-6 col-lg-6 mb-4">
+          <div class="col-md-6 col-lg-4 mb-4">
             <div class="card shadow-sm">
               <div class="card-header">Billing Information</div>
               <div class="card-body">
-                <p class="card-text">Your last payment was on 5th Feb 2025.</p>
+                <p class="card-text">View total number of users on various plans. </p>
                 <a href="#" class="btn btn-warning btn-sm">View Billing</a>
               </div>
             </div>
           </div>
 
+          <!-- Prescription -->
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-header">Prescription</div>
+              <div class="card-body">
+                <p class="card-text">No prescription has been given.</p>
+                <a href="#" class="btn btn-success btn-sm">Learn More</a>
+              </div>
+            </div>
+          </div>
+
           <!-- Health Tips / Announcements Card -->
-          <div class="col-md-6 col-lg-6 mb-4">
+          <div class="col-md-6 col-lg-4 mb-4">
             <div class="card shadow-sm">
               <div class="card-header">Health Tips & Announcements</div>
               <div class="card-body">
                 <p class="card-text">Remember to stay hydrated and maintain a balanced diet.</p>
-                <a href="#" class="btn btn-success btn-sm">Learn More</a>
+                <a href="#" class="btn btn-light2 btn-sm">Learn More</a>
               </div>
             </div>
           </div>
@@ -276,7 +253,7 @@
     </div>
   </div>
   <!-- JavaScript Libraries -->
-  <%- include('partials/footer') %>
+  <%- include('../partials/footer') %>
   <Script>
     const time = document.getElementById('time');  
     let greetings = "";

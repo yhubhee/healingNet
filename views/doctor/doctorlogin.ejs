@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include('partials/head') %>
+    <%- include('../partials/head') %>
     <!-- Bootstrap CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/login.css" rel="stylesheet">
-    <title>Patient Login - HealingNet Telemedicine</title>
+    <title>Doctor Login - HealingNet Telemedicine</title>
   </head>
   
   <body>
@@ -27,7 +27,7 @@
     <% if (typeof redirect !== 'undefined' && redirect) { %>
       <script>
         setTimeout(() => {
-          window.location.href = '/dashboard';
+          window.location.href = '/doctordashboard';
         }, 1000); // Redirect after 1 second
       </script>
     <% } %>
@@ -38,10 +38,10 @@
         <div class="col-md-4">
           <div class="card login-card">
             <div class="login-header"  style="background-color:  #13C5DD !important;">
-              <h3 class="mb-0">Patients Login</h3>
+              <h3 class="mb-0">Doctor Login</h3>
             </div>
             <div class="card-body">
-              <form action="/auth/login" method="POST">
+              <form action="/auth/doctorlogin" method="POST">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email Address</label>
                   <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
@@ -54,9 +54,9 @@
                 <button type="submit" class="btn btn-primary w-100" style="background-color:#13C5DD !important;">Log In</button>
               </form>
               <p class="text-center mt-3">
-                Forgot Password ? <a href="/forgot_pass" class="text-primary">Password Reset</a><br>
-                Don't have an account? <a href="/signup" class="text-primary">Sign Up</a><br>
-                Login as doctor <a href="/doctorlogin" class="text-primary">log in</a>
+                Forgot Password ? <a href="/doctor/Doc_forgot_pass" class="text-primary">Password Reset</a> <br>
+                Don't have an account? <a href="/doctor/doctorsignup" class="text-primary">Sign Up</a> <br>
+                Login as Patient <a href="/ui/login" class="text-primary">log in</a>
               </p>
             </div>
           </div>

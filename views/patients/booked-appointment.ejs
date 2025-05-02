@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('partials/head') %>
+    <%- include('../partials/head') %>
     <title>Book Appointment - HealingNet</title>
-    <!-- <link rel="stylesheet" href="/css/dashboard.css"> -->
 </head>
 <body>
     <div class="container mt-5">
         <h2 class="mb-4">Booked Appointments
-            <button type="submit" class="btn bg-success float-end"><a href="/appointment"> Book a New Appointment </a></button>
+            <button type="submit" class="btn bg-success float-end"><a href="/ui/appointment" target="_blank"> Book a New Appointment </a></button>
 
         </h2>
         
@@ -53,7 +52,7 @@
                 You have no booked appointments.
             </div>
             <div class="text-center mt-4">
-                <a class="btn btn-primary btn-lg load-content" href="/appointment" target="_blank">
+                <a class="btn btn-primary btn-lg load-content" href="/ui/appointment" target="_blank">
                     <i class="fas fa-plus"></i> Create Appointment
                 </a>
             </div>

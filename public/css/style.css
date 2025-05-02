@@ -104,6 +104,14 @@
     background: url(../img/individuals_01.png) top right no-repeat;
     background-size: cover;
 }
+.hero-header3{
+    background: url(../img/p360-hero.jpg) top left no-repeat;
+    background-size: cover;
+}
+.premium{
+    background: url(../img/Premuim_ai_02.png) top no-repeat;
+    background-size: cover;
+}
 .service-item {
     position: relative;
     height: 350px;
@@ -340,8 +348,4 @@
         justify-content: space-between;
         padding: 0 20px;
     }
-    /* .menu_nav:hover{
-
-    } */
-    
     

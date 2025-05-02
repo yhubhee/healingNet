@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/head') %>
+<%- include('../partials/head') %>
 <body>
-<%- include('partials/header') %>
+<%- include('../partials/header') %>
     <div class="alert-container">
         <% if (typeof error !== "undefined") { %>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -39,7 +39,7 @@
                     At HealingNet, scheduling an appointment has never been easier. Our
                     user-friendly online platform allows you to book appointments at your
                     convenience, ensuring that you can access the care you need without the
-                    hassle of traditional office visits. Before you book please comeplete the symptom-checker <a href="/symptom_checker" target="_blank">Get our Symptoms check here</a> Here’s how you can quickly and
+                    hassle of traditional office visits. Before you book please comeplete the symptom-checker <a href="/ui/symptom_checker" target="_blank">Get our Symptoms check here</a> Here’s how you can quickly and
                     efficiently book your appointment: <br><br>
 
                     1. Choose Your Service:
@@ -66,7 +66,7 @@
                     On the appointment day, log into your HealingNet account and follow the
                     link to start your secure video consultation.
                 </p>
-                <a class="btn btn-primary rounded-pill py-3 px-5 me-3" href="/search">Find
+                <a class="btn btn-primary rounded-pill py-3 px-5 me-3" href="/ui/search">Find
                     Doctor</a>
                 <!-- <a class="btn btn-outline-primary rounded-pill py-3 px-5" href="">Read More</a> -->
             </div>
@@ -121,7 +121,7 @@
 </div>
 
 <!-- Appointment End -->
-<%- include('partials/footer') %>
+<%- include('../partials/footer') %>
 <script src="/js/appoint.js"></script>
 </body>
 </html>

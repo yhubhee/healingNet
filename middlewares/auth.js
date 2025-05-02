@@ -27,9 +27,9 @@ const validatePasswordResetToken = (req, res, next) => {
         return next();
     } catch (err) {
         if (err.name === 'TokenExpiredError') {
-            return res.render('forgot_pass', { error: 'Reset token has expired. Please request a new one.' });
+            return res.render('ui/forgot_pass', { error: 'Reset token has expired. Please request a new one.' });
         }
-        return res.render('login', { error: 'Invalid token. Please try again.' });
+        return res.render('ui/login', { error: 'Invalid token. Please try again.' });
     }
 };
 
@@ -54,7 +54,7 @@ const validateTokens = (req, res, next) => {
     const accessToken = req.cookies["access-Token"];
 
     if (!accessToken) {
-        return res.render('login', {
+        return res.render('ui/login', {
             error: 'User not authenticated',
         });
     }
@@ -67,7 +67,7 @@ const validateTokens = (req, res, next) => {
             return next();
         }
     } catch (err) {
-        return res.render('login', {
+        return res.render('ui/login', {
             error: 'Invalid token, please log in again.',
         });
     }

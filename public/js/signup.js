@@ -10,25 +10,22 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Toggle Password Visibility
-const password = document.getElementById('password');
-const confirmPassword = document.getElementById('confirmpassword');
+  document.getElementById('password-icon').addEventListener('click', function () {
+    const passwordField = document.getElementById('password');
+    const icon = this;
 
-// Toggle Password Visibility
-const showpass = document.querySelector(".showpass");
-
-showpass.addEventListener("click", () => {
-    if ((password.type === "password") && (confirmPassword.type === "password")) {
-        password.type = 'text';
-        confirmPassword.type = 'text';
-        showpass.classList.replace("fa-eye-slash", "fa-eye");
+    if (passwordField.type === 'password') {
+      passwordField.type = 'text';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    } else {
+      passwordField.type = 'password';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
     }
-    else {
-        password.type = 'password';
-        confirmPassword.type = 'password';
-        showpass.classList.replace("fa-eye", "fa-eye-slash");
+  });
 
-    }
-})
+
 
 // Specialties categorized by department
 const specialties = {

@@ -3,7 +3,7 @@ const pool = require('../database')
 const bcrypt = require('bcryptjs');
 
 exports.register = (req, res) => {
-    const {firstname, lastname,  phone, email, date_joined, date_of_birth, gender, password, confirmpassword, address, status} = req.body;
+    const {firstname, lastname,  phone, email, date_of_birth, gender, password} = req.body;
     // console.log(req.body);
 
     pool.query('select email from patients where email = ?', [email], async (err, result) => {
@@ -11,24 +11,24 @@ exports.register = (req, res) => {
             console.log(err);
 
         } else if (result.length > 0) {
-            return res.render('signup', {
+            return res.render('ui/signup', {
                 error: 'Email Already Exist'
             })
-        } else if (password !== confirmpassword) {
-            return res.render('signup', {
-                error: 'Password Do Not Match'
-            })
+        // } else if (password !== confirmpassword) {
+        //     return res.render('signup', {
+        //         error: 'Password Do Not Match'
+        //     })
         }
         else if (!password || password.length < 8) {
-            return res.render('signup', {
+            return res.render('ui/signup', {
                 error: `Password weak or are empty`
             })
         } else if (!email) {
-            return res.render('signup', {
+            return res.render('ui/signup', {
                 error: `Email field is empty`
             })
         } else if (!date_of_birth) {
-            return res.render('signup', {
+            return res.render('ui/signup', {
                 error: `Date of Birth field can't empty`
             })
         }
@@ -36,19 +36,18 @@ exports.register = (req, res) => {
         // const tokens = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' });
         
         pool.query(`insert into patients set ?`, { firstname: firstname, lastname: lastname,
-              phone: phone, email: email, date_joined: date_joined, date_of_birth: date_of_birth, gender: gender,  password: hashedpassword,  address: address, status:"Active"}, async (err, result) => {
+              phone: phone, email: email, date_of_birth: date_of_birth, gender: gender,  password: hashedpassword,status:"active"}, async (err, result) => {
             if (err) {
                 console.log(err);
 
             } else {
-                res.render('signup', {
+                res.render('ui/signup', {
                     success: 'Registration Completed ✅ ',
                     redirect: true
                 })
             }
         })
     })
-    // res.send(`from submitted`)
 }
 
 exports.doctorregister = (req, res) => {

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <title>Patients List - HealingNet</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Patients List (Total Patients = <%=  total_patient %>)
+        </h2>        
+        <% if (patient_lists.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Patient's Id</th>
+                            <th>Patient's Name</th>
+                            <th>Patient's Email</th>
+                            <th>Phone Number</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% patient_lists.forEach(patient_list => { %>
+                            <tr>
+                                <td><%= patient_list.patient_id %></td>
+                                <td><%= patient_list.name %></td>
+                                <td><%= patient_list.email %></td>
+                                <td><%= patient_list.phone %></td>
+                                <td><%= patient_list.status %></td>                               
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="alert alert-warning" role="alert">
+                You have no booked appointments.
+            </div>
+            <div class="text-center mt-4">
+                <a class="btn btn-primary btn-lg load-content" href="/admin/add_doctor" target="_blank">
+                    <i class="fas fa-plus"></i> Add New Doctor
+                </a>
+            </div>
+        <% } %>
+        
+        <!-- Create Appointment Button -->
+    </div>
+</body>
+<script src="/js/main.js"></script>
+</html>

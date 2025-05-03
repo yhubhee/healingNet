@@ -108,6 +108,10 @@
     background: url(../img/p360-hero.jpg) top left no-repeat;
     background-size: cover;
 }
+.hero-donation{
+    background: url(../img/donations3.jfif) top left no-repeat;
+    background-size: cover;
+}
 .premium{
     background: url(../img/Premuim_ai_02.png) top no-repeat;
     background-size: cover;
@@ -273,6 +277,9 @@
 
 /* Flip the card on hover */
 .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+.flip-card-inner.flipped {
     transform: rotateY(180deg);
 }
 

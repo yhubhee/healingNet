@@ -93,24 +93,29 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                 <li>
-                  <a class="dropdown-item load-content" aria-current="page" href="#" data-url="/patients/dashboard">
+                  <a class="dropdown-item load-content" aria-current="page" href="#" data-url="/admin/admin_dashboard">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/patients/booked-appointment">
+                  <a class="dropdown-item load-content" href="#" data-url="/admin/doc_appointment">
                     <i class="fas fa-calendar-check"></i> Appointments
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/patients/medical-records">
+                  <a class="dropdown-item load-content" href="#" data-url="/admin/add_doctor">
                     <i class="fa fa-1x fa-user-md"></i> Add Doctor
                   </a>
                 </li>
     
                 <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/patients/medical-records">
+                  <a class="dropdown-item load-content" href="#" data-url="/admin/doc_list">
                     <i class="fa fa-1x fa-user-md"></i> Doctor List
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item load-content" href="#" data-url="/admin/patient_list">
+                    <i class="fa fa-1x fa-user-md"></i> Patients List
                   </a>
                 </li>
                 
@@ -156,6 +161,11 @@
                 <i class="fa fa-1x fa-user-md"></i> Doctor List
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link load-content" href="#" data-url="/admin/patient_list">
+                <i class="fa fa-1x fa-user-md"></i> Patients List
+              </a>
+            </li>
           </ul>
         </div>
       </nav>
@@ -184,7 +194,7 @@
             <div class="card shadow-sm">
               <div class="card-header">Total Doctors</div>
               <div class="card-body">
-                <p class="card-text">You have no doctor.</p>
+                <p class="card-text">You have <%= total_doc %> doctor.</p>
                 <!-- <a href="#" class="btn btn-primary btn-sm">View Details</a> -->
                 <a class="btn btn-primary btn-sm load-content" aria-current="page" href="#"
                   data-url="/booked-appointment"> View Details</a>
@@ -197,7 +207,7 @@
             <div class="card shadow-sm">
               <div class="card-header">Total Patients</div>
               <div class="card-body">
-                <p class="card-text">You have no patients.</p>
+                <p class="card-text">You have <%= total_patient %> patients.</p>
                 <a href="#" class="btn btn-secondary btn-sm">View Patients</a>
               </div>
             </div>
@@ -208,7 +218,7 @@
             <div class="card shadow-sm">
               <div class="card-header">Total Appointments</div>
               <div class="card-body">
-                <p class="card-text">There has been no appointments so far...</p>
+                <p class="card-text">There has been <%= total_appoint %> appointments so far...</p>
                 <a href="#" class="btn btn-info btn-sm text-white">View Appointments</a>
               </div>
             </div>

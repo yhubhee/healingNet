@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../database');
-const {Admin_validate_Tokens} = require('../middlewares/admin_auth')
+const { Admin_validate_Tokens } = require('../middlewares/admin_auth')
 const { validateTokens } = require('../middlewares/auth');
 const { doctorvalidateTokens } = require('../middlewares/authdoctor');
 const { validatePasswordResetToken } = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
-const { symptoms} = require('../controllers/symptomChecker');
+const { symptoms } = require('../controllers/symptomChecker');
 
 // BASIC UI SECTION
 router.get('/ui/about', (req, res) => {
@@ -20,6 +20,9 @@ router.get('/ui/student', (req, res) => {
 });
 router.get('/clinicians', (req, res) => {
     res.render('clinicians');
+});
+router.get('/ui/donations', (req, res) => {
+    res.render('ui/donations');
 });
 
 // router.get('/service-details', (req, res) => {
@@ -62,7 +65,7 @@ router.get('/ui/premuim', (req, res) => {
     res.render('ui/premuim');
 });
 router.get('/ui/forgot_pass', (req, res) => {
-    res.render('ui/forgot_pass');   
+    res.render('ui/forgot_pass');
 });
 // console.log('Symptoms:', symptoms)
 router.get('/ui/symptom_checker', (req, res) => {
@@ -103,7 +106,7 @@ router.get('/ui/symptom_checker', (req, res) => {
         // error: null
     });
 });
-router.get('/ui/symptom_results', (req, res)=>{
+router.get('/ui/symptom_results', (req, res) => {
     res.render('ui/symptom_results')
 });
 router.get('/ui/reset_pass', validatePasswordResetToken, (req, res) => {
@@ -115,13 +118,13 @@ router.get('/ui/reset_pass', validatePasswordResetToken, (req, res) => {
 });
 
 // Student Section
-router.get('/student/student', (req, res) =>{
+router.get('/student/student', (req, res) => {
     res.render('student/student')
 })
-router.get('/student/student_signup', (req, res) =>{
+router.get('/student/student_signup', (req, res) => {
     res.render('student/student_signup')
 })
-router.get('/student/student_login', (req, res) =>{
+router.get('/student/student_login', (req, res) => {
     res.render('student/student_login')
 })
 // Patients Section
@@ -208,13 +211,13 @@ router.get('/patients/dashboard', validateTokens, (req, res) => {
             console.error('Database query error:', err); // Debugging log
             return res.status(500).json({ error: 'Failed to fetch appointments' });
         }
-        
+
         const appointmentsNumber = results[0].count;
         res.render('patients/dashboard', {
             firstname,
             lastname,
             appointmentsNumber,
-            
+
         });
     });
 });
@@ -343,16 +346,52 @@ router.get('/doc_appointment', doctorvalidateTokens, (req, res) => {
 
 // Admin Section
 router.get('/admin/admin_dashboard', Admin_validate_Tokens, (req, res) => {
-    const { firstname, lastname, admin_id } = req.user; // Access the attached names?';
+    const { firstname, lastname } = req.user; // Access the attached names
+    const sql1 = `SELECT COUNT(*) as count FROM doctors;`; 
+    const sql2 = `SELECT COUNT(*) AS count FROM patients`;
+    const sql3 = `SELECT COUNT(*) AS count FROM appointment`;
 
-    db.query(admin_id , (err, results) => {
+    db.getConnection( (err, connection) => {
         if (err) {
-            console.error('Database query error:', err);
-        }
-        res.render('admin/admin_dashboard', {
-            firstname,
-            lastname,
+            console.error('Database query error:', err); // Debugging log
+            return res.status(500).json({ error: 'Failed to fetch doctor totals' });
+        } 
+        connection.query(sql1, (err, result) => {
+            if (err) {
+                console.error('Database query error:', err);
+                connection.release(); // Release connection on error
+                return res.status(500).send('Failed to fetch Patients');
+            }
+
+            const total_doc = result[0].count || 'no';
+
+            connection.query(sql2, (err, results) => {
+            connection.release(); // Release connection after all queries
+            if (err) {
+                console.error('Database query error:', err);
+                return res.status(500).send('Failed to count Patients');
+            }
+
+            const total_patient = results[0].count || 'no';
             
+            connection.query(sql3, (err, results) => {
+                connection.release(); // Release connection after all queries
+                if (err) {
+                    console.error('Database query error:', err);
+                    return res.status(500).send('Failed to fetch appointment');
+                }
+    
+                const total_appoint = results[0].count || 'no';
+                console.log(total_patient);
+                res.render('admin/admin_dashboard', {
+                    firstname,
+                    lastname,
+                    total_doc,
+                    total_patient ,
+                    total_appoint  
+                });
+            });
+        });
         });
     });
 });
@@ -365,6 +404,74 @@ router.get('/admin/admin_login', (req, res) => {
 });
 router.get('/admin/add_doctor', (req, res) => {
     res.render('admin/add_doctor');
+});
+router.get('/admin/doctor_list', (req, res) => {
+    const sql = `SELECT doctor_id, name, specialty, email, phone, gender, address, status FROM doctors`;
+    const sql2 = `SELECT COUNT(*) AS count FROM doctors`;
+
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).send('Failed to fetch Doctors');
+        }
+
+        connection.query(sql, (err, result) => {
+            if (err) {
+                console.error('Database query error:', err);
+                connection.release(); // Release connection on error
+                return res.status(500).send('Failed to fetch Doctors');
+            }
+
+            connection.query(sql2, (err, results) => {
+                connection.release(); // Release connection after all queries
+                if (err) {
+                    console.error('Database query error:', err);
+                    return res.status(500).send('Failed to fetch Doctors');
+                }
+
+                const total_doc = results[0].count || 'no';
+                console.log(total_doc);
+                res.render('admin/doctor_list', {
+                    doc_lists: result || [],
+                    total_doc,
+                });
+            });
+        });
+    });
+});
+router.get('/admin/patient_list', (req, res) => {
+    const sql = `SELECT patient_id, CONCAT(firstname, ' ', lastname) AS name, email, phone, gender, address, status FROM patients;`;
+    const sql2 = `SELECT COUNT(*) AS count FROM patients`;
+
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).send('Failed to fetch Patients');
+        }
+
+        connection.query(sql, (err, result) => {
+            if (err) {
+                console.error('Database query error:', err);
+                connection.release(); // Release connection on error
+                return res.status(500).send('Failed to fetch Patients');
+            }
+
+            connection.query(sql2, (err, results) => {
+                connection.release(); // Release connection after all queries
+                if (err) {
+                    console.error('Database query error:', err);
+                    return res.status(500).send('Failed to fetch Patients');
+                }
+
+                const total_patient = results[0].count || 'no';
+                console.log(total_patient);
+                res.render('admin/patient_list', {
+                    patient_lists: result || [],
+                    total_patient,
+                });
+            });
+        });
+    });
 });
 module.exports = router;
 

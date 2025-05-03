@@ -18,19 +18,19 @@ create database hospital_new; -- Your database name
 
 -- CREATE TABLE doctors (
 --     doctor_id INT PRIMARY KEY AUTO_INCREMENT,
---     firstname VARCHAR(50),
---     lastname VARCHAR(50),
---     department VARCHAR(150),
+--     name VARCHAR(50),
+--     doc_img VARCHAR(100)
 --     specialty VARCHAR(150),
---     date_of_birth DATE,
 --     email VARCHAR(150),
 --     phone VARCHAR(50),
 --     gender VARCHAR(30),
 --     password VARCHAR(250),
 --     date_joined DATE,
 --     address VARCHAR(200),
---     status VARCHAR(30)
---     Homeappointmentstatus VARCHAR (30)
+--     status VARCHAR(30),
+--     about_doctor text (500),
+--     admin_id INT,
+--     FOREIGN KEY (admin_id) REFERENCES patients(admin_id),
 -- );
 
 -- CREATE TABLE appointment (

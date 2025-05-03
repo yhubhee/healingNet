@@ -9,12 +9,12 @@ env.config({ path: './env' });
 const app = express();
 const path = require('path');
 
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Parse URL encoded bodies as sent by HTML forms
 app.use(express.urlencoded({ extended: false }));

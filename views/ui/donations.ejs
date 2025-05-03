@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+
+<body>
+    <%- include('../partials/header') %>
+
+    <!-- Header Section -->
+    <div class="container-fluid bg-primary py-5 hero-donation mb-5" style="height: 90vh;">
+        <div class="container py-5 text-center text-white">
+            <h1 class="display-4" data-aos="fade-up" data-aos-delay="0">Make a Difference</h1>
+            <p class="lead" data-aos="fade-up" data-aos-delay="200">
+                Support our mission to deliver better healthcare for everyone.
+            </p>
+        </div>
+    </div>
+
+    <!-- Donation Form Section -->
+    <div class="container py-5" data-aos="fade-up">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="bg-light rounded p-5 shadow">
+                    <h3 class="text-primary mb-4">Donation Details</h3>
+                    
+                    <!-- Donation Form Start -->
+                    <form action="/donate/process" method="POST">
+                        <!-- Donor Info -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                        </div>
+
+                        <!-- Amount Selection -->
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Select Amount</label>
+                            <select class="form-select" id="amount" name="amount" required>
+                                <option value="" disabled selected>Choose a tier</option>
+                                <option value="10">Bronze - $10</option>
+                                <option value="25">Silver - $25</option>
+                                <option value="50">Gold - $50</option>
+                                <option value="100">Platinum - $100</option>
+                                <option value="custom">Custom Amount</option>
+                            </select>
+                        </div>
+
+                        <!-- Custom Amount Field (shown via JS) -->
+                        <div class="mb-3" id="customAmountField" style="display: none;">
+                            <label for="custom_amount" class="form-label">Custom Amount ($)</label>
+                            <input type="number" class="form-control" id="custom_amount" name="custom_amount" min="1">
+                        </div>
+
+                        <!-- Payment Info (Placeholder - integrate payment gateway like Stripe) -->
+                        <div class="mb-3">
+                            <label class="form-label">Payment Method</label>
+                            <input type="text" class="form-control" placeholder="Card Info Placeholder" disabled>
+                            <small class="text-muted">Secure payments powered by Stripe or your preferred provider.</small>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary rounded-pill px-4 py-2">
+                                Complete Donation
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Donation Form End -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+
+    <!-- Optional JavaScript -->
+    <script>
+        const amountSelect = document.getElementById('amount');
+        const customField = document.getElementById('customAmountField');
+
+        amountSelect.addEventListener('change', function () {
+            if (this.value === 'custom') {
+                customField.style.display = 'block';
+            } else {
+                customField.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+

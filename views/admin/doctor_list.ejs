@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <title>Doctors List - HealingNet</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Doctors List (Total Doctors = <%=  total_doc %>)
+            <button type="submit" class="btn bg-success float-end"><a href="/admin/add_doctor"> Book a New Appointment </a></button>
+
+        </h2>
+        
+        <% if (doc_lists.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Doctor's Id</th>
+                            <th>Doctor's Name</th>
+                            <th>Specialty</th>
+                            <th>Doctor's Email</th>
+                            <th>Phone Number</th>
+                            <th>Gender</th>
+                            <th>Address</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% doc_lists.forEach(doc_list => { %>
+                            <tr>
+                                <td><%= doc_list.doctor_id %></td>
+                                <td><%= doc_list.name %></td>
+                                <td><%= doc_list.specialty %></td>
+                                <td><%= doc_list.email %></td>
+                                <td><%= doc_list.phone %></td>
+                                <td><%= doc_list.gender %></td>
+                                <td><%= doc_list.address %></td>
+                                <td><%= doc_list.status %></td>                               
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="alert alert-warning" role="alert">
+                You have no booked appointments.
+            </div>
+            <div class="text-center mt-4">
+                <a class="btn btn-primary btn-lg load-content" href="/admin/add_doctor" target="_blank">
+                    <i class="fas fa-plus"></i> Add New Doctor
+                </a>
+            </div>
+        <% } %>
+        
+        <!-- Create Appointment Button -->
+    </div>
+</body>
+<script src="/js/main.js"></script>
+</html>

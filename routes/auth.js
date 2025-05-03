@@ -13,7 +13,6 @@ const edit_profile = require('../controllers/edit_profile');
 const admin_login = require('../controllers/admin_login');
 const admin_register = require('../controllers/admin_register');
 
-
 // Patients auth/register
 router.post('/signup', register.register);
 router.post('/login', login.login);
@@ -31,7 +30,7 @@ router.post('/symptom_checker', validateTokens, bookappointment.symptom_checker)
 // Appointment booking route
 router.post('/appointment', validateTokens, bookappointment.bookappointment);
 
-// Doctor Auth
+// Doctor Register
 router.post('/doctorregister', register.doctorregister);
 router.post('/doctorlogin', doclogin.doctorlogin);
 

@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-const db = require('../database');
 require('dotenv').config();
 
 exports.sendmail = (req, res) => {
@@ -15,7 +14,7 @@ exports.sendmail = (req, res) => {
         },
         tls: {
             rejectUnauthorized: false
-}
+        }
     });
 
     // Define email content

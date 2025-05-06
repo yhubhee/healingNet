@@ -28,7 +28,7 @@ router.post('/edit_profile', validateTokens, edit_profile.edit_profile)
 router.post('/symptom_checker', validateTokens, bookappointment.symptom_checker);
 
 // Appointment booking route
-router.post('/appointment', validateTokens, bookappointment.bookappointment);
+router.post('/submit_appointment', validateTokens, bookappointment.bookappointment);
 
 // Doctor Register
 router.post('/doctorregister', register.doctorregister);

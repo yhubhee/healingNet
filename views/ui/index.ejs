@@ -262,51 +262,14 @@
                             <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/ui/appointment"
                                 style="margin-top: 10px;" data-aos="fade-up" data-aos-delay="600">Read More</a>
                         </div>
-                        <div class="col-lg-6" data-aos="fade-in" data-aos-delay="100">
-                            <div class="bg-light text-center rounded p-5" data-aos="zoom-in" data-aos-delay="200">
-                                <h1 class="mb-4" data-aos="fade-up" data-aos-delay="300">Book An Appointment</h1>
-                                <form action="/auth/appointment" method="POST">
-                                    <div class="row g-3">
-                                        <div class="col-12 col-sm-6" data-aos="fade-up" data-aos-delay="400">
-                                            <input name="Illness" type="text" class="form-control bg-white border-0"
-                                                placeholder="Your Illness" id="illness_Select"
-                                                onchange="updateDoctors()" style="height: 55px;" required>
-                                        </div>
-                                        <div class="col-12 col-sm-6" data-aos="fade-up" data-aos-delay="500">
-                                            <select name="doctor" class="form-select bg-white border-0"
-                                                id="doctorSelect" style="height: 55px;" required>
-                                                <option selected>Select Doctor</option>
-                                                <!-- Doctor options will be populated here -->
-                                            </select>
-                                        </div>
-                                        <div class="col-12 col-sm-6" data-aos="fade-up" data-aos-delay="600">
-                                            <input name="fullname" type="text" class="form-control bg-white border-0"
-                                                placeholder="Your Name" style="height: 55px;" required>
-                                        </div>
-                                        <div class="col-12 col-sm-6" data-aos="fade-up" data-aos-delay="700">
-                                            <input name="email" type="email" class="form-control bg-white border-0"
-                                                placeholder="Your Email" style="height: 55px;" required>
-                                        </div>
-                                        <div class="col-12 col-sm-6" data-aos="fade-up" data-aos-delay="800">
-                                            <div class="date" id="date" data-target-input="nearest">
-                                                <input type="date" name="appointment_date"
-                                                    class="form-control bg-white border-0 datetimepicker-input"
-                                                    placeholder="Input Your Date" style="height: 55px;" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6" data-aos="fade-up" data-aos-delay="900">
-                                            <div class="time" id="time" data-target-input="nearest">
-                                                <input type="time" name="appointment_time"
-                                                    class="form-control bg-white border-0 datetimepicker-input"
-                                                    placeholder="Time" style="height: 55px;" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12" data-aos="fade-up" data-aos-delay="1000">
-                                            <button class="btn btn-primary w-100 py-3" type="submit">Make An
-                                                Appointment</button>
-                                        </div>
-                                    </div>
-                                </form>
+                        <div class="col-lg-6">
+                            <div class="bg-light text-center rounded p-5" data-aos="fade-up" data-aos-delay="400">
+                                <h1 class="mb-4"  data-aos="fade-up" data-aos-delay="420">Book An Appointment</h1>
+                                <p class="mb-4"  data-aos="fade-up" data-aos-delay="430">Use our online platform to schedule your appointment. Visit the <a
+                                    href="/ui/search">Find Doctor</a> page to get started.</p>
+                                <p  data-aos="fade-up" data-aos-delay="450"> Before you book please complete the symptom-checker to get a comprehensive idea of
+                                    your disease and ensure effective booking <a href="/ui/symptom_checker"
+                                        target="_blank"> Get our Symptoms checked here </a> </p>          
                             </div>
                         </div>
                     </div>
@@ -413,19 +376,17 @@
             <div class="container-fluid py-5 fade-bottom bg-primary text-white" data-aos="fade-in">
                 <div class="container">
                     <div class="row align-items-center gx-5 my-5">
-                        
+
                         <!-- Image Column -->
                         <div class="col-lg-5 mb-4 mb-lg-0" data-aos="zoom-in" data-aos-delay="100">
                             <div class="d-flex justify-content-center align-items-center h-100">
-                                <img src="/img/video-consulting.jpg"
-                                     alt="Support HealingNet"
-                                     class="img-fluid rounded w-100"
-                                     style="min-height: 300px; object-fit: cover;">
+                                <img src="/img/video-consulting.jpg" alt="Support HealingNet"
+                                    class="img-fluid rounded w-100" style="min-height: 300px; object-fit: cover;">
                             </div>
                         </div>
-            
+
                         <!-- Content Column -->
-                        <div class="col-lg-7" data-aos="fade-in data-aos-delay="200">
+                        <div class="col-lg-7" data-aos="fade-in data-aos-delay=" 200">
                             <div class="mb-4">
                                 <h5 class="d-inline-block text-white text-uppercase border-bottom border-5"
                                     data-aos="fade-up" data-aos-delay="300">
@@ -435,35 +396,36 @@
                                     Like Our Commitment?
                                 </h1>
                             </div>
-            
+
                             <p data-aos="fade-up" data-aos-delay="500">
                                 HealingNet Premium is dedicated to bringing you the best in telemedicine—
                                 from advanced video consultations to 24/7 AI health guidance. Your donations
                                 help us expand our network, improve our platform, and reach more people in need.
                             </p>
-            
+
                             <p data-aos="fade-up" data-aos-delay="600">
                                 Choose a level below to make a difference:
                             </p>
-            
+
                             <!-- Donation Tiers -->
                             <div class="d-flex flex-wrap gap-3 mb-4" data-aos="fade-up" data-aos-delay="700">
                                 <button type="button" class="btn btn-light rounded-pill py-2 px-4">Bronze — $10</button>
                                 <button type="button" class="btn btn-light rounded-pill py-2 px-4">Silver — $25</button>
                                 <button type="button" class="btn btn-light rounded-pill py-2 px-4">Gold — $50</button>
-                                <button type="button" class="btn btn-light rounded-pill py-2 px-4">Platinum — $100</button>
+                                <button type="button" class="btn btn-light rounded-pill py-2 px-4">Platinum —
+                                    $100</button>
                             </div>
-            
+
                             <!-- CTA Button -->
                             <a href="/ui/donations" class="btn btn-outline-light rounded-pill px-5 py-3"
-                               data-aos="fade-up" data-aos-delay="800">
+                                data-aos="fade-up" data-aos-delay="800">
                                 Donate Here
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Donations Section End -->
 
             <!-- Testimonial Start -->

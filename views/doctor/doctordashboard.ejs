@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <%- include('partials/head') %>
+  <%- include('../partials/head') %>
     <link href="/css/dashboard.css" rel="stylesheet">
 
     <title>Doctor Dashboard - HealingNet Telemedicine</title>
@@ -168,7 +168,7 @@
       <!-- Main Dashboard Content -->
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 main-content">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-          <h1 class="h2"> Welcome Back, <%= firstname %> <%= lastname %> </h1>
+          <h1 class="h2"> Welcome Back, <%= name %>  </h1>
           <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
               <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -246,7 +246,7 @@
     </div>
   </div>
   <!-- JavaScript Libraries -->
-  <%- include('partials/footer') %>
+  <%- include('../partials/footer') %>
     <!-- Template Javascript -->
     <script src="/js/main.js"></script>
 </body>

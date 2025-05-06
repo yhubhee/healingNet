@@ -18,7 +18,7 @@ create database hospital_new; -- Your database name
 
 -- CREATE TABLE doctors (
 --     doctor_id INT PRIMARY KEY AUTO_INCREMENT,
---     name VARCHAR(50),
+--     doc_name VARCHAR(50),
 --     doc_img VARCHAR(100)
 --     specialty VARCHAR(150),
 --     email VARCHAR(150),
@@ -30,19 +30,16 @@ create database hospital_new; -- Your database name
 --     status VARCHAR(30),
 --     about_doctor text (500),
 --     admin_id INT,
---     FOREIGN KEY (admin_id) REFERENCES patients(admin_id),
+--     FOREIGN KEY (admin_id) REFERENCES admin (admin_id),
 -- );
 
 -- CREATE TABLE appointment (
 --     appointment_id INT PRIMARY KEY AUTO_INCREMENT,
---     department VARCHAR(255),
 --     specialty VARCHAR(90),
 --     doctor VARCHAR(90),
 --     fullname VARCHAR(50),
---     email VARCHAR(200),
---     illness VARCHAR(200),
---     appointment_date DATE,
---     appointment_time TIME,
+--     appointmentDate DATE,
+--     appointmentTime TIME,
 --     patient_id INT,
 --     doctor_id INT,
 --     status VARCHAR(50),
@@ -58,6 +55,16 @@ create database hospital_new; -- Your database name
 -- password varchar(200),
 -- status varchar (50),
 -- );
+-- CREATE TABLE prescription (
+--     prescription_id INT PRIMARY KEY AUTO_INCREMENT,
+--     drugs VARCHAR(90),
+--     dosage VARCHAR(90),
+--     note VARCHAR(50),
+--     patient_id INT,
+--     doctor_id INT,
+--     FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+--     FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
+-- );
 
 
 -- create table doctor_schedules(
@@ -65,7 +72,6 @@ create database hospital_new; -- Your database name
 -- doctor_id int,
 -- email varchar(200),
 -- status varchar(50),
--- illness varchar(250),
 -- appointment_time varchar(250),
 -- appointment_date date
 --     FOREIGN KEY (patient_id) REFERENCES appointment(patient_id),

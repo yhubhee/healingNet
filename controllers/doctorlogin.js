@@ -8,7 +8,7 @@ exports.doctorlogin = (req, res) => {
     const { email, password } = req.body
 
     if (!email || !password) {
-        return res.render('doctorlogin', {
+        return res.render('doctor/doctorlogin', {
             error: `Please input Email/Password`
         })
     }
@@ -19,7 +19,7 @@ exports.doctorlogin = (req, res) => {
 
         }
         if (!result[0] || !await bcrypt.compare(password, result[0].password)) {
-            return res.render('doctorlogin', {
+            return res.render('doctor/doctorlogin', {
                 error: `Invalid Email or password`
             })
         }
@@ -35,7 +35,7 @@ exports.doctorlogin = (req, res) => {
         })
 
         // console.log('The token is: ' + accessToken);
-        res.render('doctorlogin',{
+        res.render('doctor/doctorlogin',{
             success: "Login successful",
             redirect : true
         })

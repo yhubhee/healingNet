@@ -1,155 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('../partials/head') %>
+    <%- include('../partials/head') %>
 
-    <body>
-        <%- include('../partials/header') %>
+<body>
+    <%- include('../partials/header') %>
 
-            <!-- Hero Section Start -->
-            <div class="container-fluid bg-primary py-5 mb-5 hero-header" style="height: 90vh;">
-                <div class="container py-5">
-                    <div class="row justify-content-start">
-                        <div class="col-lg-8 text-center text-lg-start">
-                            <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
-                                style="border-color: rgba(256, 256, 256, .3) !important;">HealingNet Premium</h5>
-                            <h1 class="display-1 text-white mb-md-4">Unlock the Best in HealingNet</h1>
-                            <div class="pt-2">
-                                <a href="/signup" class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2">Get Premium</a>
-                                <a href="/price" class="btn btn-outline-light rounded-pill py-md-3 px-md-5 mx-2">View Pricing</a>
-                            </div>
-                        </div>
+    <!-- Hero Section Start -->
+    <div class="container-fluid bg-primary py-5 mb-5 hero-header" style="height: 90vh;" data-aos="fade-up" data-aos-duration="1000">
+        <div class="container py-5">
+            <div class="row justify-content-start">
+                <div class="col-lg-8 text-center text-lg-start">
+                    <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
+                        style="border-color: rgba(255, 255, 255, 0.3) !important;" data-aos="fade-up" data-aos-delay="100">HealingNet Premium</h5>
+                    <h1 class="display-1 text-white mb-md-4" data-aos="fade-up" data-aos-delay="200">Unlock the Best in HealingNet</h1>
+                    <div class="pt-2" data-aos="fade-up" data-aos-delay="300">
+                        <a href="/signup" class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2" aria-label="Get Premium Subscription">Get Premium</a>
+                        <a href="/price" class="btn btn-outline-light rounded-pill py-md-3 px-md-5 mx-2" aria-label="View Pricing Details">View Pricing</a>
                     </div>
                 </div>
             </div>
-            <!-- Hero Section End -->
+        </div>
+    </div>
+    <!-- Hero Section End -->
 
-            <!-- Premium Feature Section Start -->
-            <div class="container-fluid py-5 fade-bottom" data-aos="fade-in">
-                <div class="container">
-                    <div class="text-center mx-auto mb-5" style="max-width: 500px;">
-                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Services</h5>
-                        <h1 class="display-4">Excellent Premuim Features</h1>
+    <!-- Premium Feature Section Start -->
+    <div class="container-fluid py-5" data-aos="fade-in" data-aos-duration="1000">
+        <div class="container">
+            <div class="text-center mx-auto mb-5" style="max-width: 500px;" data-aos="fade-up" data-aos-delay="100">
+                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Services</h5>
+                <h1 class="display-4">Excellent Premium Features</h1>
+            </div>
+            <div class="alert-container2">
+                <div class="alert alert-danger">
+                    <p>Coming Soon</p>
+                </div>
+            </div>
+            <hr>
+            <!-- Feature Block 1 -->
+            <div class="row gx-5 my-5">
+                <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px;" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="position-relative h-100">
+                        <img class="position-absolute w-100 h-100 rounded" src="/img/premuim01.webp"
+                            alt="Video consultation feature" style="object-fit: cover;">
                     </div>
-                    <hr>
-                    <!-- Feature Block 1 -->
-                    <div class="row gx-5 my-5">
-                        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;" data-aos="fade-in">
-                            <div class="position-relative h-100">
-                                <img class="position-absolute w-100 h-100 rounded" src="/img/premium01.jpg"
-                                    style="object-fit: cover;">
-                            </div>
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="mb-4">
-                                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
-                                    data-aos="fade-in">Video Consulting
-                                </h5>
-                                <h1 class="display-4" data-aos="fade-in">High-Quality Video Consultation With Mutiple Specialist At A Time
-                                </h1> 
-                            </div>
-                            <p class="mb-4" data-aos="fade-in">Multi-party support for involving specialists or family in virtual visits. Tools like
-                                screen sharing and whiteboarding ensure better diagnostics.</p>
-                            <p class="mb-4" data-aos="fade-in">Runs on secure WebRTC with EHR integration for real-time data and continuity of care.</p>
-                            <div class="col-lg-6 mb-5 mb-lg-0">
-                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/ui/premuim_pay"
-                                    style="margin-top: 10px;">Pay Now</a>
-                            </div>
-                        </div>
+                </div>
+                <div class="col-lg-7" data-aos="fade-up" data-aos-delay="300">
+                    <div class="mb-4">
+                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Video Consulting</h5>
+                        <h1 class="display-4">High-Quality Video Consultation with Multiple Specialists</h1>
                     </div>
-                    <!-- Feature Block 2 -->
-                    <div class="row gx-5 my-5">
-                        <div class="col-lg-7">
-                            <div class="mb-4">
-                                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
-                                    data-aos="fade-in">24/7 Help
-                                </h5>
-                                <h1 class="display-4" data-aos="fade-in">AI Health Assistant
-                                </h1> 
-                            </div>
-                            <p class="mb-4" data-aos="fade-in">Get instant answers, symptom guidance, and tailored health insights from our AI—always
-                                learning and ready to help.</p>
-                            <p class="mb-4" data-aos="fade-in">Integrated with your records to improve relevance and reduce appointment delays.</p>
-                            <div class="col-lg-6 mb-5 mb-lg-0">
-                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/ui/premuim_pay"
-                                    style="margin-top: 10px;">Pay Now</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;" data-aos="fade-in">
-                            <div class="position-relative h-100">
-                                <img class="position-absolute w-100 h-100 rounded" src="/img/Premuim_ai_02.png"
-                                    style="object-fit: cover;">
-                            </div>
-                        </div>
-                       
+                    <p class="mb-4" style="word-wrap: break-word; max-height: 150px; overflow-y: auto;">
+                        Multi-party support for involving specialists or family in virtual visits. Tools like screen sharing and whiteboarding ensure better diagnostics.</p>
+                    <p class="mb-4" style="word-wrap: break-word;">
+                        Runs on secure WebRTC with EHR integration for real-time data and continuity of care.</p>
+                    <a class="btn btn-outline-dark rounded-pill py-3 px-5 mt-3" href="#"
+                        aria-label="Pay for Premium Video Consulting" data-aos="fade-up" data-aos-delay="400">Pay Now</a>
+                </div>
+            </div>
+            <!-- Feature Block 2 -->
+            <div class="row gx-5 my-5 bg">
+                <div class="col-lg-7" data-aos="fade-up" data-aos-delay="200">
+                    <div class="mb-4">
+                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">24/7 Help</h5>
+                        <h1 class="display-4">AI Health Assistant</h1>
                     </div>
-                    <!-- Feature Block 3 -->
-                    <div class="row gx-5 my-5">
-                        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;" data-aos="fade-in">
-                            <div class="position-relative h-100">
-                                <img class="position-absolute w-100 h-100 rounded" src="/img/premium_home_03.jpg"
-                                    style="object-fit: cover;">
-                            </div>
-                        </div>   
-                        <div class="col-lg-7">
-                            <div class="mb-4">
-                                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
-                                    data-aos="fade-in">Convenient
-                                    Visits
-                                </h5>
-                                <h1 class="display-4" data-aos="fade-in">Home Appointments
-                                </h1> 
-                            </div>
-                            <p class="mb-4" data-aos="fade-in">Let qualified professionals come to you. Ideal for patients needing physical exams or
-                                hands-on care..</p>
-                            <p class="mb-4" data-aos="fade-in">Flexible scheduling, safety assured, and same premium experience without leaving home.</p>
-                            <div class="col-lg-6 mb-5 mb-lg-0">
-                                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="/ui/premuim_pay"
-                                    style="margin-top: 10px;">Pay Now</a>
-                            </div>
-                        </div> 
-                    </div>
-
-                    <!-- Feature Icons -->
-                    <div class="col-lg-7 justify-content-around">
-                        <div class="mb-4">
-                            <div class="row g-3 pt-3 text-center">
-                                <div class="col-sm-3 col-6">
-                                    <div class="bg-light text-center rounded-circle py-4">
-                                        <i class="fa fa-3x fa-user-md text-primary mb-3"></i>
-                                        <h6 class="mb-0">Expert<small class="d-block text-primary">Doctors</small></h6>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-6">
-                                    <div class="bg-light text-center rounded-circle py-4">
-                                        <i class="fa fa-3x fa-robot text-primary mb-3"></i>
-                                        <h6 class="mb-0">Smart<small class="d-block text-primary">AI Assistant</small></h6>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-6">
-                                    <div class="bg-light text-center rounded-circle py-4">
-                                        <i class="fa fa-3x fa-house-user text-primary mb-3"></i>
-                                        <h6 class="mb-0">Care<small class="d-block text-primary">At Home</small></h6>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-6">
-                                    <div class="bg-light text-center rounded-circle py-4">
-                                        <i class="fa fa-3x fa-shield-alt text-primary mb-3"></i>
-                                        <h6 class="mb-0">Data<small class="d-block text-primary">Security</small></h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Call to Action -->
-                    <div class="text-center mt-5">
-                        <a class="btn btn-dark rounded-pill py-3 px-5" href="/signup">Upgrade to Premium</a>
+                    <p class="mb-4" style="word-wrap: break-word; max-height: 150px; overflow-y: auto;">
+                        Get instant answers, symptom guidance, and tailored health insights from our AI—always learning and ready to help.</p>
+                    <p class="mb-4" style="word-wrap: break-word;">
+                        Integrated with your records to improve relevance and reduce appointment delays.</p>
+                    <a class="btn btn-outline-dark rounded-pill py-3 px-5 mt-3" href="#"
+                        aria-label="Pay for Premium AI Health Assistant" data-aos="fade-up" data-aos-delay="300">Pay Now</a>
+                </div>
+                <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px;" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="position-relative h-100">
+                        <img class="position-absolute w-100 h-100 rounded" src="/img/Premuim_ai_02.png"
+                            alt="AI health assistant feature" style="object-fit: cover;">
                     </div>
                 </div>
             </div>
-            <!-- Premium Feature Section End -->
+            <!-- Feature Block 3 -->
+            <div class="row gx-5 my-5">
+                <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px;" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="position-relative h-100">
+                        <img class="position-absolute w-100 h-100 rounded" src="/img/premium_home_03.jpg"
+                            alt="Home appointments feature" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-7" data-aos="fade-up" data-aos-delay="300">
+                    <div class="mb-4">
+                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Convenient Visits</h5>
+                        <h1 class="display-4">Home Appointments</h1>
+                    </div>
+                    <p class="mb-4" style="word-wrap: break-word; max-height: 150px; overflow-y: auto;">
+                        Let qualified professionals come to you. Ideal for patients needing physical exams or hands-on care.</p>
+                    <p class="mb-4" style="word-wrap: break-word;">
+                        Flexible scheduling, safety assured, and same premium experience without leaving home.</p>
+                    <a class="btn btn-outline-dark rounded-pill py-3 px-5 mt-3" href="#"
+                        aria-label="Pay for Premium Home Appointments" data-aos="fade-up" data-aos-delay="400">Pay Now</a>
+                </div>
+            </div>
+            <!-- Feature Icons -->
+            <div class="row g-3 pt-3 text-center justify-content-center">
+                <div class="col-6 col-sm-3" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="bg-light text-center rounded py-4 specialty-card">
+                        <i class="fa fa-3x fa-user-md text-primary mb-3" aria-hidden="true"></i>
+                        <h6 class="mb-0">Expert <small class="d-block text-primary">Doctors</small></h6>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-3" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="bg-light text-center rounded py-4 specialty-card">
+                        <i class="fa fa-3x fa-robot text-primary mb-3" aria-hidden="true"></i>
+                        <h6 class="mb-0">Smart <small class="d-block text-primary">AI Assistant</small></h6>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-3" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="bg-light text-center rounded py-4 specialty-card">
+                        <i class="fa fa-3x fa-house-user text-primary mb-3" aria-hidden="true"></i>
+                        <h6 class="mb-0">Care <small class="d-block text-primary">At Home</small></h6>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-3" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="bg-light text-center rounded py-4 specialty-card">
+                        <i class="fa fa-3x fa-shield-alt text-primary mb-3" aria-hidden="true"></i>
+                        <h6 class="mb-0">Data <small class="d-block text-primary">Security</small></h6>
+                    </div>
+                </div>
+            </div>
+            <!-- Call to Action -->
+            <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="500">
+                <a class="btn btn-dark rounded-pill py-3 px-5" href="/signup" aria-label="Upgrade to Premium Subscription">Upgrade to Premium</a>
+            </div>
+        </div>
+    </div>
+    <!-- Premium Feature Section End -->
 
-
-            <%- include('../partials/footer') %>
-    </body>
-
+    <%- include('../partials/footer') %>
+</body>
 </html>

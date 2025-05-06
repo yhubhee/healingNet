@@ -146,10 +146,10 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link load-content" href="#" data-url="/admin/total_appointment">
+              <a class="nav-link load-content" href="#" data-url="/admin/admin_appointment">
                 <i class="fas fa-calendar-check"></i> Appointments
               </a>
-            </li>
+            </li> 
             <li class="nav-item">
               <a class="nav-link load-content" href="#" data-url="/admin/add_doctor">
                 <i class="fa fa-1x fa-user-md"></i> Add Doctor
@@ -164,6 +164,11 @@
             <li class="nav-item">
               <a class="nav-link load-content" href="#" data-url="/admin/patient_list">
                 <i class="fa fa-1x fa-user-md"></i> Patients List
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link load-content" href="#" data-url="/admin/prescription">
+                <i class="fa-1x fa-pills"></i>  Prescription
               </a>
             </li>
           </ul>
@@ -242,7 +247,7 @@
             <div class="card shadow-sm">
               <div class="card-header">Prescription</div>
               <div class="card-body">
-                <p class="card-text">No prescription has been given.</p>
+                <p class="card-text">There has been <%= total_prescription %> prescription so far... </p>
                 <a href="#" class="btn btn-success btn-sm">Learn More</a>
               </div>
             </div>

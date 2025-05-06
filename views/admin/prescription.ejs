@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <title>Prescription List - HealingNet</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Prescription List (Total Prescription = <%=  total_prescription %>)
+        </h2>        
+        <% if (prescriptions.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Prescription Id</th>
+                            <th>Drugs</th>
+                            <th>Dosage</th>
+                            <th>Note</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% prescriptions.forEach(prescription => { %>
+                            <tr>
+                                <td><%= prescription.patient_id %></td>
+                                <td><%= prescription.drugs %></td>
+                                <td><%= prescription.dosage %></td>
+                                <td><%= prescription.note %></td>
+                                <td><%= prescription.status %></td>                               
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="alert alert-warning" role="alert">
+                You have no booked appointments.
+            </div>
+            <div class="text-center mt-4">
+                <a class="btn btn-primary btn-lg load-content" href="/admin/add_doctor" target="_blank">
+                    <i class="fas fa-plus"></i> Add New Doctor
+                </a>
+            </div>
+        <% } %>
+        
+        <!-- Create Appointment Button -->
+    </div>
+</body>
+<script src="/js/main.js"></script>
+</html>

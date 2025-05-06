@@ -1,127 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('../partials/head') %>
-<body>
-<%- include('../partials/header') %>
-    <div class="alert-container">
-        <% if (typeof error !== "undefined") { %>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <%= error %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<title>HealingNet Appointment - Trusted Telemedicine Platform for Online Consultations and Health Resources</title>
+
+    <body>
+        <%- include('../partials/header') %>
+            <div class="alert-container">
+                <% if (typeof error !=="undefined" ) { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <%= error %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <% } %>
+                        <% if (typeof success !=="undefined" ) { %>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <%= success %>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                            <% } %>
             </div>
-        <% } %>
-        <% if (typeof success !== "undefined") { %>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <%= success %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <% } %>
-    </div>
- 
-    <% if (typeof redirect !== 'undefined' && redirect) { %>
-    <script>
-        setTimeout(() => {
-        window.location.href = '/dashboard';
-        }, 1000); // Redirect after 1 second
-    </script>
-    <% } %>
-<!-- Appointment Start -->
-<div class="container-fluid py-5">
-    <div class="container">
-        <div class="row gx-5">
-            <div class="col-lg-6 mb-5 mb-lg-0">
-                <div class="mb-4">
-                    <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">
-                        Appointment</h5>
-                    <h1 class="display-4">Make An Appointment For Your Family</h1>
-                </div>
-                <p class="mb-5">
-                    At HealingNet, scheduling an appointment has never been easier. Our
-                    user-friendly online platform allows you to book appointments at your
-                    convenience, ensuring that you can access the care you need without the
-                    hassle of traditional office visits. Before you book please comeplete the symptom-checker <a href="/ui/symptom_checker" target="_blank">Get our Symptoms check here</a> Here’s how you can quickly and
-                    efficiently book your appointment: <br><br>
 
-                    1. Choose Your Service:
-                    Select from a range of services like emergency care, routine check-ups,
-                    or specialist consultations.<br><br>
-
-                    2. Select a Provider:
-                    Browse our network of qualified healthcare professionals. Review their
-                    profiles and choose one that suits your needs.<br><br>
-
-                    3. Pick a Date and Time:
-                    Check real-time availability and select a date and time that fits your
-                    schedule, including weekends.<br><br>
-
-                    4. Enter Your Information:
-                    Provide your name, contact details, and any relevant medical history to
-                    prepare for your appointment.<br>
-                    <br>
-                    5. Confirmation and Reminders:
-                    Receive a confirmation email and reminders as your appointment
-                    approaches.<br><br>
-
-                    6. Connect with Your Provider:
-                    On the appointment day, log into your HealingNet account and follow the
-                    link to start your secure video consultation.
-                </p>
-                <a class="btn btn-primary rounded-pill py-3 px-5 me-3" href="/ui/search">Find
-                    Doctor</a>
-                <!-- <a class="btn btn-outline-primary rounded-pill py-3 px-5" href="">Read More</a> -->
-            </div>
-            <div class="col-lg-6">
-                <div class="bg-light text-center rounded p-5">
-                    <h1 class="mb-4">Book An Appointment</h1>
-                    <form action="/auth/appointment" method="POST">
-                        <div class="row g-3">
-                            <div class="col-12 col-sm-6">
-                                <input name="Illness" type="text" class="form-control bg-white border-0"
-                                    placeholder="Your Illness" id="illness_Select" onchange="updateDoctors()" style="height: 55px;" required>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <select name="doctor" class="form-select bg-white border-0"
-                                    id="doctorSelect" style="height: 55px;" required>
-                                    <option selected>Select Doctor</option>
-                                    <!-- Doctor options will be populated here -->
-                                </select>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <input name="fullname" type="text" class="form-control bg-white border-0"
-                                    placeholder="Your Name" style="height: 55px;" required>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <input name="email" type="email" class="form-control bg-white border-0"
-                                    placeholder="Your Email" style="height: 55px;" required>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="date" id="date" data-target-input="nearest">
-                                    <input type="date" name="appointment_date"
-                                        class="form-control bg-white border-0 datetimepicker-input"
-                                        placeholder="Date" style="height: 55px;" required>
+            <% if (typeof redirect !=='undefined' && redirect) { %>
+                <script>
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1000); // Redirect after 1 second
+                </script>
+                <% } %>
+                    <!-- Hero Start -->
+                    <div class="container-fluid bg-primary py-5 mb-5 hero-header4">
+                        <div class="container py-5">
+                            <div class="row justify-content-start">
+                                <div class="col-lg-8 text-center text-lg-start">
+                                    <h5 class="d-inline-block text-white text-uppercase border-bottom border-5"
+                                        style="border-color: rgba(256, 256, 256, .3) !important;" data-aos="fade-up"
+                                        data-aos-delay="0">Welcome To HealingNet</h5>
+                                    <h1 class="display-2" data-aos="fade-up" data-aos-delay="200">Best
+                                        Book Appointment With 100+ Trusted Doctors</h1>
+                                    <div class="pt-2">
+                                        <a href="/ui/search" class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2"
+                                            data-aos="fade-up" data-aos-delay="300">Find
+                                            Doctor</a>
+                                        <a href="/ui/appointment"
+                                            class="btn btn-outline-dark rounded-pill py-md-3 px-md-5 mx-2 blue"
+                                            data-aos="fade-up" data-aos-delay="300">Appointment</a>
+                                        <a href="/ui/premuim"
+                                            class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2 home_app"
+                                            style="margin-top: 10px;" data-aos="fade-up" data-aos-delay="300">Go
+                                            Premium</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="time" id="time" data-target-input="nearest">
-                                    <input type="time" name="appointment_time"
-                                        class="form-control bg-white border-0 datetimepicker-input"
-                                        placeholder="Time" style="height: 55px;" required>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Make An
-                                    Appointment</button>
                             </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                    </div>
+                    <!-- Hero End -->
 
-<!-- Appointment End -->
-<%- include('../partials/footer') %>
-<script src="/js/appoint.js"></script>
-</body>
+                    <!-- Specialties Section Start -->
+                    <div class="container-fluid py-5" data-aos="fade-in">
+                        <div class="container">
+                            <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+                                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5"
+                                    data-aos="fade-up" data-aos-delay="100">Our Specialties</h5>
+                                <h1 class="display-5" data-aos="fade-up" data-aos-delay="200">Comprehensive Healthcare
+                                    Services
+                                </h1>
+                            </div>
+                            <div class="row g-4 pt-4 justify-content-center">
+                                <div class="col-sm-6 col-md-4 col-lg-2 text-center" data-aos="fade-right"
+                                    data-aos-delay="100">
+                                    <div class="specialty-card bg-light rounded-circle py-4">
+                                        <i class="fa fa-user-md fa-3x text-primary mb-2"></i>
+                                        <h6 class="mb-0">General<small class="d-block text-primary">Practitioner</small>
+                                        </h6>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-2 text-center" data-aos="fade-right"
+                                    data-aos-delay="200">
+                                    <div class="specialty-card bg-light rounded-circle py-4">
+                                        <i class="fas fa-female fa-3x text-primary mb-2"></i>
+                                        <h6 class="mb-0">Qualified<small
+                                                class="d-block text-primary">Gynaecologist</small></h6>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-2 text-center" data-aos="fade-right"
+                                    data-aos-delay="300">
+                                    <div class="specialty-card bg-light rounded-circle py-4">
+                                        <i class="fa fa-child fa-3x text-primary mb-2"></i>
+                                        <h6 class="mb-0">Qualified<small
+                                                class="d-block text-primary">Pediatricians</small></h6>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-2 text-center" data-aos="fade-right"
+                                    data-aos-delay="400">
+                                    <div class="specialty-card bg-light rounded-circle py-4">
+                                        <i class="fa fa-hand-holding-medical fa-3x text-primary mb-2"></i>
+                                        <h6 class="mb-0">Qualified<small
+                                                class="d-block text-primary">Dermatologist</small></h6>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-2 text-center" data-aos="fade-right"
+                                    data-aos-delay="500">
+                                    <div class="specialty-card bg-light rounded-circle py-4">
+                                        <i class="fa fa-heartbeat fa-3x text-primary mb-2"></i>
+                                        <h6 class="mb-0">Qualified<small
+                                                class="d-block text-primary">Cardiologist</small></h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Specialties Section End -->
+
+                    <!-- Appointment Start -->
+                    <div class="container-fluid py-5" data-aos="fade-in">
+                        <div class="container">
+                            <div class="row gx-5">
+                                <div class="col-lg-6 mb-5 mb-lg-0">
+                                    <div class="mb-4">
+                                        <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5" data-aos="fade-up" data-aos-delay="100">Appointment</h5>
+                                        <h1 class="display-4" data-aos="fade-up" data-aos-delay="200">Make An Appointment For Your Family</h1>
+                                    </div>
+                                    <p class="mb-5" data-aos="fade-up"                                data-aos-delay="250">
+                                        At HealingNet, scheduling an appointment has never been easier. Our user-friendly online platform allows you to book appointments at your convenience, ensuring that you can access the care you need without the hassle of traditional office visits. Before you book please complete the symptom-checker <a href="/ui/symptom_checker" target="_blank"> Get our Symptoms checked here</a>. Here’s how you can quickly and efficiently book your appointment:
+                                        <br><br>
+                                        1. Choose Your Service: Select from a range of services like emergency care, routine check-ups, or specialist consultations.<br><br>
+                                        2. Select a Provider: Browse our network of qualified healthcare professionals. Review their profiles and choose one that suits your needs.<br><br>
+                                        3. Pick a Date and Time: Check real-time availability and select a date and time that fits your schedule, including weekends.<br><br>
+                                        4. Enter Your Information: Provide your name, contact details, and any relevant medical history to prepare for your appointment.<br><br>
+                                        5. Confirmation and Reminders: Receive a confirmation email and reminders as your appointment approaches.<br><br>
+                                        6. Connect with Your Provider: On the appointment day, log into your HealingNet account and follow the link to start your secure video consultation.
+                                    </p>
+                                    <a class="btn btn-primary rounded-pill py-3 px-5 me-3" href="/ui/search" data-aos="fade-up" data-aos-delay="400">Find Doctor</a>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="bg-light text-center rounded p-5" data-aos="fade-up" data-aos-delay="400">
+                                        <h1 class="mb-4">Book An Appointment</h1>
+                                        <p class="mb-4">Use our online platform to schedule your appointment. Visit the <a href="/ui/search">Find Doctor</a> page to get started.</p>
+
+                                        <p>  Before you book please complete the symptom-checker to get a comprehensive idea of your disease and ensure effective booking <a href="/ui/symptom_checker" target="_blank"> Get our Symptoms checked here </a> </p> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Start -->
+                    <div class="container-fluid py-5">
+                        <div class="container">
+                            <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+                                <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Top Doctors to Book</h5>
+                                <h1 class="display-8">Simply browse through our extensive list of trusted doctors.</h1>
+                            </div>
+                            <div class="owl-carousel team-carousel position-relative">
+                                <div class="team-item">
+                                    <div class="row g-0 bg-light rounded overflow-hidden">
+                                        <div class="col-12 col-sm-5 h-100">
+                                            <img class="img-fluid h-100" src="/img/team-1.jpg"
+                                                style="object-fit: cover;">
+                                        </div>
+                                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
+                                            <div class="mt-auto p-4">
+                                                <h3>Dr. John Edward</h3>
+                                                <h6 class="fw-normal fst-italic text-primary mb-4">Cardiology Specialist
+                                                </h6>
+                                                <p class="m-0">
+                                                <p class="m-0">Dr. John Edward is a highly experienced cardiology
+                                                    specialist
+                                                    dedicated to providing exceptional care with over 20 years of
+                                                    experience.
+                                                </p>
+                                            </div>
+                                            <div class="d-flex mt-auto border-top p-4">
+                                                <div class="col-12 text-center">
+                                                    <a href="/ui/search" class="text-white"><button class="btn btn-primary py-3 px-5"> Book Doctor </button> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="team-item">
+                                    <div class="row g-0 bg-light rounded overflow-hidden">
+                                        <div class="col-12 col-sm-5 h-100">
+                                            <img class="img-fluid h-100" src="/img/team-2.jpg"
+                                                style="object-fit: cover;">
+                                        </div>
+                                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
+                                            <div class="mt-auto p-4">
+                                                <h3>Dr. James Ambrose</h3>
+                                                <h6 class="fw-normal fst-italic text-primary mb-4">Reproductive
+                                                    Endocrinology
+                                                </h6>
+                                                <p class="m-0">Dr. James Ambrose is a renowned reproductive
+                                                    endocrinology
+                                                    specialist experience in helping patients with
+                                                    fertility issues and hormonal disorders.</p>
+                                            </div>
+                                            <div class="d-flex mt-auto border-top p-4">
+                                                <div class="col-12 text-center">
+                                                    <a href="/ui/search" class="text-white"><button class="btn btn-primary py-3 px-5"> Book Doctor </button> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="team-item">
+                                    <div class="row g-0 bg-light rounded overflow-hidden">
+                                        <div class="col-12 col-sm-5 h-100">
+                                            <img class="img-fluid h-100" src="/img/team-3.jpg"
+                                                style="object-fit: cover;">
+                                        </div>
+                                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
+                                            <div class="mt-auto p-4">
+                                                <h3>Dr.Emily Johnson </h3>
+                                                <h6 class="fw-normal fst-italic text-primary mb-4">Pediatric Cardiology
+                                                </h6>
+                                                <p class="m-0">Dr. Emily Johnson is a dedicated pediatric cardiology
+                                                    specialist
+                                                    with over 10 years of experience .</p>
+                                            </div>
+                                            <div class="d-flex mt-auto border-top p-4">
+                                                <div class="col-12 text-center">
+                                                    <a href="/ui/search" class="text-white"><button class="btn btn-primary py-3 px-5"> Book Doctor </button> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="team-item">
+                                    <div class="row g-0 bg-light rounded overflow-hidden">
+                                        <div class="col-12 col-sm-5 h-100">
+                                            <img class="img-fluid h-100" src="/img/team/team_5_2.jpg"
+                                                style="object-fit: cover;">
+                                        </div>
+                                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
+                                            <div class="mt-auto p-4">
+                                                <h3>Dr.Emily Johnson </h3>
+                                                <h6 class="fw-normal fst-italic text-primary mb-4">Addiction Medicine
+                                                </h6>
+                                                <p class="m-0"></p>
+                                            </div>
+                                            <div class="d-flex mt-auto border-top p-4">
+                                                <div class="col-12 text-center">
+                                                    <a href="/ui/search" class="text-white"><button class="btn btn-primary py-3 px-5"> Book Doctor </button> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="team-item">
+                                    <div class="row g-0 bg-light rounded overflow-hidden">
+                                        <div class="col-12 col-sm-5 h-100">
+                                            <img class="img-fluid h-100" src="/img/team/team_5_6.jpg"
+                                                style="object-fit: cover;">
+                                        </div>
+                                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
+                                            <div class="mt-auto p-4">
+                                                <h3>Dr.Emily Johnson </h3>
+                                                <h6 class="fw-normal fst-italic text-primary mb-4">Anesthesiology</h6>
+                                                <p class="m-0"></p>
+                                            </div>
+                                            <div class="d-flex mt-auto border-top p-4">
+                                                <div class="col-12 text-center">
+                                                    <a href="/ui/search" class="text-white"><button class="btn btn-primary py-3 px-5"> Book Doctor </button> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Team End -->
+                    <div class="col-12 text-center">
+                        <a href="/ui/search" class="text-white"><button class="btn btn-primary py-3 px-5"> Find Doctor </button> </a>
+                    </div>
+
+                    <!-- Appointment End -->
+                    <%- include('../partials/footer') %>
+                        <script src="/js/appoint.js"></script>
+    </body>
+
 </html>

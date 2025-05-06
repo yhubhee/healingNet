@@ -11,6 +11,7 @@ const path = require('path');
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
@@ -39,12 +40,12 @@ app.get('/patients', (req, res) => {
     });
 });
 app.get('/bookappointment', (req, res) => {
-    pool.query('SELECT * FROM doctors', (err, rows) => {
+    pool.query('Select doc_img FROM doctors', (err, result) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(rows);
-            res.send({ rows });
+            console.log(result);
+            res.send( result );
         }
     });
 });

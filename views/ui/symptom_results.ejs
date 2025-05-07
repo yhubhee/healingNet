@@ -3,78 +3,65 @@
 <head>
     <%- include('../partials/head') %>
     <title>Symptom Results - HealingNet</title>
-    <!-- Custom Styles -->
-    <style>
-       
-        .results-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .form-header {
-            background-color: #13C5DD; 
-            color: black;
-            padding: 10px;
-            text-align: center;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            margin: -20px -20px 20px -20px; /* Adjust to fit container */
-        }
-        .table-responsive { margin-bottom: 20px; }
-        .btn-primary { background-color: #007bff; border-color: #0056b3; }
-        .btn-primary:hover { background-color: #0056b3; }
-        .back-btn { margin-left: 10px; }
-    </style>
 </head>
-<body>
-    <div class="results-container">
-        <div class="form-header">Symptom Checker Results</div>
-        <div class="p-4">
-            <h3 class="mb-4">Hello, <%= firstname %> <%= lastname %></h3>
-            <p class="lead mb-4"><strong>Your Reported Symptoms:</strong> <%= userSymptoms.join(', ') %></p>
+<body class="bg-light text-dark">
+    <div class="container my-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Symptom Checker Results</h3>
+            </div>
+            <div class="card-body p-4">
+                <h4 class="mb-3">Hello, <%= firstname %> <%= lastname %></h4>
+                <p class="lead mb-4"><strong>Your Reported Symptoms:</strong> <span style="word-wrap: break-word;"><%= userSymptoms.join(', ') %></span></p>
 
-            <% if (possibleDiseases.length > 0) { %>
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Department</th>
-                                <th>Disease</th>
-                                <th>Matched Symptoms</th>
-                                <th>Match Percentage</th>
-                                <th>Next Steps</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% possibleDiseases.forEach(result => { %>
+                <% if (possibleDiseases.length > 0) { %>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-primary">
                                 <tr>
-                                    <td><%= result.department %></td>
-                                    <td><%= result.disease %></td>
-                                    <td><%= result.matchedSymptoms.join(', ') %></td>
-                                    <td><%= result.matchPercentage %>%</td>
-                                    <td><%= result.telemedicine_context || 'No specific guidance available.' %></td>
-                                    <td>
-                                        <a href="/appointment?department=<%= encodeURIComponent(result.department) %>&disease=<%= encodeURIComponent(result.disease) %>" class="btn btn-primary btn-sm">Book</a>
-                                    </td>
+                                    <th scope="col" class="text-uppercase fw-bold">Specialty</th>
+                                    <th scope="col" class="text-uppercase fw-bold">Disease</th>
+                                    <th scope="col" class="text-uppercase fw-bold">Matched Symptoms</th>
+                                    <th scope="col" class="text-uppercase fw-bold">Match Percentage</th>
+                                    <th scope="col" class="text-uppercase fw-bold">Next Steps</th>
+                                    <th scope="col" class="text-uppercase fw-bold">Action</th>
                                 </tr>
-                            <% }); %>
-                        </tbody>
-                    </table>
-                </div>
-            <% } else { %>
-                <div class="alert alert-info" role="alert">
-                    No matches found based on your symptoms. Consider consulting a General Practitioner for a thorough evaluation.
-                </div>
-                <a href="/book-appointment?department=Primary%20Care" class="btn btn-primary btn-sm">Book with GP</a>
-            <% } %>
+                            </thead>
+                            <tbody>
+                                <% possibleDiseases.forEach(result => { %>
+                                    <tr>
+                                        <td><%= result.specialty %></td>
+                                        <td><%= result.disease %></td>
+                                        <td style="word-wrap: break-word; max-height: 100px; overflow-y: auto;"><%= result.matchedSymptoms.join(', ') %></td>
+                                        <td><%= result.matchPercentage %>%</td>
+                                        <td style="word-wrap: break-word; max-height: 100px; overflow-y: auto;"><%= result.telemedicine_context || 'No specific guidance available.' %></td>
+                                        <td>
+                                            <a href="/ui/search?specialty=<%= encodeURIComponent(result.specialty) %>&disease=<%= encodeURIComponent(result.disease) %>"
+                                               class="btn btn-primary btn-sm"
+                                               aria-label="Book Appointment with <%= result.specialty %> for <%= result.disease %>">
+                                                Book Appointment
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } else { %>
+                    <div class="alert alert-info" role="alert">
+                        No matches found based on your symptoms. Consider consulting a General Practitioner for a thorough evaluation.
+                    </div>
+                    <a href="/ui/book_appointment?specialty=General%20Practitioner"
+                       class="btn btn-primary btn-sm"
+                       aria-label="Book Appointment with General Practitioner">
+                        Book with GP
+                    </a>
+                <% } %>
 
-            <div class="mt-4">
-                <a href="/symptom_checker" class="btn btn-secondary">Try Again</a>
-                <a href="/dashboard" class="btn btn-secondary back-btn">Back to Dashboard</a>
+                <div class="d-flex gap-2 mt-4">
+                    <a href="/ui/symptom_checker" class="btn btn-secondary" aria-label="Try Symptom Checker Again">Try Again</a>
+                    <a href="/patients/dashboard" class="btn btn-secondary" aria-label="Back to Dashboard">Back to Dashboard</a>
+                </div>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 const symptoms = {
-    "Primary Care": {
+    "General Practitioner": {
         "Hypertension": {
             common: [
                 "Often asymptomatic (known as the 'silent killer')",
@@ -141,8 +141,7 @@ const symptoms = {
             telemedicine_context: "Fever and abdominal pain can be reported, but typhoid requires a blood or stool test for confirmation. A GP can order this test and prescribe antibiotics if confirmed."
         }
     },
-  
-    "Internal Medicine and Subspecialties": {
+    "Cardiologist": {
         "coronary artery disease": {
             common: [
                 "Chest pain or discomfort (angina)",
@@ -170,8 +169,10 @@ const symptoms = {
                 "Confusion or impaired thinking"
             ],
             telemedicine_context: "Edema and shortness of breath can be assessed via video. Doctors can adjust diuretics and recommend in-person tests like an echocardiogram."
-        },
-        "diabetes": { // Same as Primary Care
+        }
+    },
+    "Endocrinologist": {
+        "diabetes": {
             common: [
                 "Increased thirst",
                 "Frequent urination",
@@ -185,7 +186,7 @@ const symptoms = {
                 "Dry mouth",
                 "Increased hunger"
             ],
-            telemedicine_context: "Patients can report symptoms like thirst and fatigue. A GP can order a blood glucose test if diabetes is suspected."
+            telemedicine_context: "Patients can report symptoms like thirst and fatigue. A specialist can manage insulin therapy and monitor complications."
         },
         "thyroid disorders": {
             "Hypothyroidism": {
@@ -199,7 +200,7 @@ const symptoms = {
                     "Slow heart rate"
                 ],
                 less_common: [],
-                telemedicine_context: "Symptoms like fatigue or weight changes can be reported. A blood test (TSH levels) is needed for diagnosis, which a GP can order."
+                telemedicine_context: "Symptoms like fatigue or weight changes can be reported. A blood test (TSH levels) is needed for diagnosis, which a specialist can order."
             },
             "Hyperthyroidism": {
                 common: [
@@ -214,7 +215,9 @@ const symptoms = {
                 less_common: [],
                 telemedicine_context: "Symptoms like weight loss and palpitations can be reported. A blood test (TSH levels) is needed for diagnosis."
             }
-        },
+        }
+    },
+    "Gastroenterologist": {
         "peptic ulcers": {
             common: [
                 "Burning stomach pain (worse when stomach is empty)",
@@ -244,7 +247,9 @@ const symptoms = {
                 "Mouth sores"
             ],
             telemedicine_context: "Diarrhea and abdominal pain can be reported. Doctors can initiate dietary advice and order stool tests or refer for colonoscopy if needed."
-        },
+        }
+    },
+    "Hematologist": {
         "anemia": {
             common: [
                 "Fatigue and weakness",
@@ -259,7 +264,7 @@ const symptoms = {
                 "Brittle nails",
                 "Craving non-food items (pica, e.g., ice or dirt)"
             ],
-            telemedicine_context: "Fatigue and pallor can be reported (pallor may be visible on video). A blood test (CBC) is required for diagnosis, which a GP can order."
+            telemedicine_context: "Fatigue and pallor can be reported (pallor may be visible on video). A blood test (CBC) is required for diagnosis, which a specialist can order."
         },
         "leukemia": {
             common: [
@@ -275,8 +280,10 @@ const symptoms = {
                 "Abdominal discomfort (from enlarged spleen/liver)",
                 "Petechiae (small red spots under the skin)"
             ],
-            telemedicine_context: "Symptoms like fatigue and bruising can be reported, but leukemia requires a blood test (CBC, bone marrow biopsy) for confirmation. A GP can order tests and refer to a hematologist."
-        },
+            telemedicine_context: "Fatigue and bruising can be reported, but leukemia requires a blood test (CBC, bone marrow biopsy) for confirmation. A specialist can coordinate care."
+        }
+    },
+    "Pulmonologist": {
         "pneumonia": {
             common: [
                 "High fever and chills",
@@ -307,8 +314,39 @@ const symptoms = {
                 "Swollen lymph nodes",
                 "Cough lasting more than 3 weeks"
             ],
-            telemedicine_context: "Cough and night sweats can be reported. TB requires a sputum test or chest X-ray for diagnosis, which a GP can order."
+            telemedicine_context: "Cough and night sweats can be reported. TB requires a sputum test or chest X-ray for diagnosis, which a specialist can order."
         },
+        "COPD": {
+            common: [
+                "Chronic cough",
+                "Shortness of breath, especially during activity",
+                "Wheezing",
+                "Chest tightness"
+            ],
+            less_common: [
+                "Frequent respiratory infections",
+                "Fatigue",
+                "Unintended weight loss",
+                "Swelling in ankles (in severe cases)"
+            ],
+            telemedicine_context: "Shortness of breath and wheezing can be reported. Doctors can adjust inhalers and recommend spirometry for confirmation."
+        },
+        "asthma": {
+            common: [
+                "Shortness of breath",
+                "Wheezing",
+                "Chest tightness or pain",
+                "Coughing, especially at night or early morning"
+            ],
+            less_common: [
+                "Difficulty sleeping due to breathing issues",
+                "Fatigue from poor oxygenation",
+                "Rapid breathing"
+            ],
+            telemedicine_context: "Patients can describe wheezing or shortness of breath. Doctors can adjust inhaler prescriptions."
+        }
+    },
+    "Nephrologist": {
         "chronic kidney disease": {
             common: [
                 "Fatigue and weakness",
@@ -323,8 +361,24 @@ const symptoms = {
                 "Shortness of breath",
                 "Muscle cramps"
             ],
-            telemedicine_context: "Edema and fatigue can be reported. A blood test (creatinine, GFR) is needed for diagnosis, which a GP can order."
+            telemedicine_context: "Edema and fatigue can be reported. A blood test (creatinine, GFR) is needed for diagnosis, which a specialist can order."
         },
+        "kidney stones": {
+            common: [
+                "Severe pain in the side, back, or lower abdomen",
+                "Pain radiating to the groin",
+                "Blood in urine (hematuria)",
+                "Nausea and vomiting",
+                "Frequent urge to urinate"
+            ],
+            less_common: [
+                "Fever and chills (if infection present)",
+                "Cloudy or foul-smelling urine"
+            ],
+            telemedicine_context: "Pain and hematuria can be reported. Doctors can recommend hydration and pain relief, but imaging (e.g., CT scan) is needed for confirmation."
+        }
+    },
+    "Neurologist": {
         "stroke": {
             common: [
                 "Sudden numbness or weakness (especially on one side of the body)",
@@ -354,35 +408,24 @@ const symptoms = {
             ],
             telemedicine_context: "Patients can report seizure frequency and triggers. Doctors can adjust medications and recommend EEG testing if needed."
         },
-        "COPD": {
+        "brain tumors": {
             common: [
-                "Chronic cough",
-                "Shortness of breath, especially during activity",
-                "Wheezing",
-                "Chest tightness"
+                "Persistent headaches (worse in the morning)",
+                "Seizures",
+                "Nausea and vomiting",
+                "Vision or hearing problems",
+                "Difficulty with balance or walking"
             ],
             less_common: [
-                "Frequent respiratory infections",
-                "Fatigue",
-                "Unintended weight loss",
-                "Swelling in ankles (in severe cases)"
+                "Personality or behavior changes",
+                "Memory loss",
+                "Speech difficulties",
+                "Weakness in limbs"
             ],
-            telemedicine_context: "Shortness of breath and wheezing can be reported. Doctors can adjust inhalers and recommend spirometry for confirmation."
-        },
-        "asthma": { // Same as Primary Care
-            common: [
-                "Shortness of breath",
-                "Wheezing",
-                "Chest tightness or pain",
-                "Coughing, especially at night or early morning"
-            ],
-            less_common: [
-                "Difficulty sleeping due to breathing issues",
-                "Fatigue from poor oxygenation",
-                "Rapid breathing"
-            ],
-            telemedicine_context: "Patients can describe wheezing or shortness of breath. Doctors can adjust inhaler prescriptions."
-        },
+            telemedicine_context: "Headaches and seizures can be reported, but brain tumors require imaging (e.g., MRI) for diagnosis. Telemedicine can facilitate urgent referral."
+        }
+    },
+    "Rheumatologist": {
         "rheumatoid arthritis": {
             common: [
                 "Joint pain and stiffness (especially in the morning)",
@@ -412,7 +455,9 @@ const symptoms = {
                 "Kidney problems (e.g., protein in urine)"
             ],
             telemedicine_context: "Rash and joint pain can be reported (rash visible via video). Blood tests (e.g., ANA test) are needed for diagnosis."
-        },
+        }
+    },
+    "Infectious Disease Specialist": {
         "HIV/AIDS": {
             "Early HIV": {
                 common: [
@@ -424,7 +469,7 @@ const symptoms = {
                     "Night sweats"
                 ],
                 less_common: [],
-                telemedicine_context: "Fever and rash can be reported. HIV requires a blood test for diagnosis, which a GP can order."
+                telemedicine_context: "Fever and rash can be reported. HIV requires a blood test for diagnosis, which a specialist can order."
             },
             "AIDS": {
                 common: [
@@ -472,7 +517,7 @@ const symptoms = {
                 "Bleeding (e.g., from gums, nose, or into skin)",
                 "Hearing loss (in survivors)"
             ],
-            telemedicine_context: "Fever and sore throat can be reported, but Lassa fever requires a blood test for diagnosis. A GP can order this and prescribe antivirals."
+            telemedicine_context: "Fever and sore throat can be reported, but Lassa fever requires a blood test for diagnosis. A specialist can order this and prescribe antivirals."
         },
         "hepatitis B": {
             common: [
@@ -522,10 +567,54 @@ const symptoms = {
                 "Confusion (in severe cases)"
             ],
             telemedicine_context: "Fever and headache can be reported, but yellow fever requires a blood test for confirmation. Vaccination history can be reviewed remotely."
+        },
+        "schistosomiasis": {
+            common: [
+                "Rash or itchy skin (after exposure to water)",
+                "Fever",
+                "Chills",
+                "Cough",
+                "Muscle aches"
+            ],
+            less_common: [
+                "Abdominal pain",
+                "Blood in urine (urinary schistosomiasis)",
+                "Diarrhea or blood in stool (intestinal schistosomiasis)",
+                "Fatigue"
+            ],
+            telemedicine_context: "Rash and fever can be reported. A urine or stool test is needed for diagnosis, which a specialist can order."
+        },
+        "lymphatic filariasis": {
+            common: [
+                "Swelling in limbs (lymphedema)",
+                "Swelling in genitals (hydrocele in men)",
+                "Pain or discomfort in affected areas",
+                "Recurrent infections in affected limbs"
+            ],
+            less_common: [
+                "Fever",
+                "Chyluria (milky urine)",
+                "Fatigue"
+            ],
+            telemedicine_context: "Swelling can be reported (visible via video). A blood test (for microfilariae) is needed for diagnosis."
+        },
+        "soil-transmitted helminth infections": {
+            common: [
+                "Abdominal pain",
+                "Diarrhea",
+                "Fatigue",
+                "Anemia (especially with hookworm)",
+                "Weight loss"
+            ],
+            less_common: [
+                "Cough (during larval migration)",
+                "Itchy rash at entry site",
+                "Malnutrition (in children)"
+            ],
+            telemedicine_context: "Abdominal pain and fatigue can be reported. A stool test is needed for diagnosis, which a specialist can order."
         }
     },
-  
-    "Surgical Specialties": {
+    "General Surgeon": {
         "appendicitis": {
             common: [
                 "Sudden pain starting near the navel, shifting to lower right abdomen",
@@ -566,22 +655,10 @@ const symptoms = {
                 "Jaundice (if bile duct is blocked)",
                 "Dark urine or clay-colored stools"
             ],
-            telemedicine_context: "Abdominal pain can be reported, but gallstones require imaging (e.g., ultrasound) for diagnosis. A GP can refer for surgery if needed."
-        },
-        "coronary artery disease (for bypass)": { // Same as Internal Medicine
-            common: [
-                "Chest pain or discomfort (angina)",
-                "Shortness of breath",
-                "Fatigue",
-                "Palpitations (irregular heartbeat)"
-            ],
-            less_common: [
-                "Pain in the neck, jaw, throat, upper abdomen, or back",
-                "Swelling in legs, ankles, or feet (edema)",
-                "Nausea or indigestion-like symptoms"
-            ],
-            telemedicine_context: "Patients can report chest pain. Surgery (e.g., bypass) requires in-person care, but telemedicine can facilitate referral."
-        },
+            telemedicine_context: "Abdominal pain can be reported, but gallstones require imaging (e.g., ultrasound) for diagnosis. A surgeon can refer for surgery if needed."
+        }
+    },
+    "Neurosurgeon": {
         "brain tumors": {
             common: [
                 "Persistent headaches (worse in the morning)",
@@ -610,7 +687,9 @@ const symptoms = {
                 "Burning sensation in affected area"
             ],
             telemedicine_context: "Pain and numbness can be reported. Doctors can recommend physical therapy or refer for MRI if severe."
-        },
+        }
+    },
+    "Orthopedic Surgeon": {
         "fractures": {
             common: [
                 "Severe pain at the site",
@@ -637,7 +716,9 @@ const symptoms = {
                 "Warmth around the joint"
             ],
             telemedicine_context: "Joint pain and stiffness can be reported. Doctors can recommend physical therapy or refer for surgical evaluation if severe."
-        },
+        }
+    },
+    "ENT Surgeon": {
         "tonsillitis": {
             common: [
                 "Sore throat",
@@ -669,94 +750,9 @@ const symptoms = {
                 "Ear pain"
             ],
             telemedicine_context: "Facial pain and nasal discharge can be reported. Doctors can prescribe decongestants or antibiotics if bacterial."
-        },
-        "congenital anomalies": {
-            common: [
-                "Visible gap in the lip or palate",
-                "Difficulty feeding (in infants)",
-                "Speech difficulties (as child grows)"
-            ],
-            less_common: [
-                "Ear infections (due to palate issues)",
-                "Dental problems",
-                "Hearing difficulties"
-            ],
-            telemedicine_context: "Visible anomalies can be assessed via video, but surgical correction requires in-person care. Telemedicine can coordinate with specialists."
-        },
-        "burns": {
-            common: [
-                "Red, blistered, or charred skin",
-                "Pain (severity depends on burn degree)",
-                "Swelling",
-                "Peeling skin"
-            ],
-            less_common: [
-                "Fever (if infected)",
-                "Shock (in severe burns)",
-                "Difficulty breathing (if airway affected)"
-            ],
-            telemedicine_context: "Minor burns can be assessed via video (e.g., recommending cooling and dressings). Severe burns require in-person care."
-        },
-        "pelvic organ prolapse": {
-            common: [
-                "Feeling of pressure or fullness in the pelvis",
-                "Bulge in the vagina or feeling something 'coming out'",
-                "Urinary incontinence or difficulty urinating",
-                "Difficulty with bowel movements"
-            ],
-            less_common: [
-                "Lower back pain",
-                "Pain during intercourse",
-                "Vaginal bleeding or discharge"
-            ],
-            telemedicine_context: "Pressure and incontinence can be reported. Doctors can recommend pelvic floor exercises or refer for surgical evaluation."
-        },
-        "kidney stones": {
-            common: [
-                "Severe pain in the side, back, or lower abdomen",
-                "Pain radiating to the groin",
-                "Blood in urine (hematuria)",
-                "Nausea and vomiting",
-                "Frequent urge to urinate"
-            ],
-            less_common: [
-                "Fever and chills (if infection present)",
-                "Cloudy or foul-smelling urine"
-            ],
-            telemedicine_context: "Pain and hematuria can be reported. Doctors can recommend hydration and pain relief, but imaging (e.g., CT scan) is needed for confirmation."
-        },
-        "prostate cancer": {
-            common: [
-                "Often asymptomatic in early stages",
-                "Difficulty urinating (weak stream, hesitation)",
-                "Frequent urination (especially at night)",
-                "Blood in urine or semen"
-            ],
-            less_common: [
-                "Painful ejaculation",
-                "Pelvic pain",
-                "Bone pain (if cancer spreads)",
-                "Weight loss"
-            ],
-            telemedicine_context: "Urinary symptoms can be reported. A PSA blood test and digital rectal exam are needed for diagnosis, which a GP can order."
-        },
-        "aneurysms": {
-            common: [
-                "Often asymptomatic until rupture",
-                "Pulsating feeling in the abdomen (abdominal aortic aneurysm)",
-                "Back or abdominal pain"
-            ],
-            less_common: [
-                "Sudden, severe chest pain (thoracic aneurysm or rupture)",
-                "Difficulty swallowing",
-                "Hoarseness",
-                "Shock (if ruptured)"
-            ],
-            telemedicine_context: "Pain can be reported, but aneurysms require imaging (e.g., ultrasound, CT) for diagnosis. Telemedicine can facilitate urgent referral."
         }
     },
-  
-    "Women’s Health": {
+    "Obstetrician-Gynecologist": {
         "gestational diabetes": {
             common: [
                 "Often asymptomatic",
@@ -769,7 +765,7 @@ const symptoms = {
                 "Increased hunger",
                 "Weight gain (beyond normal pregnancy)"
             ],
-            telemedicine_context: "Thirst and fatigue can be reported. A glucose tolerance test is needed for diagnosis, which a GP can order."
+            telemedicine_context: "Thirst and fatigue can be reported. A glucose tolerance test is needed for diagnosis, which a specialist can order."
         },
         "preeclampsia": {
             common: [
@@ -820,7 +816,7 @@ const symptoms = {
                 "Pain during intercourse",
                 "Infertility issues"
             ],
-            telemedicine_context: "Heavy bleeding and pelvic pain can be reported. Ultrasound is needed for diagnosis, which a GP can order."
+            telemedicine_context: "Heavy bleeding and pelvic pain can be reported. Ultrasound is needed for diagnosis, which a specialist can order."
         },
         "endometriosis": {
             common: [
@@ -863,7 +859,7 @@ const symptoms = {
                 "Fatigue",
                 "Leg pain or swelling (if advanced)"
             ],
-            telemedicine_context: "Bleeding can be reported. A Pap smear or HPV test is needed for diagnosis, which a GP can order."
+            telemedicine_context: "Bleeding can be reported. A Pap smear or HPV test is needed for diagnosis, which a specialist can order."
         },
         "infertility": {
             common: [
@@ -891,10 +887,23 @@ const symptoms = {
                 "Mood swings"
             ],
             telemedicine_context: "Irregular periods and hair growth can be reported. Blood tests (e.g., testosterone, insulin) and ultrasound are needed for diagnosis."
+        },
+        "pelvic organ prolapse": {
+            common: [
+                "Feeling of pressure or fullness in the pelvis",
+                "Bulge in the vagina or feeling something 'coming out'",
+                "Urinary incontinence or difficulty urinating",
+                "Difficulty with bowel movements"
+            ],
+            less_common: [
+                "Lower back pain",
+                "Pain during intercourse",
+                "Vaginal bleeding or discharge"
+            ],
+            telemedicine_context: "Pressure and incontinence can be reported. Doctors can recommend pelvic floor exercises or refer for surgical evaluation."
         }
     },
-  
-    "Pediatric Specialties": {
+    "Pediatrician": {
         "congenital heart defects": {
             common: [
                 "Cyanosis (bluish skin, lips, or nails)",
@@ -938,7 +947,7 @@ const symptoms = {
             ],
             telemedicine_context: "Developmental delays can be reported. Telemedicine can coordinate with specialists for physical therapy, but diagnosis requires in-person exams."
         },
-        "epilepsy": { // Same as Internal Medicine
+        "epilepsy": {
             common: [
                 "Seizures (e.g., convulsions, staring spells, muscle spasms)",
                 "Temporary confusion",
@@ -952,7 +961,7 @@ const symptoms = {
             ],
             telemedicine_context: "Seizure frequency can be reported. Doctors can adjust medications and recommend EEG testing."
         },
-        "leukemia": { // Same as Internal Medicine
+        "leukemia": {
             common: [
                 "Fatigue and weakness",
                 "Frequent infections",
@@ -983,7 +992,7 @@ const symptoms = {
             ],
             telemedicine_context: "Abdominal swelling and fatigue can be reported. Imaging (e.g., ultrasound, MRI) and biopsy are needed for diagnosis, requiring in-person care."
         },
-        "appendicitis": { // Same as Surgical Specialties
+        "appendicitis": {
             common: [
                 "Sudden pain starting near the navel, shifting to lower right abdomen",
                 "Loss of appetite",
@@ -998,7 +1007,7 @@ const symptoms = {
             ],
             telemedicine_context: "Abdominal pain can be reported, but appendicitis requires in-person evaluation (e.g., ultrasound, CT scan). Telemedicine can facilitate urgent referral."
         },
-        "hernias": { // Same as Surgical Specialties
+        "hernias": {
             common: [
                 "Bulge in the groin or abdomen (visible or palpable)",
                 "Pain or discomfort, especially when bending, coughing, or lifting",
@@ -1011,7 +1020,7 @@ const symptoms = {
             ],
             telemedicine_context: "Patients can describe the bulge and pain. Doctors can recommend surgical consultation."
         },
-        "measles": { // Same as Primary Care
+        "measles": {
             common: [
                 "High fever",
                 "Cough",
@@ -1027,7 +1036,7 @@ const symptoms = {
             ],
             telemedicine_context: "Fever and rash can be reported. Doctors may recommend isolation and supportive care."
         },
-        "malaria": { // Same as Primary Care
+        "malaria": {
             common: [
                 "High fever (often cyclical)",
                 "Chills and shivering",
@@ -1044,7 +1053,7 @@ const symptoms = {
             ],
             telemedicine_context: "Fever and chills can be reported. A blood test is needed for confirmation."
         },
-        "pneumonia": { // Same as Internal Medicine
+        "pneumonia": {
             common: [
                 "High fever and chills",
                 "Cough (often with phlegm)",
@@ -1060,7 +1069,7 @@ const symptoms = {
             ],
             telemedicine_context: "Cough and shortness of breath can be reported. Doctors can prescribe antibiotics and recommend a chest X-ray."
         },
-        "diarrheal diseases": { // Same as Primary Care
+        "diarrheal diseases": {
             common: [
                 "Frequent loose or watery stools",
                 "Abdominal cramps or pain",
@@ -1075,8 +1084,7 @@ const symptoms = {
             telemedicine_context: "Stool frequency and dehydration symptoms can be reported. Doctors can recommend oral rehydration solutions."
         }
     },
-  
-    "Mental Health": {
+    "Psychiatrist": {
         "depression": {
             common: [
                 "Persistent sadness or emptiness",
@@ -1183,8 +1191,7 @@ const symptoms = {
             telemedicine_context: "Cravings and withdrawal can be reported. Telemedicine can offer counseling and refer to rehab programs."
         }
     },
-  
-    "Oncology and Cancer Care": {
+    "Oncologist": {
         "breast cancer": {
             common: [
                 "Lump or thickening in the breast or armpit",
@@ -1213,7 +1220,7 @@ const symptoms = {
                 "Bone pain (if spread)",
                 "Headache (if spread to brain)"
             ],
-            telemedicine_context: "Cough and shortness of breath can be reported. A chest X-ray or CT scan is needed for diagnosis, which a GP can order."
+            telemedicine_context: "Cough and shortness of breath can be reported. A chest X-ray or CT scan is needed for diagnosis, which a specialist can order."
         },
         "colorectal cancer": {
             common: [
@@ -1227,9 +1234,9 @@ const symptoms = {
                 "Feeling of incomplete evacuation",
                 "Anemia (leading to fatigue, pallor)"
             ],
-            telemedicine_context: "Bowel changes can be reported. A colonoscopy or stool test is needed for diagnosis, which a GP can order."
+            telemedicine_context: "Bowel changes can be reported. A colonoscopy or stool test is needed for diagnosis, which a specialist can order."
         },
-        "prostate cancer": { // Same as Surgical Specialties
+        "prostate cancer": {
             common: [
                 "Often asymptomatic in early stages",
                 "Difficulty urinating (weak stream, hesitation)",
@@ -1244,7 +1251,7 @@ const symptoms = {
             ],
             telemedicine_context: "Urinary symptoms can be reported. A PSA blood test is needed for diagnosis."
         },
-        "leukemia": { // Same as Internal Medicine
+        "leukemia": {
             common: [
                 "Fatigue and weakness",
                 "Frequent infections",
@@ -1273,9 +1280,9 @@ const symptoms = {
                 "Shortness of breath",
                 "Abdominal pain (if spleen/liver involved)"
             ],
-            telemedicine_context: "Swollen nodes and fever can be reported. A biopsy or blood test is needed for diagnosis, which a GP can order."
+            telemedicine_context: "Swollen nodes and fever can be reported. A biopsy or blood test is needed for diagnosis, which a specialist can order."
         },
-        "ovarian cancer": { // Same as Women’s Health
+        "ovarian cancer": {
             common: [
                 "Bloating or feeling full quickly",
                 "Pelvic or abdominal pain",
@@ -1288,9 +1295,9 @@ const symptoms = {
                 "Back pain",
                 "Changes in bowel habits"
             ],
-            telemedicine_context: "Bloating and pain can be reported. Imaging and blood tests (CA-125) are needed for diagnosis."
+            telemedicine_context: "Bloating and pain can be reported, but ovarian cancer requires imaging (e.g., ultrasound) and blood tests (CA-125) for diagnosis."
         },
-        "cervical cancer": { // Same as Women’s Health
+        "cervical cancer": {
             common: [
                 "Often asymptomatic in early stages",
                 "Abnormal vaginal bleeding (e.g., between periods, after intercourse)",
@@ -1305,8 +1312,7 @@ const symptoms = {
             telemedicine_context: "Bleeding can be reported. A Pap smear or HPV test is needed for diagnosis."
         }
     },
-  
-    "Rehabilitation and Allied Health": {
+    "Physical Medicine and Rehabilitation Specialist": {
         "stroke recovery": {
             common: [
                 "Weakness or paralysis on one side",
@@ -1418,54 +1424,6 @@ const symptoms = {
             ],
             telemedicine_context: "Eye irritation can be reported (redness visible via video). Doctors can prescribe antibiotics and refer to an ophthalmologist if severe."
         }
-    },
-  
-    "Pain and Specialized Care": {
-        "schistosomiasis": {
-            common: [
-                "Rash or itchy skin (after exposure to water)",
-                "Fever",
-                "Chills",
-                "Cough",
-                "Muscle aches"
-            ],
-            less_common: [
-                "Abdominal pain",
-                "Blood in urine (urinary schistosomiasis)",
-                "Diarrhea or blood in stool (intestinal schistosomiasis)",
-                "Fatigue"
-            ],
-            telemedicine_context: "Rash and fever can be reported. A urine or stool test is needed for diagnosis, which a GP can order."
-        },
-        "lymphatic filariasis": {
-            common: [
-                "Swelling in limbs (lymphedema)",
-                "Swelling in genitals (hydrocele in men)",
-                "Pain or discomfort in affected areas",
-                "Recurrent infections in affected limbs"
-            ],
-            less_common: [
-                "Fever",
-                "Chyluria (milky urine)",
-                "Fatigue"
-            ],
-            telemedicine_context: "Swelling can be reported (visible via video). A blood test (for microfilariae) is needed for diagnosis."
-        },
-        "soil-transmitted helminth infections": {
-            common: [
-                "Abdominal pain",
-                "Diarrhea",
-                "Fatigue",
-                "Anemia (especially with hookworm)",
-                "Weight loss"
-            ],
-            less_common: [
-                "Cough (during larval migration)",
-                "Itchy rash at entry site",
-                "Malnutrition (in children)"
-            ],
-            telemedicine_context: "Abdominal pain and fatigue can be reported. A stool test is needed for diagnosis, which a GP can order."
-        }
     }
 };
 
@@ -1480,11 +1438,11 @@ function symptomChecker(userSymptoms) {
     // Normalize user symptoms to lowercase for case-insensitive matching
     userSymptoms = userSymptoms.map(symptom => symptom.toLowerCase());
 
-    // Iterate over departments in the symptoms object
-    Object.keys(symptoms).forEach(department => {
-        const departmentData = symptoms[department];
-        Object.keys(departmentData).forEach(diseaseOrCategory => {
-            const data = departmentData[diseaseOrCategory];
+    // Iterate over specialties in the symptoms object
+    Object.keys(symptoms).forEach(specialty => {
+        const specialtyData = symptoms[specialty];
+        Object.keys(specialtyData).forEach(diseaseOrCategory => {
+            const data = specialtyData[diseaseOrCategory];
 
             // Case 1: Direct disease with common and less_common symptoms
             if (data.common && data.less_common) {
@@ -1518,7 +1476,7 @@ function symptomChecker(userSymptoms) {
                 // Add to results if there’s a match
                 if (score > 0) {
                     results.push({
-                        department,
+                        specialty, // Changed from department to specialty
                         disease: diseaseOrCategory,
                         score,
                         matchPercentage: matchPercentage.toFixed(2),
@@ -1561,7 +1519,7 @@ function symptomChecker(userSymptoms) {
                         // Add to results if there’s a match
                         if (score > 0) {
                             results.push({
-                                department,
+                                specialty, // Changed from department to specialty
                                 disease: `${diseaseOrCategory} (${subDisease})`,
                                 score,
                                 matchPercentage: matchPercentage.toFixed(2),

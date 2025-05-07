@@ -48,20 +48,43 @@ router.get('/ui/contact', (req, res) => {
 // });
 router.get('/ui/search', (req, res) => {
     const sql1 = `SELECT doc_img, doc_name, specialty, about_doctor FROM doctors`;
+    const sql2 = `SELECT doctor, status FROM appointment WHERE status = 'scheduled'`;
 
     db.getConnection((err, connection) => {
         if (err) {
             console.error('Database connection error:', err);
             return res.status(500).send('Failed to fetch doctors');
         }
+
+        // Execute the first query to get doctors
         connection.query(sql1, (err, doctors) => {
-            connection.release(); // Release connection after query
             if (err) {
                 console.error('Database query error:', err);
+                connection.release(); // Release connection on error
                 return res.status(500).send('Failed to fetch doctors');
             }
-            res.render('ui/search', {
-                doctors, 
+
+            // Execute the second query to get booked doctors
+            connection.query(sql2, (err, isbooked) => {
+                if (err) {
+                    console.error('Database query error:', err);
+                    connection.release(); // Release connection on error
+                    return res.status(500).send('Failed to fetch booked doctors');
+                }
+
+                // Map over doctors and add isBooked property
+                const bookedDoctors = new Set(isbooked.map(booking => booking.doctor)); // Create a Set of booked doctor names
+                doctors.forEach(doctor => {
+                    doctor.isBooked = bookedDoctors.has(doctor.doc_name); // Set isBooked true if doctor is in bookedDoctors
+                });
+
+                // Render the view with updated doctors array
+                res.render('ui/search', {
+                    doctors
+                });
+
+                // Release the connection after all queries and rendering
+                connection.release();
             });
         });
     });
@@ -87,14 +110,16 @@ router.get('/ui/premuim', (req, res) => {
 router.get('/ui/forgot_pass', (req, res) => {
     res.render('ui/forgot_pass');
 });
-// console.log('Symptoms:', symptoms)
-router.get('/ui/symptom_checker', (req, res) => {
+
+router.get('/ui/symptom_checker', validateTokens, (req, res) => {
+    const { firstname, lastname } = req.user;
+
     const allSymptoms = new Set();
 
-    Object.keys(symptoms).forEach(department => {
-        const departmentData = symptoms[department];
-        Object.keys(departmentData).forEach(diseaseOrCategory => {
-            const data = departmentData[diseaseOrCategory];
+    Object.keys(symptoms).forEach(specialty => {
+        const specialtyData = symptoms[specialty];
+        Object.keys(specialtyData).forEach(diseaseOrCategory => {
+            const data = specialtyData[diseaseOrCategory];
             if (data.common && data.less_common) {
                 // Direct disease with symptoms
                 if (Array.isArray(data.common)) {
@@ -122,8 +147,10 @@ router.get('/ui/symptom_checker', (req, res) => {
 
     const symptomList = Array.from(allSymptoms).sort();
     res.render('ui/symptom_checker', {
-        symptomList: symptomList,
-        // error: null
+        symptomList,
+        firstname,
+        lastname,
+        error: null
     });
 });
 router.get('/ui/symptom_results', (req, res) => {
@@ -249,7 +276,7 @@ router.get('/patients/dashboard', validateTokens, (req, res) => {
             return res.status(500).json({ error: 'Failed to fetch appointments' });
         }
 
-        const appointmentsNumber = results[0].count;
+        const appointmentsNumber = results[0].count || 'no';
         res.render('patients/dashboard', {
             firstname,
             lastname,

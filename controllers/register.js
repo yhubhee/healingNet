@@ -147,7 +147,7 @@ exports.doctorregister = (req, res) => {
                     return res.render('admin/add_doctor', { error: 'Database error' });
                 }
 
-                const sql = 'SELECT doctor_id, name, specialty, email, phone, gender, address, status FROM doctors';
+                const sql = 'SELECT doctor_id, doc_name, specialty, email, phone, gender, address, status FROM doctors';
                 const sql2 = 'SELECT COUNT(*) AS count FROM doctors';
 
                 pool.getConnection((err, connection) => {
@@ -171,8 +171,8 @@ exports.doctorregister = (req, res) => {
                             }
 
                             const total_doc = count_Result[0].count || 'no';
-                            res.render('admin/doctor_list', {
-                                success: `Successfully registered Dr. ${name}`,
+                            res.render('admin/add_doctor', {
+                                success: `Successfully registered Dr. ${doc_name}`,
                                 redirect: true,
                                 doc_lists: Doc_result || [],
                                 total_doc
@@ -192,7 +192,7 @@ exports.doctorregister = (req, res) => {
                             });
 
                             res.render('emails/doctor_welcome_email', {
-                                doctor_name: name,
+                                doctor_name: doc_name,
                                 doctor_email: email,
                                 temporary_password: password
                             }, (err, html) => {

@@ -1,129 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('../partials/head') %>
-<body>
-    <div class="alert-container">
-        <% if (typeof error !=='undefined') { %>
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <%= error %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        <% } %>
-        <% if (typeof success !=='undefined') { %>
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <%= success %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        <% } %>
-      </div>
+
+    <body>
+        <div class="alert-container">
+            <% if (typeof error !=='undefined' ) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <%= error %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% } %>
+                    <% if (typeof success !=='undefined' ) { %>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <%= success %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                        </div>
+                        <% } %>
+        </div>
 
         <% if (typeof redirect !=='undefined' && redirect) { %>
             <script>
                 setTimeout(() => {
-                    window.location.href = '/admin/add_doctor';
+                    window.location.href = '/admin/doctor_list';
                 }, 1000); // Redirect after 1 second
             </script>
-        <% } %>
+            <% } %>
 
-    <!-- Add Doctor Form Section Start -->
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="bg-light rounded shadow-sm p-5">
-                <h2 class="text-primary mb-4">Add Doctor</h2>
-                <form action="/auth/doctorregister" method="POST" enctype="multipart/form-data">
-                    <div class="row g-3">
-                        <!-- Upload Picture -->
-                        <div class="col-12 text-center mb-4">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <div class="position-relative">
-                                    <img src="/img/default-doctor.png" alt="Doctor Picture" class="rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover;">
-                                    <input type="file" id="doc_img" name="doc_img" accept="image/*" class="form-control d-none" onchange="previewImage(event)">
-                                    <label for="doc_img" class="btn btn-outline-primary rounded-pill position-absolute bottom-0 start-50 translate-middle-x">Upload Picture</label>
+                <!-- Add Doctor Form Section Start -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="bg-light rounded shadow-sm p-5">
+                            <h2 class="text-primary mb-4">Add Doctor</h2>
+                            <form action="/auth/doctorregister" method="POST" enctype="multipart/form-data">
+                                <div class="row g-3">
+                                    <!-- Upload Picture -->
+                                    <div class="col-12 text-center mb-4">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <div class="position-relative">
+                                                <img src="/img/default-doctor.png" alt="Doctor Picture"
+                                                    class="rounded-circle mb-3"
+                                                    style="width: 100px; height: 100px; object-fit: cover;">
+                                                <input type="file" id="doc_img" name="doc_img" accept="image/*"
+                                                    class="form-control d-none" onchange="previewImage(event)">
+                                                <label for="doc_img"
+                                                    class="btn btn-outline-primary rounded-pill position-absolute bottom-0 start-50 translate-middle-x">Upload
+                                                    Picture</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Form Fields -->
+                                    <div class="col-md-6">
+                                        <label for="name" class="form-label">Your Name</label>
+                                        <input type="text" class="form-control rounded" id="name" name="doc_name"
+                                            placeholder="Name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="specialty" class="form-label">Specialty</label>
+                                        <select class="form-select rounded" id="specialty" name="specialty" required>
+                                            <option value="General Practitioner">General Practitioner</option>
+                                            <option value="Clinical Psychologist">Clinical Psychologist</option>
+                                            <option value="Nutritionist">Nutritionist</option>
+                                            <option value="Pediatrician">Pediatrician</option>
+                                            <option value="Oncologist">Oncologist</option>
+                                            <option value="Cardiologist">Cardiologist</option>
+                                            <option value="Dermatologist">Dermatologist</option>
+                                            <option value="Gynecologist">Gynecologist</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Doctor Email</label>
+                                        <input type="email" class="form-control rounded" id="email" name="email"
+                                            placeholder="Email" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="gender" class="form-label">Gender</label>
+                                        <select class="form-select rounded" id="gender" name="gender"
+                                            placeholder="Gender" required>
+                                            <option value="N/A">Select Gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="password" class="form-label">Set Password</label>
+                                        <input type="password" class="form-control rounded" id="password"
+                                            name="password" placeholder="Password" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="degree" class="form-label">Degree</label>
+                                        <input type="text" class="form-control rounded" id="degree" name="degree"
+                                            placeholder="Degree">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="date_joined" class="form-label">Date Joined</label>
+                                        <input type="date" class="form-control rounded" id="date_joined"
+                                            name="date_joined" placeholder="Date Joined">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="address" class="form-label">Address</label>
+                                        <input type="text" class="form-control rounded" id="address" name="address"
+                                            placeholder="Address">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="experience" class="form-label">Experience</label>
+                                        <select class="form-select rounded" id="experience" name="experience" required>
+                                            <option value="1-year">1 Year</option>
+                                            <option value="2-years">2 Years</option>
+                                            <option value="3-years">3 Years</option>
+                                            <option value="5-years">5+ Years</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                                        <input type="number" class="form-control rounded" id="phoneNumber" name="phone"
+                                            placeholder="Phone Number">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="about" class="form-label">About Doctor</label>
+                                        <textarea class="form-control rounded" id="about" name="about_doctor"
+                                            placeholder="About Doctor" required></textarea>
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <div class="col-12 text-center mt-4">
+                                        <button type="submit" class="btn btn-primary rounded-pill py-3 px-5">Add
+                                            Doctor</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-        
-                        <!-- Form Fields -->
-                        <div class="col-md-6">
-                            <label for="name" class="form-label">Your Name</label>
-                            <input type="text" class="form-control rounded" id="name" name="doc_name" placeholder="Name" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="specialty" class="form-label">Specialty</label>
-                            <select class="form-select rounded" id="specialty" name="specialty" required>
-                                <option value="General Physician">General Physician</option>
-                                <option value="Pediatrician">Pediatrician</option>
-                                <option value="Cardiologist">Cardiologist</option>
-                                <option value="Dermatologist">Dermatologist</option>
-                                <option value="Gynecologist">Gynecologist</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="email" class="form-label">Doctor Email</label>
-                            <input type="email" class="form-control rounded" id="email" name="email" placeholder="Email" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="gender" class="form-label">Gender</label>
-                            <select class="form-select rounded" id="gender" name="gender" placeholder="Gender" required>
-                                <option value="N/A">Select Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="password" class="form-label">Set Password</label>
-                            <input type="password" class="form-control rounded" id="password" name="password" placeholder="Password" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="degree" class="form-label">Degree</label>
-                            <input type="text" class="form-control rounded" id="degree" name="degree" placeholder="Degree">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="date_joined" class="form-label">Date Joined</label>
-                            <input type="date" class="form-control rounded" id="date_joined" name="date_joined" placeholder="Date Joined">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" class="form-control rounded" id="address" name="address" placeholder="Address">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="experience" class="form-label">Experience</label>
-                            <select class="form-select rounded" id="experience" name="experience" required>
-                                <option value="1-year">1 Year</option>
-                                <option value="2-years">2 Years</option>
-                                <option value="3-years">3 Years</option>
-                                <option value="5-years">5+ Years</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="phoneNumber" class="form-label">Phone Number</label>
-                            <input type="number" class="form-control rounded" id="phoneNumber" name="phone" placeholder="Phone Number">
-                        </div>
-                        <div class="col-12">
-                            <label for="about" class="form-label">About Doctor</label>
-                            <textarea class="form-control rounded" id="about" name="about_doctor" placeholder="About Doctor" required></textarea>
-                        </div>
-        
-                        <!-- Submit Button -->
-                        <div class="col-12 text-center mt-4">
-                            <button type="submit" class="btn btn-primary rounded-pill py-3 px-5">Add Doctor</button>
+                            </form>
                         </div>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- Add Doctor Form Section End -->
-    <!-- JavaScript for Image Preview -->
-    <script>
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const output = document.querySelector('img[alt="Doctor Picture"]');
-                output.src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    </script>
-</body>
+                </div>
+                <!-- Add Doctor Form Section End -->
+                <!-- JavaScript for Image Preview -->
+                <script>
+                    function previewImage(event) {
+                        const reader = new FileReader();
+                        reader.onload = function () {
+                            const output = document.querySelector('img[alt="Doctor Picture"]');
+                            output.src = reader.result;
+                        };
+                        reader.readAsDataURL(event.target.files[0]);
+                    }
+                </script>
+    </body>
+
 </html>

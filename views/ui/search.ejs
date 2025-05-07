@@ -3,6 +3,24 @@
 <%- include('../partials/head') %>
     <title>Search your favourite doctor- Trusted Telemedicine Platform for Online Consultations and Health Resources
     </title>
+    <style>
+        .available-status .availability-dot::before {
+            content: '';
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #28a745; /* Green color */
+            border-radius: 50%;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        .availability-dot.booked::before {
+        background-color: #dc3545; /* Red for booked */
+    }
+        .booked-text {
+        color: #dc3545; /* Red text for "Doctor Booked" */
+    }
+    </style>
 
     <body>
         <%- include('../partials/header') %>
@@ -37,30 +55,29 @@
                     <div class="col-lg-4">
                         <!-- Categories Start -->
                         <div class="mb-5">
-                            <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 mb-4"
-                                data-aos="fade-up" data-aos-delay="300">Specialties</h4>
+                            <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 mb-4" data-aos="fade-up" data-aos-delay="300">Specialties</h4>
                             <div class="d-flex flex-column justify-content-start">
-                                <a class="h5 bg-light rounded py-2 px-3 mb-2" href="#"><i
-                                        class="fa fa-angle-right me-2"></i>Cardiology</a>
-                                <a class="h5 bg-light rounded py-2 px-3 mb-2" href="#"><i
-                                        class="fa fa-angle-right me-2"></i>Pediatrics</a>
-                                <a class="h5 bg-light rounded py-2 px-3 mb-2" href="#"><i
-                                        class="fa fa-angle-right me-2"></i>Dermatology</a>
-                                <a class="h5 bg-light rounded py-2 px-3 mb-2" href="#"><i
-                                        class="fa fa-angle-right me-2"></i>ENT</a>
-                                <a class="h5 bg-light rounded py-2 px-3 mb-2" href="#"><i
-                                        class="fa fa-angle-right me-2"></i>Neurology</a>
+                                <a class="h5 bg-light rounded py-2 px-3 mb-2 specialty-link" href="#" data-specialty="all"><i class="fa fa-angle-right me-2"></i>All</a>
+                                <a class="h5 bg-light rounded py-2 px-3 mb-2 specialty-link" href="#" data-specialty="General Practitioner"><i class="fa fa-angle-right me-2"></i>General Practitioner</a>
+                                <a class="h5 bg-light rounded py-2 px-3 mb-2 specialty-link" href="#" data-specialty="Clinical Psychologist"><i class="fa fa-angle-right me-2"></i>Clinical Psychologist</a>
+                                <a class="h5 bg-light rounded py-2 px-3 mb-2 specialty-link" href="#" data-specialty="Dermatologist"><i class="fa fa-angle-right me-2"></i>Dermatologist</a>
+                                <a class="h5 bg-light rounded py-2 px-3 mb-2 specialty-link" href="#" data-specialty="Cardiologist"><i class="fa fa-angle-right me-2"></i>Cardiologist</a>
+                                <a class="h5 bg-light rounded py-2 px-3 mb-2 specialty-link" href="#" data-specialty="Nutritionist"><i class="fa fa-angle-right me-2"></i>Nutritionist</a>
+                                <a class="h5 bg-light rounded py-2 px-3 mb-2 specialty-link" href="#" data-specialty="Oncologist"><i class="fa fa-angle-right me-2"></i>Oncologist</a>
+                                <a class="h5 bg-light rounded py-2 px-3 mb-2 specialty-link" href="#" data-specialty="Neurologist"><i class="fa fa-angle-right me-2"></i>Pediatrician</a>
+                                <a class="h5 bg-light rounded py-2 px-3 mb-2 specialty-link" href="#" data-specialty="Pediatrician"><i class="fa fa-angle-right me-2"></i>Gynecologist</a>
+                                <a class="h5 bg-light rounded py-2 px-3 mb-2 specialty-link" href="#" data-specialty="Pediatrician"><i class="fa fa-angle-right me-2"></i>Gynecologist</a>
                             </div>
                         </div>
                         <!-- Categories End -->
                     </div>
                     <!-- Sidebar End -->
-
+        
                     <!-- Main Content Start -->
                     <div class="col-lg-8">
                         <div class="row g-4">
                             <% doctors.forEach((doc) => { %>
-                            <div class="col-lg-6 team-item" data-aos="zoom-in" data-aos-delay="350">
+                            <div class="col-lg-6 team-item doctor-card" data-aos="zoom-in" data-aos-delay="350" data-specialty="<%= doc.specialty %>">
                                 <div class="row g-0 bg-light rounded overflow-hidden">
                                     <div class="col-12 col-sm-5 h-100">
                                         <img class="img-fluid h-100" src="/Uploads/<%= doc.doc_img %>" alt="<%= doc.name %>" style="object-fit: cover;">
@@ -68,7 +85,14 @@
                                     <div class="col-12 col-sm-7 h-100 d-flex flex-column">
                                         <div class="mt-auto p-4" style="max-height: 300px; overflow-y: auto;">
                                             <h3><%= doc.doc_name %></h3>
-                                            <h6 class="fw-normal fst-italic text-primary mb-4"><%= doc.specialty %></h6>
+                                            <h6 class="fw-normal fst-italic text-primary mb-4 available-status">
+                                                <%= doc.specialty %>
+                                                <% if (!doc.isBooked) { %>
+                                                    <span class="availability-dot available"></span> Available
+                                                <% } else { %>
+                                                    <span class="availability-dot booked"></span> <span class="booked-text">Doctor Booked</span>
+                                                <% } %>
+                                            </h6>
                                             <p class="m-0" style="word-wrap: break-word;">
                                                 <%= doc.about_doctor %>
                                             </p>
@@ -95,6 +119,30 @@
             <!-- Doctors List End -->
 
             <%- include('../partials/footer') %>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const specialtyLinks = document.querySelectorAll('.specialty-link');
+                    const doctorCards = document.querySelectorAll('.doctor-card');
+        
+                    specialtyLinks.forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const selectedSpecialty = link.getAttribute('data-specialty');
+        
+                            doctorCards.forEach(card => {
+                                const cardSpecialty = card.getAttribute('data-specialty');
+                                if (selectedSpecialty === 'all' || selectedSpecialty === cardSpecialty) {
+                                    card.classList.remove('d-none');
+                                    card.classList.add('d-flex');
+                                } else {
+                                    card.classList.remove('d-flex');
+                                    card.classList.add('d-none');
+                                }
+                            });
+                        });
+                    });
+                });
+            </script>
     </body>
 
 </html>

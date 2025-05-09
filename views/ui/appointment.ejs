@@ -3,6 +3,7 @@
 <%- include('../partials/head') %>
 <title>HealingNet Appointment - Trusted Telemedicine Platform for Online Consultations and Health Resources</title>
 
+
     <body>
         <%- include('../partials/header') %>
             <div class="alert-container">
@@ -24,7 +25,7 @@
             <% if (typeof redirect !=='undefined' && redirect) { %>
                 <script>
                     setTimeout(() => {
-                        window.location.href = '/dashboard';
+                        window.location.href = '/patients/dashboard';
                     }, 1000); // Redirect after 1 second
                 </script>
                 <% } %>
@@ -42,13 +43,9 @@
                                         <a href="/ui/search" class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2"
                                             data-aos="fade-up" data-aos-delay="300">Find
                                             Doctor</a>
-                                        <a href="/ui/search"
+                                        <a href="/ui/symptom_checker"
                                             class="btn btn-outline-dark rounded-pill py-md-3 px-md-5 mx-2 blue"
-                                            data-aos="fade-up" data-aos-delay="300">Appointment</a>
-                                        <a href="/ui/premuim"
-                                            class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2 home_app"
-                                            style="margin-top: 10px;" data-aos="fade-up" data-aos-delay="300">Go
-                                            Premium</a>
+                                            data-aos="fade-up" data-aos-delay="300">Symptom Checker</a>
                                     </div>
                                 </div>
                             </div>
@@ -158,121 +155,35 @@
                                 <h1 class="display-8">Simply browse through our extensive list of trusted doctors.</h1>
                             </div>
                             <div class="owl-carousel team-carousel position-relative">
+                                <% doctors.forEach((doc) => { %>
                                 <div class="team-item">
                                     <div class="row g-0 bg-light rounded overflow-hidden">
                                         <div class="col-12 col-sm-5 h-100">
-                                            <img class="img-fluid h-100" src="/img/team-1.jpg"
+                                            <img class="img-fluid h-100" src="/Uploads/<%= doc.doc_img %>" alt="<%= doc.name %>"
                                                 style="object-fit: cover;">
                                         </div>
                                         <div class="col-12 col-sm-7 h-100 d-flex flex-column">
                                             <div class="mt-auto p-4">
-                                                <h3>Dr. John Edward</h3>
-                                                <h6 class="fw-normal fst-italic text-primary mb-4">Cardiology Specialist
+                                                <h3><%= doc.doc_name %></h3>
+                                                <h6 class="fw-normal fst-italic text-primary mb-4"><%= doc.specialty %>
+                                                    <% if (!doc.isBooked) { %>
+                                                        <span class="availability-dot available"></span> Available
+                                                    <% } else { %>
+                                                        <span class="availability-dot booked"></span> <span class="booked-text">Doctor Booked</span>
+                                                    <% } %>
                                                 </h6>
-                                                <p class="m-0">
-                                                <p class="m-0">Dr. John Edward is a highly experienced cardiology
-                                                    specialist
-                                                    dedicated to providing exceptional care with over 20 years of
-                                                    experience.
+                                                <p class="m-0"> <%= doc.about_doctor %>
                                                 </p>
                                             </div>
-                                            <div class="d-flex mt-auto border-top p-4">
+                                            <div class="d-flex mt-auto border-top p-1">
                                                 <div class="col-12 text-center">
-                                                    <a href="/ui/search" class="text-white"><button class="btn btn-primary py-3 px-5"> Book Doctor </button> </a>
+                                                    <a href="/ui/book_appointment?doctor=<%= encodeURIComponent(doc.doc_name) %>&specialty=<%= encodeURIComponent(doc.specialty) %>" class="text-white"> <button class="btn btn-primary py-2 px-5"> Book Doctor </button> </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="team-item">
-                                    <div class="row g-0 bg-light rounded overflow-hidden">
-                                        <div class="col-12 col-sm-5 h-100">
-                                            <img class="img-fluid h-100" src="/img/team-2.jpg"
-                                                style="object-fit: cover;">
-                                        </div>
-                                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                            <div class="mt-auto p-4">
-                                                <h3>Dr. James Ambrose</h3>
-                                                <h6 class="fw-normal fst-italic text-primary mb-4">Reproductive
-                                                    Endocrinology
-                                                </h6>
-                                                <p class="m-0">Dr. James Ambrose is a renowned reproductive
-                                                    endocrinology
-                                                    specialist experience in helping patients with
-                                                    fertility issues and hormonal disorders.</p>
-                                            </div>
-                                            <div class="d-flex mt-auto border-top p-4">
-                                                <div class="col-12 text-center">
-                                                    <a href="/ui/search" class="text-white"><button class="btn btn-primary py-3 px-5"> Book Doctor </button> </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-item">
-                                    <div class="row g-0 bg-light rounded overflow-hidden">
-                                        <div class="col-12 col-sm-5 h-100">
-                                            <img class="img-fluid h-100" src="/img/team-3.jpg"
-                                                style="object-fit: cover;">
-                                        </div>
-                                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                            <div class="mt-auto p-4">
-                                                <h3>Dr.Emily Johnson </h3>
-                                                <h6 class="fw-normal fst-italic text-primary mb-4">Pediatric Cardiology
-                                                </h6>
-                                                <p class="m-0">Dr. Emily Johnson is a dedicated pediatric cardiology
-                                                    specialist
-                                                    with over 10 years of experience .</p>
-                                            </div>
-                                            <div class="d-flex mt-auto border-top p-4">
-                                                <div class="col-12 text-center">
-                                                    <a href="/ui/search" class="text-white"><button class="btn btn-primary py-3 px-5"> Book Doctor </button> </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-item">
-                                    <div class="row g-0 bg-light rounded overflow-hidden">
-                                        <div class="col-12 col-sm-5 h-100">
-                                            <img class="img-fluid h-100" src="/img/team/team_5_2.jpg"
-                                                style="object-fit: cover;">
-                                        </div>
-                                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                            <div class="mt-auto p-4">
-                                                <h3>Dr.Emily Johnson </h3>
-                                                <h6 class="fw-normal fst-italic text-primary mb-4">Addiction Medicine
-                                                </h6>
-                                                <p class="m-0"></p>
-                                            </div>
-                                            <div class="d-flex mt-auto border-top p-4">
-                                                <div class="col-12 text-center">
-                                                    <a href="/ui/search" class="text-white"><button class="btn btn-primary py-3 px-5"> Book Doctor </button> </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-item">
-                                    <div class="row g-0 bg-light rounded overflow-hidden">
-                                        <div class="col-12 col-sm-5 h-100">
-                                            <img class="img-fluid h-100" src="/img/team/team_5_6.jpg"
-                                                style="object-fit: cover;">
-                                        </div>
-                                        <div class="col-12 col-sm-7 h-100 d-flex flex-column">
-                                            <div class="mt-auto p-4">
-                                                <h3>Dr.Emily Johnson </h3>
-                                                <h6 class="fw-normal fst-italic text-primary mb-4">Anesthesiology</h6>
-                                                <p class="m-0"></p>
-                                            </div>
-                                            <div class="d-flex mt-auto border-top p-4">
-                                                <div class="col-12 text-center">
-                                                    <a href="/ui/search" class="text-white"><button class="btn btn-primary py-3 px-5"> Book Doctor </button> </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <% }); %>
                             </div>
                         </div>
                     </div>

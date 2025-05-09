@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to HealingNet</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light text-dark">
+    <div class="container my-5">
+        <div class="col-md-8 col-lg-6 mx-auto">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-primary mb-4">Welcome to HealingNet, <%= name %>!</h2>
+                    <p class="card-text">Thank you for signing up. We're thrilled to have you as part of our digital health community.</p>
+                    <p class="card-text">With HealingNet, you can:</p>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item">Book and manage appointments with top doctors </li>
+                        <li class="list-group-item">Consult via secure video sessions</li>
+                        <li class="list-group-item">Access your medical records anytime</li>
+                    </ul>
+                    <p class="card-text">If you have any questions, our support team is always here to help.</p>
+                    <p class="mb-0">Stay healthy,<br><strong>The HealingNet Team</strong></p>
+                </div>
+                <div class="card-footer text-muted text-center small">
+                    © <%= new Date().getFullYear() %> HealingNet. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

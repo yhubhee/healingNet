@@ -355,4 +355,21 @@
         justify-content: space-between;
         padding: 0 20px;
     }
-    
+
+/*  */
+.available-status .availability-dot::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #28a745; /* Green color */
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+.availability-dot.booked::before {
+background-color: #dc3545; /* Red for booked */
+}
+.booked-text {
+color: #dc3545; /* Red text for "Doctor Booked" */
+}

@@ -165,3 +165,59 @@ tabs.forEach(({ tab, content }) => {
         tab.classList.add('btn-dark');
     });
 });
+
+const searchBar = document.getElementById('searchBar');
+searchBar.addEventListener('keyup', e => {
+    let currentValue = e.target.value.toLowerCase();
+    let doctorCards = document.querySelectorAll('.doctor-card');
+
+    doctorCards.forEach(card => {
+        let docName = card.querySelector('h3')?.textContent.toLowerCase().trim() || '';
+        let specialty = card.querySelector('h6 .doc-specialty')?.textContent.toLowerCase().trim() || '';
+        let isVisible = docName.includes(currentValue) || specialty.includes(currentValue);
+
+        if (isVisible) {
+            card.classList.remove('d-none');
+            card.classList.add('d-flex');
+            // Disable AOS for newly visible cards
+            if (!card.dataset.aosApplied) {
+                card.removeAttribute('data-aos');
+                card.removeAttribute('data-aos-delay');
+                card.dataset.aosApplied = true; // Mark as processed
+            }
+        } else {
+            card.classList.remove('d-flex');
+            card.classList.add('d-none');
+        }
+    });
+});
+
+let loadMoreBtn = document.querySelector('.load-more');
+let doctorCards = document.querySelectorAll('.doctor-card');
+
+let visibleCards = 4; // Number of cards to show initially
+
+doctorCards.forEach((card, index) => {
+    if (index < visibleCards) {
+        card.style.display = 'inline-block';
+    } else {
+        card.style.display = 'none';
+    }
+});
+
+let cardsToShow = 4; 
+
+loadMoreBtn.onclick = () => {
+    if (visibleCards < doctorCards.length) {
+        // Calculate the new number of visible cards
+        let newVisibleCards = Math.min(visibleCards + cardsToShow, doctorCards.length);
+
+        // Show the next set of cards
+        for (let i = visibleCards; i < newVisibleCards; i++) {
+            doctorCards[i].style.display = 'inline-block';
+        }
+
+        // Update the visibleCards counter
+        visibleCards = newVisibleCards;
+    }
+};

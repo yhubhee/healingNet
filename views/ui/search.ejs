@@ -3,27 +3,8 @@
 <%- include('../partials/head') %>
     <title>Search your favourite doctor- Trusted Telemedicine Platform for Online Consultations and Health Resources
     </title>
-    <style>
-        .available-status .availability-dot::before {
-            content: '';
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: #28a745; /* Green color */
-            border-radius: 50%;
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-        .availability-dot.booked::before {
-        background-color: #dc3545; /* Red for booked */
-    }
-        .booked-text {
-        color: #dc3545; /* Red text for "Doctor Booked" */
-    }
-    </style>
-
     <body>
-        <%- include('../partials/header') %>
+    <%- include('../partials/header') %>
 
             <!-- Find A Doctor Section Start -->
             <div class="container-fluid pt-5 pb-5" data-aos="fade-in" data-aos-delay="100">
@@ -35,12 +16,12 @@
                             Professionals</h1>
                         <h5 class="fw-normal text-muted" data-aos="fade-up" data-aos-delay="250">Discover our network of
                             qualified
-                            specialists.</h5>
+                            specialists. Search by doctor's name or specialty</h5>
                     </div>
                     <div class="mx-auto mb-5" style="width: 100%; max-width: 600px;">
                         <div class="input-group">
-                            <input type="text" class="form-control border-primary p-3" style="height: 60px;"
-                                placeholder="Search by keyword or specialty">
+                            <input type="text" id="searchBar" class="form-control border-primary p-3" style="height: 60px;"
+                                placeholder="Search by doctor's name or specialty">
                             <button class="btn btn-primary px-4" type="button"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
@@ -77,7 +58,7 @@
                     <div class="col-lg-8">
                         <div class="row g-4">
                             <% doctors.forEach((doc) => { %>
-                            <div class="col-lg-6 team-item doctor-card" data-aos="zoom-in" data-aos-delay="350" data-specialty="<%= doc.specialty %>">
+                            <div class="col-lg-6 team-item doctor-card" data-aos="zoom-in" data-aos-delay="350">
                                 <div class="row g-0 bg-light rounded overflow-hidden">
                                     <div class="col-12 col-sm-5 h-100">
                                         <img class="img-fluid h-100" src="/Uploads/<%= doc.doc_img %>" alt="<%= doc.name %>" style="object-fit: cover;">
@@ -86,7 +67,7 @@
                                         <div class="mt-auto p-4" style="max-height: 300px; overflow-y: auto;">
                                             <h3><%= doc.doc_name %></h3>
                                             <h6 class="fw-normal fst-italic text-primary mb-4 available-status">
-                                                <%= doc.specialty %>
+                                                <span class="doc-specialty"><%= doc.specialty %></span>
                                                 <% if (!doc.isBooked) { %>
                                                     <span class="availability-dot available"></span> Available
                                                 <% } else { %>
@@ -110,7 +91,7 @@
                             <% }); %>
                         </div>
                         <div class="col-12 text-center mt-4" data-aos="fade-up" data-aos-delay="400">
-                            <a href="#" class="btn btn-primary py-3 px-5 rounded-pill">Load More</a>
+                            <a href="#" class="btn btn-primary py-3 px-5 rounded-pill load-more">Load More</a>
                         </div>
                     </div>
                     <!-- Main Content End -->

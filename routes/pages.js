@@ -99,7 +99,47 @@ router.get('/ui/login', validateTokens, (req, res) => {
     res.render('ui/login');
 });
 router.get('/ui/appointment', (req, res) => {
-    res.render('ui/appointment');
+    const sql1 = `SELECT doc_img, doc_name, specialty, about_doctor FROM doctors`;
+    const sql2 = `SELECT doctor, status FROM appointment WHERE status = 'scheduled'`;
+
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).send('Failed to fetch doctors');
+        }
+
+        // Execute the first query to get doctors
+        connection.query(sql1, (err, doctors) => {
+            if (err) {
+                console.error('Database query error:', err);
+                connection.release(); // Release connection on error
+                return res.status(500).send('Failed to fetch doctors');
+            }
+
+            // Execute the second query to get booked doctors
+            connection.query(sql2, (err, isbooked) => {
+                if (err) {
+                    console.error('Database query error:', err);
+                    connection.release(); // Release connection on error
+                    return res.status(500).send('Failed to fetch booked doctors');
+                }
+
+                // Map over doctors and add isBooked property
+                const bookedDoctors = new Set(isbooked.map(booking => booking.doctor)); // Create a Set of booked doctor names
+                doctors.forEach(doctor => {
+                    doctor.isBooked = bookedDoctors.has(doctor.doc_name); // Set isBooked true if doctor is in bookedDoctors
+                });
+
+                // Render the view with updated doctors array
+                res.render('ui/appointment', {
+                    doctors
+                });
+
+                // Release the connection after all queries and rendering
+                connection.release();
+            });
+        });
+    });
 });
 router.get('/ui/homeappointment', (req, res) => {
     res.render('ui/homeappointment');
@@ -150,7 +190,6 @@ router.get('/ui/symptom_checker', validateTokens, (req, res) => {
         symptomList,
         firstname,
         lastname,
-        error: null
     });
 });
 router.get('/ui/symptom_results', (req, res) => {
@@ -191,10 +230,31 @@ router.get('/student/student_signup', (req, res) => {
 router.get('/student/student_login', (req, res) => {
     res.render('student/student_login')
 })
+
 // Patients Section
 router.get('/patients/logout', (req, res) => {
     res.render('ui/login')
 })
+router.get('/patients/dashboard', validateTokens, (req, res) => {
+    const { firstname, lastname, patient_id } = req.user; // Access the attached names
+    const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ?';
+
+    db.query(sql, [patient_id], (err, results) => {
+        if (err) {
+            console.error('Database query error:', err); // Debugging log
+            return res.status(500).json({ error: 'Failed to fetch appointments' });
+        }
+
+        const appointmentsNumber = results[0].count || 'no';
+        res.render('patients/dashboard', {
+            firstname,
+            lastname,
+            appointmentsNumber,
+
+        });
+    });
+});
+
 router.get('/patients/profile', validateTokens, (req, res) => {
     const { patient_id } = req.user; // Access the attached names and user_id
     const sql = `
@@ -265,23 +325,28 @@ router.get('/patients/booked-appointment', validateTokens, (req, res) => {
         });
     });
 });
-
-router.get('/patients/dashboard', validateTokens, (req, res) => {
-    const { firstname, lastname, patient_id } = req.user; // Access the attached names
-    const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ?';
-
-    db.query(sql, [patient_id], (err, results) => {
+router.get('/patients/prescriptions', validateTokens, (req, res) => {
+    const { firstname, lastname, patient_id } = req.user; // Access the attached names and user_id
+    const sql = `
+       select a.doctor, d.specialty, a.fullname, a.appointmentDate, a.appointmentTime, d.email,a.appointment_id, a.doctor_id, a.status from appointment a join doctors d on a.doctor_id = d.doctor_id WHERE patient_id = ? ;
+    `;
+    db.getConnection((err, connection) => {
         if (err) {
-            console.error('Database query error:', err); // Debugging log
-            return res.status(500).json({ error: 'Failed to fetch appointments' });
+            console.error('Database connection error:', err);
+            return res.status(500).send('Failed to fetch appointments');
         }
-
-        const appointmentsNumber = results[0].count || 'no';
-        res.render('patients/dashboard', {
-            firstname,
-            lastname,
-            appointmentsNumber,
-
+        connection.query(sql, [patient_id], (err, results) => {
+            connection.release(); // Release the connection back to the pool
+            // console.log([patient_id]) // Patients id 
+            if (err) {
+                console.error('Database query error:', err);
+                return res.status(500).send('Failed to fetch appointments');
+            }
+            res.render('patients/prescriptions', {
+                firstname,
+                lastname,
+                appointments: results || []
+            });
         });
     });
 });

@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <%- include('../partials/head') %>
     <title>Welcome to HealingNet</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light text-dark">
+  </head>
+
+  <body class="bg-light text-dark" style="font-family: 'Roboto', sans-serif;">
     <div class="container my-5">
-        <div class="col-md-8 col-lg-6 mx-auto">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h2 class="card-title text-primary mb-4">Welcome to HealingNet, <%= name %>!</h2>
-                    <p class="card-text">Thank you for signing up. We're thrilled to have you as part of our digital health community.</p>
-                    <p class="card-text">With HealingNet, you can:</p>
-                    <ul class="list-group list-group-flush mb-3">
-                        <li class="list-group-item">Book and manage appointments with top doctors </li>
-                        <li class="list-group-item">Consult via secure video sessions</li>
-                        <li class="list-group-item">Access your medical records anytime</li>
-                    </ul>
-                    <p class="card-text">If you have any questions, our support team is always here to help.</p>
-                    <p class="mb-0">Stay healthy,<br><strong>The HealingNet Team</strong></p>
-                </div>
-                <div class="card-footer text-muted text-center small">
-                    © <%= new Date().getFullYear() %> HealingNet. All rights reserved.
-                </div>
-            </div>
+      <div class="card shadow border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-body p-4 text-center">
+          <h2 class="text-primary mb-3">Welcome to HealingNet!</h2>
+
+          <p class="mb-3">Hi, <strong><%= firstname%> <%= lastname%> </strong></p>
+
+          <p class="mb-3">
+            We're thrilled to have you on HealingNet — your digital gateway to qualified healthcare professionals and wellness experts.
+          </p>
+
+          <p class="mb-3">You can now:</p>
+
+          <div class="d-grid gap-2 mb-4">
+            <a href="https://healing-net.vercel.app/ui/search" class="btn btn-info text-white fw-medium">🔍 Find a Doctor</a>
+            <a href="https://healing-net.vercel.app/ui/appointments" class="btn btn-info text-white fw-medium">📅 Book an Appointment</a>
+            <a href="https://healing-net.vercel.app/patients/dasboard" class="btn btn-info text-white fw-medium">🧾 View Medical Records</a>
+            <a href="https://healing-net.vercel.app/ui/contact" class="btn btn-info text-white fw-medium">💬 Contact Support</a>
+          </div>
+
+          <a href="https://healing-net.vercel.app/ui/login" class="btn btn-primary px-4 py-2 rounded-pill">Login Now</a>
+
+          <hr class="my-4">
+
+          <p class="mb-0">We’re here for your health — anywhere, anytime.</p>
+          <p class="fw-bold mt-1">– The HealingNet Team</p>
         </div>
+
+        <div class="card-footer text-center small text-muted py-3">
+          <p class="mb-1">If you didn’t sign up for HealingNet, you can safely ignore this email.</p>
+          <p class="mb-0">&copy; <%= new Date().getFullYear() %> HealingNet. All rights reserved.</p>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

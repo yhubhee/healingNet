@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <title>My Prescriptions - HealingNet</title>
+</head>
+<body>
+
+    <div class="container my-5">
+        <h2 class="mb-4">
+            My Prescriptions
+            <a href="#" target="_blank" class="btn btn-success float-end">Request New Prescription</a>
+        </h2>
+
+        <% if (appointments.length > 0) { %>
+            <% appointments.forEach(appointment => { %>
+                <div class="card mb-3 border-light shadow">
+                    <div class="card-body p-4">
+                        <h5 class="card-title"><%= appointment.doctor %></h5>
+                        <p class="card-text text-muted"><b>Specialty :</b> <%= appointment.specialty %></p>
+                        <p class="card-text" style="word-wrap: break-word;"><b>Email:</b> <%= appointment.email %></p>
+                        <p class="card-text" style="word-wrap: break-word;"><b>Date :</b><%= appointment.appointmentDate %> </p>
+                        <p class="card-text" style="word-wrap: break-word;">
+                            <b>Time :</b> <span class="appointment-time" data-time="<%= appointment.appointmentTime %>"></span>
+                        </p>
+                        <p class="card-text"><b>Appointment ID:</b> <%= appointment.appointment_id %></p>
+                        <div class="d-flex gap-2 mt-3">
+                            <% if (appointment.status.toLowerCase() === 'cancelled') { %>
+                                <span class="badge bg-danger text-white">Appointment cancelled</span>
+                            <% } else { %>
+                                <a href="#" class="btn btn-outline-secondary btn-sm">Start Appointment</a>
+                                <form action="/cancel-appointment" method="POST" class="d-inline cancel-form">
+                                    <input type="hidden" name="appointment_id" value="<%= appointment.appointment_id %>">
+                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Cancel Appointment</button>
+                                </form>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="alert alert-warning" role="alert">
+                You have no booked appointments.
+            </div>
+            <div class="text-center mt-4">
+                <a class="btn btn-primary btn-lg" href="/ui/appointment" target="_blank">
+                    <i class="fas fa-plus"></i> Create Appointment
+                </a>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="/js/main.js"></script>
+    <script>
+        document.querySelectorAll('.appointment-time').forEach(element => {
+            const serverTime = element.getAttribute('data-time');
+            if (serverTime) {
+                const localTime = new Date(`1970-01-01T${serverTime}Z`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                element.textContent = localTime;
+            }
+        });
+
+        document.querySelectorAll('.cancel-form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to cancel this appointment?')) {
+                    this.submit();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

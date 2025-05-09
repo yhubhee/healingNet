@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 exports.register = (req, res) => {
-    const { firstname, lastname, phone, email, date_of_birth, gender, password } = req.body;
+    const { firstname, lastname, phone, email, date_of_birth, date_joined, gender, password } = req.body;
 
     pool.query('SELECT email FROM patients WHERE email = ?', [email], async (err, result) => {
         if (err) {
@@ -49,6 +49,7 @@ exports.register = (req, res) => {
             phone,
             email,
             date_of_birth,
+            date_joined,
             gender,
             password: hashedpassword,
             status: 'active'

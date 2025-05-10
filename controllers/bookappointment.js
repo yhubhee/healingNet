@@ -61,13 +61,14 @@ exports.symptom_checker = (req, res) => {
 
 exports.bookappointment = (req, res) => {
     const { appointmentTime, appointmentDate, doctor, specialty } = req.body;
-    const { patient_id } = req.user; // Assuming user_id is available in req.user
+    const { patient_id, firstname, lastname } = req.user;
 
-    if (!appointmentTime || !appointmentDate) {
+    // Validate required fields
+    if (!appointmentTime || !appointmentDate || !doctor || !specialty) {
         return res.render('ui/book_appointment', {
             error: 'Please fill all required fields',
-            doctor, // Pass doctor to the view
-            specialty // Pass specialty to the view
+            doctor,
+            specialty
         });
     }
 
@@ -76,83 +77,174 @@ exports.bookappointment = (req, res) => {
     if (appointmentHour < 8 || appointmentHour > 22) {
         return res.render('ui/book_appointment', {
             error: 'Appointments can only be booked between 8 AM and 10 PM',
-            doctor, // Pass doctor to the view
-            specialty // Pass specialty to the view
+            doctor,
+            specialty
         });
     }
 
-    // Fetch doctor_id based on the selected doctor name
-    const getDoctorIdQuery = 'SELECT doctor_id FROM doctors WHERE doc_name = ?';
-    pool.query(getDoctorIdQuery, [doctor], (err, doctorResults) => {
+    // Check if the appointment date is in the past
+    const today = new Date();
+    const selectedDate = new Date(appointmentDate);
+    today.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+    if (selectedDate < today) {
+        return res.render('ui/book_appointment', {
+            error: 'Cannot book an appointment in the past',
+            doctor,
+            specialty
+        });
+    }
+
+    // Check if the appointment date is more than 30 days in the future
+    const thirtyDaysFromNow = new Date(today);
+    thirtyDaysFromNow.setDate(today.getDate() + 30);
+    if (selectedDate > thirtyDaysFromNow) {
+        return res.render('ui/book_appointment', {
+            error: 'Cannot book an appointment more than 30 days in advance',
+            doctor,
+            specialty
+        });
+    }
+
+    pool.getConnection((err, connection) => {
         if (err) {
-            console.log(err);
+            console.error('Database connection error:', err);
             return res.render('ui/book_appointment', {
-                error: 'Failed to fetch doctor information',
+                error: 'An error occurred while connecting to the database.',
                 doctor,
                 specialty
             });
         }
 
-        if (doctorResults.length === 0) {
-            return res.render('ui/book_appointment', {
-                error: 'Doctor not found',
-                doctor, // Pass doctor to the view
-                specialty // Pass specialty to the view
-            });
-        }
-
-        const doctor_id = doctorResults[0].doctor_id;
-
-        const appointmentData = {
-            doctor,
-            specialty,
-            appointmentDate,
-            appointmentTime,
-            patient_id,
-            doctor_id,
-            status: 'scheduled'
-        };
-
-        pool.query('INSERT INTO appointment SET ?', appointmentData, (err, result) => {
+        // Fetch doctor_id based on the selected doctor name
+        const getDoctorIdQuery = 'SELECT doctor_id FROM doctors WHERE doc_name = ?';
+        connection.query(getDoctorIdQuery, [doctor], (err, doctorResults) => {
             if (err) {
-                console.log(err);
+                console.error('Database query error (doctor fetch):', err);
+                connection.release();
                 return res.render('ui/book_appointment', {
-                    error: 'Failed to book appointment',
-                    doctor, // Ensure doctor is passed
-                    specialty // Ensure specialty is passed
-                });
-            } else {
-                const firstname = req.user ? req.user.firstname : 'User';
-                const lastname = req.user ? req.user.lastname : '';
-
-                // Query to count today's appointments for the user
-                const countAppointmentsQuery = `
-                        SELECT COUNT(*) AS appointmentsNumber 
-                        FROM appointment 
-                        WHERE patient_id = ? AND appointmentDate = CURDATE()
-                    `;
-                pool.query(countAppointmentsQuery, [patient_id], (err, countResults) => {
-                    let appointmentsNumber = 0; // Default value
-                    let message = 'Appointment successfully booked ✅ ';
-
-                    if (err) {
-                        console.log('Error fetching appointment count:', err);
-                        message = 'Failed to fetch appointment count. Your appointment was booked, but please check your dashboard later.';
-                    } else {
-                        appointmentsNumber = countResults[0].appointmentsNumber || 'no';
-                    }
-
-                    res.render('ui/book_appointment', {
-                        success: message,
-                        redirect: true,
-                        firstname,
-                        lastname,
-                        appointmentsNumber,
-                        doctor, // Ensure doctor is passed
-                        specialty // Ensure specialty is passed
-                    });
+                    error: 'Failed to fetch doctor information',
+                    doctor,
+                    specialty
                 });
             }
+
+            if (doctorResults.length === 0) {
+                connection.release();
+                return res.render('ui/book_appointment', {
+                    error: 'Doctor not found',
+                    doctor,
+                    specialty
+                });
+            }
+
+            const doctor_id = doctorResults[0].doctor_id;
+
+            // Check for complete profile
+            const completeProfileQuery = `
+                SELECT * FROM patients 
+                WHERE patient_id = ? AND (
+                    (address IS NULL OR TRIM(address) = '') OR 
+                    (emergency_contact_information IS NULL OR TRIM(emergency_contact_information) = '') OR 
+                    (medical_conditions IS NULL OR TRIM(medical_conditions) = '') OR 
+                    (allergies IS NULL OR TRIM(allergies) = '') OR 
+                    (medications IS NULL OR TRIM(medications) = '') OR 
+                    (surgical_history IS NULL OR TRIM(surgical_history) = '') OR 
+                    (family_medical_history IS NULL OR TRIM(family_medical_history) = '')
+                );
+            `;
+            connection.query(completeProfileQuery, [patient_id], (err, completeProfileResult) => {
+                if (err) {
+                    console.error('Database query error (profile check):', err);
+                    connection.release();
+                    return res.render('ui/book_appointment', {
+                        error: 'An error occurred while checking your profile. Please try again.',
+                        doctor,
+                        specialty
+                    });
+                }
+
+                console.log('Profile check result:', completeProfileResult);
+                console.log('Profile incomplete?', completeProfileResult.length > 0);
+
+                // If profile is incomplete (result length > 0 means at least one field is empty or null)
+                if (completeProfileResult.length > 0) {
+                    connection.release();
+                    return res.render('ui/book_appointment', {
+                        error: 'Please complete your profile to book an appointment.',
+                        doctor,
+                        specialty
+                    });
+                }
+
+                // Profile is complete, proceed with booking
+                const appointmentData = {
+                    doctor,
+                    specialty,
+                    appointmentDate,
+                    appointmentTime,
+                    patient_id,
+                    doctor_id,
+                    status: 'scheduled'
+                };
+
+                connection.query('INSERT INTO appointment SET ?', appointmentData, (err, result) => {
+                    if (err) {
+                        console.error('Database insertion error:', err);
+                        connection.release();
+                        return res.render('ui/book_appointment', {
+                            error: 'Failed to book appointment',
+                            doctor,
+                            specialty
+                        });
+                    }
+
+                    // Query to count today's appointments for the user
+                    const countAppointmentsQuery = `
+                        SELECT COUNT(*) AS appointmentsNumber 
+                        FROM appointment 
+                        WHERE patient_id = ? AND appointmentDate = CURDATE();
+                    `;
+                    connection.query(countAppointmentsQuery, [patient_id], (err, countResults) => {
+                        if (err) {
+                            console.error('Database query error (appointment count):', err);
+                            connection.release();
+                            return res.render('ui/book_appointment', {
+                                error: 'Appointment booked, but failed to fetch appointment count.',
+                                doctor,
+                                specialty
+                            });
+                        }
+
+                        const appointmentsNumber = countResults[0].appointmentsNumber || 0;
+
+                        // Fetch the list of doctors
+                        const fetchDoctorsQuery = 'SELECT * FROM doctors';
+                        connection.query(fetchDoctorsQuery, (err, fetchedDoctors) => {
+                            connection.release();
+                            if (err) {
+                                console.error('Database query error (fetch doctors):', err);
+                                return res.render('ui/book_appointment', {
+                                    error: 'Failed to fetch doctors list',
+                                    doctor,
+                                    specialty
+                                });
+                            }
+
+                            res.render('ui/book_appointment', {
+                                success: 'Appointment successfully booked ✅',
+                                redirect: true,
+                                firstname: firstname || 'User',
+                                lastname: lastname || '',
+                                appointmentsNumber,
+                                doctor,
+                                specialty,
+                                doctors: fetchedDoctors
+                            });
+                        });
+                    });
+                });
+            });
         });
     });
 };

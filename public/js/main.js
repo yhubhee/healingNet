@@ -102,7 +102,6 @@
 
 })(jQuery);
 
-
 document.addEventListener('DOMContentLoaded', function () {
     const message = document.querySelectorAll('.show');
     if (message) {
@@ -113,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 5000); // Hide after 5 seconds
     }
 });
-
 const div1 = document.getElementById('div1');
 const div2 = document.getElementById('div2');
 const div3 = document.getElementById('div3');

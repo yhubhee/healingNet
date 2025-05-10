@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 exports.register = (req, res) => {
-    const { firstname, lastname, phone, email, date_of_birth, date_joined, gender, password } = req.body;
+    const { firstname, lastname, phone, email, date_of_birth, date_joined, address, gender, password } = req.body;
 
     pool.query('SELECT email FROM patients WHERE email = ?', [email], async (err, result) => {
         if (err) {
@@ -33,6 +33,24 @@ exports.register = (req, res) => {
             return res.render('ui/signup', { error: 'Password weak or empty' });
         }
 
+        if (date_joined > new Date()) {
+            return res.render('ui/signup', { error: 'Date Joined cannot be in the future' });
+        }
+        if (new Date(date_of_birth) > new Date()) {
+            return res.render('ui/signup', { error: 'Date of Birth cannot be in the future' });
+        }
+        if (new Date(date_joined) < new Date(date_of_birth)) {
+            return res.render('ui/signup', { error: 'Date Joined cannot be before Date of Birth' });
+        }
+        if (!firstname) {
+            return res.render('ui/signup', { error: 'First Name field is empty' });
+        }
+        if (!lastname) {
+            return res.render('ui/signup', { error: 'Last Name field is empty' });
+        }
+        if (!phone) {
+            return res.render('ui/signup', { error: 'Phone field is empty' });
+        }
         if (!email) {
             return res.render('ui/signup', { error: 'Email field is empty' });
         }
@@ -51,6 +69,7 @@ exports.register = (req, res) => {
             date_of_birth,
             date_joined,
             gender,
+            address,
             password: hashedpassword,
             status: 'active'
         }, (err) => {
@@ -78,7 +97,7 @@ exports.register = (req, res) => {
             });
 
             res.render('emails/patient_email', {
-                name: firstname && lastname,
+                name: firstname + ' ' + lastname,
             }, (err, html) => {
                 if (err) {
                     console.error('Error rendering email template:', err);

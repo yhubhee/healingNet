@@ -94,7 +94,7 @@ router.get('/ui/signup', (req, res) => {
 });
 router.get('/ui/login', validateTokens, (req, res) => {
     if (req.authenticated) {
-        return res.redirect('/patients/dashboard'); 
+        return res.redirect('/patients/dashboard');
     }
     res.render('ui/login');
 });
@@ -212,13 +212,59 @@ router.get('/emails/patient_email', (req, res) => {
 
 // Appointment
 router.get('/ui/book_appointment', (req, res) => {
-    const doctor = req.query.doctor || 'Unknown Doctor'; 
-    const specialty = req.query.specialty || 'Unknown Specialty'; 
-    res.render('ui/book_appointment', { 
-        doctor,
-        specialty 
+    const doctor = req.query.doctor || 'Unknown Doctor';
+    const specialty = req.query.specialty || 'Unknown Specialty';
+
+    const sql1 = `SELECT DISTINCT doc_img, doc_name, specialty, about_doctor FROM doctors`;
+    const sql2 = `SELECT doctor, status FROM appointment WHERE status = 'scheduled'`;
+
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).send('Failed to fetch doctors');
+        }
+
+        // Execute the first query to get doctors
+        connection.query(sql1, (err, doctors) => {
+            if (err) {
+                console.error('Database query error:', err);
+                connection.release(); // Release connection on error
+                return res.status(500).send('Failed to fetch doctors');
+            }
+
+            // Remove duplicates based on doc_name
+            const uniqueDoctors = Array.from(new Map(doctors.map(doc => [doc.doc_name, doc])).values());
+            // console.log('Unique doctors after query:', uniqueDoctors); // Debug log
+
+            // Execute the second query to get booked doctors
+            connection.query(sql2, (err, isbooked) => {
+                if (err) {
+                    console.error('Database query error:', err);
+                    connection.release(); // Release connection on error
+                    return res.status(500).send('Failed to fetch booked doctors');
+                }
+
+                // Map over unique doctors and add isBooked property
+                const bookedDoctors = new Set(isbooked.map(booking => booking.doctor)); // Create a Set of booked doctor names
+                uniqueDoctors.forEach(doctor => {
+                    doctor.isBooked = bookedDoctors.has(doctor.doc_name); // Set isBooked true if doctor is in bookedDoctors
+                });
+
+                // Render the view with updated doctors array
+                res.render('ui/book_appointment', {
+                    doctor,
+                    specialty,
+                    doctors: uniqueDoctors // Pass unique doctors array
+                });
+
+                // Release the connection after all queries and rendering
+                connection.release();
+            });
+        });
     });
 });
+
+module.exports = router;
 
 // Student Section
 router.get('/student/student', (req, res) => {
@@ -236,47 +282,166 @@ router.get('/patients/logout', (req, res) => {
     res.render('ui/login')
 })
 router.get('/patients/dashboard', validateTokens, (req, res) => {
-    const { firstname, lastname, patient_id } = req.user; // Access the attached names
-    const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ?';
+    const date = new Date().toISOString().split('T')[0];
+    // console.log(date)
 
-    db.query(sql, [patient_id], (err, results) => {
+    const { firstname, lastname, patient_id } = req.user; // Access the attached names
+    const sql1 = `SELECT COUNT(*) AS count, d.doc_name FROM appointment a JOIN doctors d ON a.doctor_id = d.doctor_id WHERE a.patient_id = ? AND a.appointmentDate = ?;`
+
+    const sql2 = `    SELECT * FROM patients 
+    WHERE patient_id = ? AND (
+        address = '' OR 
+        emergency_contact_information = '' OR 
+        medical_conditions = '' OR 
+        allergies = '' OR 
+        medications = '' OR 
+        surgical_history = '' OR 
+        family_medical_history = ''
+    );`
+
+    db.getConnection((err, connection) => {
         if (err) {
             console.error('Database query error:', err); // Debugging log
             return res.status(500).json({ error: 'Failed to fetch appointments' });
         }
+        connection.query(sql1, [patient_id, date], (err, todayResult) => {
+            connection.release()
+            if (err) {
+                console.error('Database query error:', err);
+                return res.status(500).send('Failed to fetch today appointments');
+            }
 
-        const appointmentsNumber = results[0].count || 'no';
-        res.render('patients/dashboard', {
-            firstname,
-            lastname,
-            appointmentsNumber,
+            connection.query(sql2, [patient_id], (err, patientResults) => {
+                if (err) {
+                    console.error('Database query error:', err);
+                    return res.status(500).send('Failed to fetch patients');
+                }
+                const incompletePatients = patientResults.map(patient => ({
+                    address: patient.address,
+                    emergency_contact_information: patient.emergency_contact_information,
+                    medical_conditions: patient.medical_conditions,
+                    allergies: patient.allergies,
+                    medications: patient.medications,
+                    surgical_history: patient.surgical_history,
+                    family_medical_history: patient.family_medical_history
+                }));
 
+                console.log(incompletePatients); 
+
+                let todayAppointment = 'You have no appointment due today';
+
+                if (todayResult.length > 0 && todayResult[0].count > 0) {
+                    const doctor = todayResult[0];
+                    todayAppointment = `You have ${todayResult[0].count} appointment today  with ${doctor.doc_name}`
+                }
+                else {
+                    todayAppointment = 'You have no appointment due';
+                }
+                // console.log(todayAppointment);
+                res.render('patients/dashboard', {
+                    firstname,
+                    lastname,
+                    todayAppointment,
+                    incompletePatients
+                });
         });
     });
 });
+});
 
 router.get('/patients/profile', validateTokens, (req, res) => {
-    const { patient_id } = req.user; // Access the attached names and user_id
+    const { patient_id } = req.user;
+    console.log('Patient ID from token:', patient_id); // Debug: Log the patient_id
+
+    if (!patient_id) {
+        console.error('No patient_id found in token');
+        return res.status(401).render('patients/profile', {
+            error: 'Authentication failed: No patient ID found. Please log in again.',
+            patient: null,
+            appointmentResults: []
+        });
+    }
+
     const sql = `
-       select firstname, lastname, phone, email, date_joined, date_of_birth, gender, address, medical_history, medical_record_upload, emergency_contact, marital_status, chronic_conditions, next_of_kin from patients WHERE patient_id = ? ;
+      SELECT 
+        CONCAT(firstname, ' ', lastname) AS fullname, 
+        phone, 
+        email, 
+        date_joined, 
+        date_of_birth, 
+        gender, 
+        profile_img, 
+        address, 
+        emergency_contact_information, 
+        medical_conditions, 
+        allergies, 
+        medications, 
+        surgical_history, 
+        family_medical_history
+      FROM patients 
+      WHERE patient_id = ?;
     `;
+    const sql2 = `
+      SELECT appointment_id, doctor, appointmentDate, appointmentTime, status 
+      FROM appointment 
+      WHERE patient_id = ?;
+    `;
+
     db.getConnection((err, connection) => {
         if (err) {
             console.error('Database connection error:', err);
-            return res.status(500).send('Failed to fetch your details');
+            return res.status(500).render('patients/profile', {
+                error: 'Failed to connect to the database.',
+                patient: null,
+                appointmentResults: []
+            });
         }
-        connection.query(sql, [patient_id], (err, results) => {
-            connection.release(); // Release the connection back to the pool
+
+        // Execute the first query to get patient details
+        connection.query(sql, [patient_id], (err, patientResults) => {
             if (err) {
-                console.error('Database query error:', err);
-                return res.status(500).send('Failed to fetch your details');
+                console.error('Database query error (patient):', err);
+                connection.release();
+                return res.status(500).render('patients/profile', {
+                    error: 'Failed to fetch your details.',
+                    patient: null,
+                    appointmentResults: []
+                });
             }
-            res.render('patients/profile', {
-                patient: results || []
+
+            console.log('Patient query results:', patientResults); // Debug: Log the query results
+
+            // Execute the second query to get appointment history
+            connection.query(sql2, [patient_id], (err, appointmentResults) => {
+                if (err) {
+                    console.error('Database query error (appointments):', err);
+                    connection.release();
+                    return res.status(500).render('patients/profile', {
+                        error: 'Failed to fetch your appointment history.',
+                        patient: null,
+                        appointmentResults: []
+                    });
+                }
+
+                console.log('Appointment query results:', appointmentResults); // Debug: Log the appointment results
+
+                // Extract the patient object (single result)
+                const patient = patientResults.length > 0 ? patientResults[0] : null;
+
+                // Render the profile page
+                res.render('patients/profile', {
+                    patient,
+                    appointmentResults,
+
+                });
+
+                // Release the connection after all queries are done
+                connection.release();
             });
         });
     });
 });
+
 router.get('/patients/settings', validateTokens, (req, res) => {
     const { patient_id } = req.user; // Access the attached names and user_id
     const sql = `
@@ -668,7 +833,5 @@ router.get('/admin/admin_appointment', (req, res) => {
         });
     });
 });
-
-
 
 module.exports = router;

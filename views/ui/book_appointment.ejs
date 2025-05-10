@@ -8,13 +8,13 @@
         <% if (typeof error !=='undefined' ) { %>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <%= error %>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <button type="button" btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <% } %>
                 <% if (typeof success !=='undefined' ) { %>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <%= success %>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     <% } %>
     </div>
@@ -56,9 +56,96 @@
                 </div>
             </div>
         </div>
+        <!-- Related Doctors Section -->
+        <div class="container-fluid py-5">
+            <div class="container">
+                <div class="text-center mx-auto mb-5" style="max-width: 800px;">
+                    <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Related Doctors</h5>
+                    <h1 class="display-8">Other trusted doctors in <%= specialty %></h1>
+                </div>
+                <% const relatedDoctors = (typeof doctors !== 'undefined' ? doctors : []).filter(doc => doc.specialty === specialty && doc.doc_name !== doctor); %>
+                <% if (relatedDoctors.length > 1) { %>
+                    <div class="owl-carousel team-carousel position-relative">
+                        <% relatedDoctors.forEach((doc) => { %>
+                        <div class="team-item">
+                            <div class="row g-0 bg-light rounded overflow-hidden" style="height: 60vh;">
+                                <div class="col-12 col-sm-5 d-flex align-items-stretch">
+                                    <img class="img-fluid w-100" src="/Uploads/<%= doc.doc_img %>" alt="<%= doc.doc_name %>"
+                                        style="object-fit: cover;">
+                                </div>
+                                <div class="col-12 col-sm-7 d-flex flex-column">
+                                    <div class="p-4 flex-grow-1">
+                                        <h3><%= doc.doc_name %></h3>
+                                        <h6 class="fw-normal fst-italic text-primary mb-4 available-status">
+                                            <%= doc.specialty %>
+                                            <% if (!doc.isBooked) { %>
+                                                <span class="availability-dot available"></span> Available
+                                            <% } else { %>
+                                                <span class="availability-dot booked"></span> <span class="booked-text">Doctor Booked</span>
+                                            <% } %>
+                                        </h6>
+                                        <div class="about-doctor-scroll">
+                                            <p class="m-0"><%= doc.about_doctor %></p>
+                                        </div>
+                                    </div>
+                                    <div class="border-top p-2">
+                                        <div class="col-12 text-center">
+                                            <a href="/ui/book_appointment?doctor=<%= encodeURIComponent(doc.doc_name) %>&specialty=<%= encodeURIComponent(doc.specialty) %>" class="text-white">
+                                                <button class="btn btn-primary py-2 px-5"> Book Doctor </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                    </div>
+                <% } else if (relatedDoctors.length === 1) { %>
+                    <div class="team-item">
+                        <div class="row g-0 bg-light rounded overflow-hidden" style="height: 60vh;">
+                            <div class="col-12 col-sm-5 d-flex align-items-stretch">
+                                <img class="img-fluid w-100" src="/Uploads/<%= relatedDoctors[0].doc_img %>" alt="<%= relatedDoctors[0].doc_name %>"
+                                    style="object-fit: cover;">
+                            </div>
+                            <div class="col-12 col-sm-7 d-flex flex-column">
+                                <div class="p-4 flex-grow-1">
+                                    <h3><%= relatedDoctors[0].doc_name %></h3>
+                                    <h6 class="fw-normal fst-italic text-primary mb-4 available-status">
+                                        <%= relatedDoctors[0].specialty %>
+                                        <% if (!relatedDoctors[0].isBooked) { %>
+                                            <span class="availability-dot available"></span> Available
+                                        <% } else { %>
+                                            <span class="availability-dot booked"></span> <span class="booked-text">Doctor Booked</span>
+                                        <% } %>
+                                    </h6>
+                                    <div class="about-doctor-scroll">
+                                        <p class="m-0"><%= relatedDoctors[0].about_doctor %></p>
+                                    </div>
+                                </div>
+                                <div class="border-top p-2">
+                                    <div class="col-12 text-center">
+                                        <a href="/ui/book_appointment?doctor=<%= encodeURIComponent(relatedDoctors[0].doc_name) %>&specialty=<%= encodeURIComponent(relatedDoctors[0].specialty) %>" class="text-white">
+                                            <button class="btn btn-primary py-2 px-5"> Book Doctor </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <!-- Team End -->
     </div>
     <!-- Book Appointment Section End -->
 
     <%- include('../partials/footer') %>
 </body>
 </html>
+
+<style>
+.about-doctor-scroll {
+    max-height: 200px;
+    overflow-y: auto;
+}
+</style>

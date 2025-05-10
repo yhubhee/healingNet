@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const env = require('dotenv');
 const pool = require('./database');
 const pagesRoutes = require('./routes/pages');
+// require('events').setMaxListeners(20); 
 
 env.config({ path: './env' });
 

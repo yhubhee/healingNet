@@ -11,61 +11,61 @@
 
     // Function to reinitialize Bootstrap dropdowns
     function initializeDropdowns() {
-        document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(dropdownToggle => {
-            const clone = dropdownToggle.cloneNode(true);
-            dropdownToggle.parentNode.replaceChild(clone, dropdownToggle);
-            new bootstrap.Dropdown(clone);
-        });
+      document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(dropdownToggle => {
+        const clone = dropdownToggle.cloneNode(true);
+        dropdownToggle.parentNode.replaceChild(clone, dropdownToggle);
+        new bootstrap.Dropdown(clone);
+      });
     }
 
     document.querySelectorAll(".load-content").forEach(function (link) {
-        link.addEventListener("click", function (event) {
-            event.preventDefault();
-            let url = this.getAttribute("data-url");
+      link.addEventListener("click", function (event) {
+        event.preventDefault();
+        let url = this.getAttribute("data-url");
 
-            if (url === "/patients/dashboard") {
-                document.querySelector(".main-content").innerHTML = defaultMainContent;
-                initializeDropdowns();
-            } else {
-                fetch(url)
-                    .then(response => response.text())
-                    .then(html => {
-                        const mainContent = document.querySelector(".main-content");
-                        mainContent.innerHTML = html;
+        if (url === "/patients/dashboard") {
+          document.querySelector(".main-content").innerHTML = defaultMainContent;
+          initializeDropdowns();
+        } else {
+          fetch(url)
+            .then(response => response.text())
+            .then(html => {
+              const mainContent = document.querySelector(".main-content");
+              mainContent.innerHTML = html;
 
-                        // Re-run inline scripts in the loaded content
-                        mainContent.querySelectorAll("script:not([src])").forEach(script => {
-                            const newScript = document.createElement("script");
-                            newScript.text = script.textContent;
-                            document.body.appendChild(newScript);
-                            document.body.removeChild(newScript);
-                        });
+              // Re-run inline scripts in the loaded content
+              mainContent.querySelectorAll("script:not([src])").forEach(script => {
+                const newScript = document.createElement("script");
+                newScript.text = script.textContent;
+                document.body.appendChild(newScript);
+                document.body.removeChild(newScript);
+              });
 
-                        // Re-run external scripts if needed (e.g., Bootstrap)
-                        const existingBootstrap = document.querySelector('script[src*="bootstrap"]');
-                        if (!existingBootstrap) {
-                            const bootstrapScript = document.createElement("script");
-                            bootstrapScript.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js";
-                            bootstrapScript.async = true;
-                            document.body.appendChild(bootstrapScript);
-                        }
+              // Re-run external scripts if needed (e.g., Bootstrap)
+              const existingBootstrap = document.querySelector('script[src*="bootstrap"]');
+              if (!existingBootstrap) {
+                const bootstrapScript = document.createElement("script");
+                bootstrapScript.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js";
+                bootstrapScript.async = true;
+                document.body.appendChild(bootstrapScript);
+              }
 
-                        // Reinitialize dropdowns after content load
-                        setTimeout(initializeDropdowns, 0);
-                    })
-                    .catch(error => console.error("Error loading page:", error));
-            }
-        });
+              // Reinitialize dropdowns after content load
+              setTimeout(initializeDropdowns, 0);
+            })
+            .catch(error => console.error("Error loading page:", error));
+        }
+      });
     });
 
     // Initialize dropdowns on initial page load
     initializeDropdowns();
-});
+  });
 
 </script>
 
 <body>
-  
+
   <!-- Top Navigation Bar -->
   <div class="container-fluid sticky-top bg-white shadow-sm">
     <div class="container">
@@ -91,7 +91,7 @@
                 aria-expanded="false">
                 <img src="/img/avatar.jpg" alt="Profile" class="rounded-circle" width="30" height="30">
                 <%= firstname %>
-                <%= lastname %>
+                  <%= lastname %>
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                 <li><a class="dropdown-item load-content" href="#" data-url="/patients/profile">My Profile</a></li>
@@ -198,9 +198,12 @@
       <!-- Main Dashboard Content -->
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 main-content">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-          <h1 class="h2" id="time"><%= firstname %> <%= lastname %></h1> 
-          
-         
+          <h1 class="h2" id="time">
+            <%= firstname %>
+              <%= lastname %>
+          </h1>
+
+
           <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
               <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -219,7 +222,9 @@
             <div class="card shadow-sm">
               <div class="card-header">Upcoming Appointments</div>
               <div class="card-body">
-                <p class="card-text">You have <%= appointmentsNumber %> appointment scheduled for today.</p>
+                <p class="card-text">
+                  <%= todayAppointment %>
+                </p>
                 <!-- <a href="#" class="btn btn-primary btn-sm">View Details</a> -->
                 <a class="btn btn-primary btn-sm load-content" aria-current="page" href="#"
                   data-url="/booked-appointment"> View Details</a>
@@ -273,34 +278,66 @@
             </div>
           </div>
         </div>
+        <!-- Complete Profile Modal -->
+    <% if (incompletePatients) { %>
+      <div class="modal fade" id="completeProfileModal" tabindex="-1" aria-labelledby="completeProfileModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="completeProfileModalLabel">Complete Your Profile</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <p>It looks like your profile is incomplete. Please provide the required information to ensure the best experience.</p>
+                      <p>Required fields: Phone Number, Address, Emergency Contact Information</p>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Later</button>
+                      <a href="#" data-url="/patients/profile" aria class="btn btn-primary load-content" id="completeProfileLink">Complete Profile Now</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <% } %>
       </main>
     </div>
   </div>
   <!-- JavaScript Libraries -->
   <%- include('../partials/footer') %>
-  <Script>
-    const time = document.getElementById('time');  
-    let greetings = "";
+    <Script>
+      const time = document.getElementById('time');
+      let greetings = "";
 
-    const d = new Date();  
-    const hours = d.getHours();  
+      const d = new Date();
+      const hours = d.getHours();
 
-    if ((hours >= 0) && (hours < 12)) {  
-    greetings = "Good Morning, ";  
-    } else if ((hours >= 12) && (hours < 18)) {  
-    greetings = "Good Afternoon, ";
-    } else if ((hours >= 18) && (hours < 22)) {  
-    greetings = "Good Evening, ";  
-    } else {  
-    greetings = "Good Night, ";    
-    }  
+      if ((hours >= 0) && (hours < 12)) {
+        greetings = "Good Morning, ";
+      } else if ((hours >= 12) && (hours < 18)) {
+        greetings = "Good Afternoon, ";
+      } else if ((hours >= 18) && (hours < 22)) {
+        greetings = "Good Evening, ";
+      } else {
+        greetings = "Good Night, ";
+      }
 
-    const name = time.textContent;  
-    time.textContent = greetings + name;  
-    console.log(time);  
-  </script>
+      const name = time.textContent;
+      time.textContent = greetings + name;
+
+      // Automatically show the modal on page load
+      document.addEventListener('DOMContentLoaded', function () {
+            var completeProfileModal = new bootstrap.Modal(document.getElementById('completeProfileModal'), {
+                keyboard: false
+            });
+            completeProfileModal.show();
+
+            // Dismiss modal and redirect when "Complete Profile Now" is clicked
+            document.getElementById('completeProfileLink').addEventListener('click', function (e) {
+                completeProfileModal.hide();
+                // Allow the link to proceed with the redirect
+            });
+        });
+    </script>
 </body>
 
 </html>
-
-<!-- toLocaleTimeString() -->

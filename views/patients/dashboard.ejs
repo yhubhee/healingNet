@@ -227,7 +227,7 @@
                 </p>
                 <!-- <a href="#" class="btn btn-primary btn-sm">View Details</a> -->
                 <a class="btn btn-primary btn-sm load-content" aria-current="page" href="#"
-                  data-url="/booked-appointment"> View Details</a>
+                  data-url="/patients/booked-appointment"> View Details</a>
               </div>
             </div>
           </div>
@@ -279,26 +279,42 @@
           </div>
         </div>
         <!-- Complete Profile Modal -->
-    <% if (incompletePatients) { %>
-      <div class="modal fade" id="completeProfileModal" tabindex="-1" aria-labelledby="completeProfileModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
+        <% if (showProfileModal) { %>
+          <div class="modal fade" id="completeProfileModal" tabindex="-1" aria-labelledby="completeProfileModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="completeProfileModalLabel">Complete Your Profile</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <p>It looks like your profile is incomplete. Please provide the required information to ensure the best experience.</p>
-                      <p>Required fields: Phone Number, Address, Emergency Contact Information</p>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Later</button>
-                      <a href="#" data-url="/patients/profile" aria class="btn btn-primary load-content" id="completeProfileLink">Complete Profile Now</a>
-                  </div>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="completeProfileModalLabel">Complete Your Profile</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Your profile is incomplete. Please fill in the required information for the best experience.</p>
+                  <p><strong>Required fields:</strong> Phone Number, Address, Emergency Contact Information</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Later</button>
+                  <a href="#" data-url="/patients/profile" class="btn btn-primary load-content"
+                    id="completeProfileLink">Complete Profile Now</a>
+                </div>
               </div>
+            </div>
           </div>
-      </div>
-      <% } %>
+          <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              const modalEl = document.getElementById('completeProfileModal');
+              const completeProfileModal = new bootstrap.Modal(modalEl, { keyboard: true });
+              completeProfileModal.show();
+
+              const completeProfileLink = document.getElementById('completeProfileLink');
+              completeProfileLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                completeProfileModal.hide();
+              });
+            });
+          </script>
+          <% } %>
+
       </main>
     </div>
   </div>
@@ -324,19 +340,6 @@
       const name = time.textContent;
       time.textContent = greetings + name;
 
-      // Automatically show the modal on page load
-      document.addEventListener('DOMContentLoaded', function () {
-            var completeProfileModal = new bootstrap.Modal(document.getElementById('completeProfileModal'), {
-                keyboard: false
-            });
-            completeProfileModal.show();
-
-            // Dismiss modal and redirect when "Complete Profile Now" is clicked
-            document.getElementById('completeProfileLink').addEventListener('click', function (e) {
-                completeProfileModal.hide();
-                // Allow the link to proceed with the redirect
-            });
-        });
     </script>
 </body>
 

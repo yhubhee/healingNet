@@ -10,7 +10,7 @@ exports.forgot_pass = (req, res) => {
     const { email } = req.body;
 
     if (!email) {
-        return res.render('forgot_pass', {
+        return res.render('ui/forgot_pass', {
             error: 'Please input email to continue',
         });
     }
@@ -18,13 +18,13 @@ exports.forgot_pass = (req, res) => {
     db.query(`SELECT * FROM patients WHERE email = ?`, [email], (err, result) => {
         if (err) {
             console.error(err);
-            return res.render('forgot_pass', {
+            return res.render('ui/forgot_pass', {
                 error: 'Something went wrong. Please try again later.',
             });
         }
 
         if (result.length === 0) {
-            return res.render('forgot_pass', {
+            return res.render('ui/forgot_pass', {
                 error: 'Invalid email',
             });
         }
@@ -66,13 +66,13 @@ exports.forgot_pass = (req, res) => {
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.error('Error sending email:', error);
-                return res.render('forgot_pass', {
+                return res.render('ui/forgot_pass', {
                     error: 'Failed to send reset email. Please try again later.',
                 });
             }
 
             console.log('Email sent:', info.response);
-            return res.render('forgot_pass', {
+            return res.render('ui/forgot_pass', {
                 success: 'A password reset link has been sent to your email',
                 redirect: true,
             });

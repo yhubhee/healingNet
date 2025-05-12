@@ -7,6 +7,7 @@ const { doctorvalidateTokens } = require('../middlewares/authdoctor');
 const { validatePasswordResetToken } = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
 const { symptoms } = require('../controllers/symptomChecker');
+const jwt = require('jsonwebtoken');
 
 // BASIC UI SECTION
 router.get('/ui/about', (req, res) => {
@@ -98,49 +99,6 @@ router.get('/ui/login', validateTokens, (req, res) => {
     }
     res.render('ui/login');
 });
-router.get('/ui/appointment', (req, res) => {
-    const sql1 = `SELECT doc_img, doc_name, specialty, about_doctor FROM doctors`;
-    const sql2 = `SELECT doctor, status FROM appointment WHERE status = 'scheduled'`;
-
-    db.getConnection((err, connection) => {
-        if (err) {
-            console.error('Database connection error:', err);
-            return res.status(500).send('Failed to fetch doctors');
-        }
-
-        // Execute the first query to get doctors
-        connection.query(sql1, (err, doctors) => {
-            if (err) {
-                console.error('Database query error:', err);
-                connection.release(); // Release connection on error
-                return res.status(500).send('Failed to fetch doctors');
-            }
-
-            // Execute the second query to get booked doctors
-            connection.query(sql2, (err, isbooked) => {
-                if (err) {
-                    console.error('Database query error:', err);
-                    connection.release(); // Release connection on error
-                    return res.status(500).send('Failed to fetch booked doctors');
-                }
-
-                // Map over doctors and add isBooked property
-                const bookedDoctors = new Set(isbooked.map(booking => booking.doctor)); // Create a Set of booked doctor names
-                doctors.forEach(doctor => {
-                    doctor.isBooked = bookedDoctors.has(doctor.doc_name); // Set isBooked true if doctor is in bookedDoctors
-                });
-
-                // Render the view with updated doctors array
-                res.render('ui/appointment', {
-                    doctors
-                });
-
-                // Release the connection after all queries and rendering
-                connection.release();
-            });
-        });
-    });
-});
 router.get('/ui/homeappointment', (req, res) => {
     res.render('ui/homeappointment');
 });
@@ -211,12 +169,9 @@ router.get('/emails/patient_email', (req, res) => {
 });
 
 // Appointment
-router.get('/ui/book_appointment', (req, res) => {
-    const doctor = req.query.doctor || 'Unknown Doctor';
-    const specialty = req.query.specialty || 'Unknown Specialty';
-
+router.get('/ui/appointment', (req, res) => {
     const sql1 = `SELECT DISTINCT doc_img, doc_name, specialty, about_doctor FROM doctors`;
-    const sql2 = `SELECT doctor, status FROM appointment WHERE status = 'scheduled'`;
+    const sql2 = `SELECT doctor, appointmentDate, appointmentTime AS status FROM appointment WHERE status = 'scheduled' ORDER BY appointmentTime DESC`;
 
     db.getConnection((err, connection) => {
         if (err) {
@@ -224,47 +179,146 @@ router.get('/ui/book_appointment', (req, res) => {
             return res.status(500).send('Failed to fetch doctors');
         }
 
-        // Execute the first query to get doctors
         connection.query(sql1, (err, doctors) => {
             if (err) {
                 console.error('Database query error:', err);
-                connection.release(); // Release connection on error
+                connection.release();
                 return res.status(500).send('Failed to fetch doctors');
             }
 
-            // Remove duplicates based on doc_name
             const uniqueDoctors = Array.from(new Map(doctors.map(doc => [doc.doc_name, doc])).values());
-            // console.log('Unique doctors after query:', uniqueDoctors); // Debug log
 
-            // Execute the second query to get booked doctors
             connection.query(sql2, (err, isbooked) => {
                 if (err) {
                     console.error('Database query error:', err);
-                    connection.release(); // Release connection on error
+                    connection.release();
                     return res.status(500).send('Failed to fetch booked doctors');
                 }
 
-                // Map over unique doctors and add isBooked property
-                const bookedDoctors = new Set(isbooked.map(booking => booking.doctor)); // Create a Set of booked doctor names
+                // Create a map to store the most recent booking details for each doctor
+                const latestBookings = new Map();
+                if (isbooked && isbooked.length > 0) {
+                    isbooked.forEach(booking => {
+                        const currentLatest = latestBookings.get(booking.doctor);
+                        const bookingDateTime = new Date(`${booking.appointmentDate}T${booking.status}`);
+                        if (!currentLatest || bookingDateTime > new Date(`${currentLatest.date}T${currentLatest.time}`)) {
+                            latestBookings.set(booking.doctor, {
+                                date: booking.appointmentDate.toLocaleDateString(),
+                                time: new Date(`1970-01-01T${booking.status}`).toLocaleTimeString()
+                            });
+                        }
+                    });
+                    
+                }
+                
+
+                // Add the most recent booked time and formatted message to each doctor
+                const today = new Date();
+                const todayStr = today.toISOString().split('T')[0]; // e.g., "2025-05-12"
+
                 uniqueDoctors.forEach(doctor => {
-                    doctor.isBooked = bookedDoctors.has(doctor.doc_name); // Set isBooked true if doctor is in bookedDoctors
+                    const booking = latestBookings.get(doctor.doc_name);
+                    if (booking) {
+                        doctor.isBooked = true;
+                        doctor.latestBookedTime = booking.time;
+                        doctor.latestBookedDate = booking.date;
+                        // Format the message based on whether the booking is today
+                        if (booking.date === todayStr) {
+                            doctor.bookedMessage = `Doctor is booked for ${booking.time} today`;
+                        } else {
+                            doctor.bookedMessage = `Doctor is booked for ${booking.time} on ${booking.date}`;
+                        }
+                    } else {
+                        doctor.isBooked = false;
+                        doctor.latestBookedTime = null;
+                        doctor.latestBookedDate = null;
+                        doctor.bookedMessage = null;
+                    }
                 });
 
-                // Render the view with updated doctors array
-                res.render('ui/book_appointment', {
-                    doctor,
-                    specialty,
-                    doctors: uniqueDoctors // Pass unique doctors array
+                res.render('ui/appointment', {
+                    doctors: uniqueDoctors
                 });
 
-                // Release the connection after all queries and rendering
                 connection.release();
             });
         });
     });
 });
 
-module.exports = router;
+router.get('/ui/book_appointment', (req, res) => {
+    const doctor = req.query.doctor || 'Unknown Doctor';
+    const specialty = req.query.specialty || 'Unknown Specialty';
+
+    const sql1 = `SELECT DISTINCT doc_img, doc_name, specialty, about_doctor FROM doctors`;
+    const sql2 = `SELECT doctor, appointmentTime AS status FROM appointment WHERE status = 'scheduled' ORDER BY appointmentTime DESC`;
+
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).send('Failed to fetch doctors');
+        }
+
+        connection.query(sql1, (err, doctors) => {
+            if (err) {
+                console.error('Database query error:', err);
+                connection.release();
+                return res.status(500).send('Failed to fetch doctors');
+            }
+            console.log(doctors)
+
+            const uniqueDoctors = Array.from(new Map(doctors.map(doc => [doc.doc_name, doc])).values());
+
+            connection.query(sql2, (err, isbooked) => {
+                if (err) {
+                    console.error('Database query error:', err);
+                    connection.release();
+                    return res.status(500).send('Failed to fetch booked doctors');
+                }
+
+                // Create a map to store the most recent booked time for each doctor
+                const latestBookings = new Map();
+                if (isbooked && isbooked.length > 0) {
+                    isbooked.forEach(booking => {
+                        const currentLatest = latestBookings.get(booking.doctor);
+                        if (!currentLatest || new Date(booking.status) > new Date(currentLatest)) {
+                            latestBookings.set(booking.doctor, booking.status);
+                        }
+                    });
+                }
+
+                // Add the most recent booked time to each doctor
+                uniqueDoctors.forEach(doctor => {
+                    doctor.latestBookedTime = latestBookings.get(doctor.doc_name) || null;
+                    doctor.isBooked = doctor.latestBookedTime;
+                });
+                
+
+                res.render('ui/book_appointment', {
+                    doctor,
+                    specialty,
+                    doctors
+                });
+
+                connection.release();
+            });
+        });
+    });
+});
+
+// cancel appointment
+router.post('/cancel-appointment', (req, res) => {
+    const { appointment_id } = req.body;
+    const query = 'UPDATE appointment SET status = "Cancelled" WHERE appointment_id = ?';
+
+    db.query(query, [appointment_id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Server error');
+        }
+        res.redirect('patients/booked-appointment');
+    });
+});
 
 // Student Section
 router.get('/student/student', (req, res) => {
@@ -279,74 +333,117 @@ router.get('/student/student_login', (req, res) => {
 
 // Patients Section
 router.get('/patients/logout', (req, res) => {
-    res.render('ui/login')
-})
+    const token = req.cookies['access-Token'];
+
+    if (token) {
+        // Decode the token to get its expiration time
+        const decoded = jwt.decode(token);
+        console.log(decoded)
+        const expiresAt = new Date(decoded.exp * 1000); // Convert expiration (in seconds) to Date
+
+        // Add the token to the blacklist
+        const blacklistQuery = `INSERT INTO token_blacklist (token, expires_at) VALUES (?, ?)`;
+        db.query(blacklistQuery, [token, expiresAt], (err) => {
+            if (err) {
+                console.error('Error blacklisting token:', err);
+                // Proceed with logout even if blacklisting fails
+            }
+
+            // Clear the JWT cookie
+            res.clearCookie('access-Token', {
+                httpOnly: true,
+                secure: process.env.NODE_ENV,
+            });
+
+            // Render the login page
+            res.render('ui/login', {
+                success: 'You have been logged out successfully.',
+                redirect: false
+            });
+        });
+    } else {
+        // No token found, proceed to render login page
+        res.render('ui/login', {
+            success: 'You have been logged out successfully.',
+            redirect: false
+        });
+    }
+});
+
 router.get('/patients/dashboard', validateTokens, (req, res) => {
     const date = new Date().toISOString().split('T')[0];
-    // console.log(date)
+    const { firstname, lastname, patient_id } = req.user;
 
-    const { firstname, lastname, patient_id } = req.user; // Access the attached names
-    const sql1 = `SELECT COUNT(*) AS count, d.doc_name FROM appointment a JOIN doctors d ON a.doctor_id = d.doctor_id WHERE a.patient_id = ? AND a.appointmentDate = ?;`
+    if (!patient_id) {
+        return res.status(401).render('patients/dashboard', {
+            error: 'Authentication failed: No patient ID found. Please log in again.',
+            firstname,
+            lastname,
+            todayAppointment: null,
+            showProfileModal: false
+        });
+    }
 
-    const sql2 = `    SELECT * FROM patients 
-    WHERE patient_id = ? AND (
-        address = '' OR 
-        emergency_contact_information = '' OR 
-        medical_conditions = '' OR 
-        allergies = '' OR 
-        medications = '' OR 
-        surgical_history = '' OR 
-        family_medical_history = ''
-    );`
+    const sql1 = `SELECT COUNT(*) AS count, d.doc_name FROM appointment a JOIN doctors d ON a.doctor_id = d.doctor_id WHERE a.patient_id = ? AND a.appointmentDate = ? AND a.status = 'scheduled'`;
+    const completeProfileQuery = `SELECT * FROM patients 
+                WHERE patient_id = ? AND (
+                    (address IS NULL OR TRIM(address) = '') OR 
+                    (emergency_contact_information IS NULL OR TRIM(emergency_contact_information) = '') OR 
+                    (medical_conditions IS NULL OR TRIM(medical_conditions) = '') OR 
+                    (allergies IS NULL OR TRIM(allergies) = '') OR 
+                    (medications IS NULL OR TRIM(medications) = '') OR 
+                    (surgical_history IS NULL OR TRIM(surgical_history) = '') OR 
+                    (family_medical_history IS NULL OR TRIM(family_medical_history) = '')
+                );`;
 
     db.getConnection((err, connection) => {
         if (err) {
-            console.error('Database query error:', err); // Debugging log
+            console.error('Database connection error:', err);
             return res.status(500).json({ error: 'Failed to fetch appointments' });
         }
+
         connection.query(sql1, [patient_id, date], (err, todayResult) => {
-            connection.release()
             if (err) {
                 console.error('Database query error:', err);
+                connection.release();
                 return res.status(500).send('Failed to fetch today appointments');
             }
 
-            connection.query(sql2, [patient_id], (err, patientResults) => {
+            connection.query(completeProfileQuery, [patient_id], (err, completeProfileResult) => {
                 if (err) {
-                    console.error('Database query error:', err);
-                    return res.status(500).send('Failed to fetch patients');
+                    console.error('Database query error (profile check):', err);
+                    connection.release();
+                    return res.render('patients/dashboard', {
+                        error: 'An error occurred while checking your profile. Please try again.',
+                        firstname,
+                        lastname,
+                        todayAppointment: null,
+                        showProfileModal: false
+                    });
                 }
-                const incompletePatients = patientResults.map(patient => ({
-                    address: patient.address,
-                    emergency_contact_information: patient.emergency_contact_information,
-                    medical_conditions: patient.medical_conditions,
-                    allergies: patient.allergies,
-                    medications: patient.medications,
-                    surgical_history: patient.surgical_history,
-                    family_medical_history: patient.family_medical_history
-                }));
 
-                console.log(incompletePatients); 
+                console.log('Profile incomplete?', completeProfileResult.length > 0);
+                const showProfileModal = completeProfileResult.length > 0; // Boolean flag
 
                 let todayAppointment = 'You have no appointment due today';
-
                 if (todayResult.length > 0 && todayResult[0].count > 0) {
                     const doctor = todayResult[0];
-                    todayAppointment = `You have ${todayResult[0].count} appointment today  with ${doctor.doc_name}`
-                }
-                else {
+                    todayAppointment = `You have ${todayResult[0].count} appointment today with ${doctor.doc_name}`;
+                } else {
                     todayAppointment = 'You have no appointment due';
                 }
-                // console.log(todayAppointment);
+
                 res.render('patients/dashboard', {
                     firstname,
                     lastname,
                     todayAppointment,
-                    incompletePatients
+                    showProfileModal
                 });
+
+                connection.release();
+            });
         });
     });
-});
 });
 
 router.get('/patients/profile', validateTokens, (req, res) => {
@@ -516,22 +613,6 @@ router.get('/patients/prescriptions', validateTokens, (req, res) => {
     });
 });
 
-
-// cancel appointment
-router.post('/cancel-appointment', (req, res) => {
-    const { appointment_id } = req.body;
-    const query = 'UPDATE appointment SET status = "Cancelled" WHERE appointment_id = ?';
-
-    db.query(query, [appointment_id], (err, result) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Server error');
-        }
-        res.redirect('/booked-appointment');
-    });
-});
-
-
 // Doctor Section
 router.get('/doctor/doctorsignup', (req, res) => {
     res.render('doctor/doctorsignup');
@@ -540,7 +621,41 @@ router.get('/doctor/doctorlogin', (req, res) => {
     res.render('doctor/doctorlogin');
 });
 router.get('/doctorlogout', (req, res) => {
-    res.render('doctorlogin')
+    const token = req.cookies['doc-Token'];
+
+    if (token) {
+        // Decode the token to get its expiration time
+        const decoded = jwt.decode(token);
+        console.log(decoded)
+        const expiresAt = new Date(decoded.exp * 1000); // Convert expiration (in seconds) to Date
+
+        // Add the token to the blacklist
+        const blacklistQuery = `INSERT INTO token_blacklist (token, expires_at) VALUES (?, ?)`;
+        db.query(blacklistQuery, [token, expiresAt], (err) => {
+            if (err) {
+                console.error('Error blacklisting token:', err);
+                // Proceed with logout even if blacklisting fails
+            }
+
+            // Clear the JWT cookie
+            res.clearCookie('doc-Token', {
+                httpOnly: true,
+                secure: process.env.NODE_ENV,
+            });
+
+            // Render the login page
+            res.render('ui/doctorlogin', {
+                success: 'You have been logged out successfully.',
+                redirect: false
+            });
+        });
+    } else {
+        // No token found, proceed to render login page
+        res.render('ui/doctorlogin', {
+            success: 'You have been logged out successfully.',
+            redirect: false
+        });
+    }
 })
 router.get('/schedule', (req, res) => {
     res.render('schedule')

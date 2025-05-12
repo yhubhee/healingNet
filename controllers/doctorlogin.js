@@ -31,7 +31,8 @@ exports.doctorlogin = (req, res) => {
             maxage: new Date(
                 Date.now() + process.env.Doc_JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
             ),
-            httpOnly: true
+            httpOnly: true,
+            secure: process.env.NODE_ENV
         })
 
         // console.log('The token is: ' + accessToken);

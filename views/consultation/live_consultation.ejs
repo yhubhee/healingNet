@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %>
+<title>Video Consultation - HealingNet</title>
+<body>
+    <%- include('../partials/header') %>
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h1 class="display-4 mb-4">Video Consultation</h1>
+                    <div class="alert alert-info" id="status-message">Click "Start Call" to begin the consultation.</div>
+                    <div class="d-flex justify-content-center gap-3 mb-4">
+                        <button onclick="startCall()" class="btn btn-primary py-2 px-4">Start Call</button>
+                        <button onclick="endCall()" class="btn btn-danger py-2 px-4" id="end-call-btn" style="display: none;">End Call</button>
+                    </div>
+                    <div id="video-container" style="display: none;">
+                        <div class="position-fixed top-0 start-0 w-100 h-100">
+                            <video id="remoteVideo" class="w-100 h-100" style="object-fit: cover;" autoplay></video>
+                        </div>
+                        <div class="position-fixed bottom-0 end-0 p-3" style="width: 300px; height: 200px; z-index: 1000;">
+                            <video id="localVideo" class="w-100 h-100 rounded shadow-sm" style="object-fit: cover;" autoplay muted></video>
+                            <p class="text-white p-2 bg-dark bg-opacity-50 m-0">Your Video</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../partials/footer') %>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io('http://localhost:3001'); // Adjust to signaling server URL in production
+        const localVideo = document.getElementById('localVideo');
+        const remoteVideo = document.getElementById('remoteVideo');
+        const statusMessage = document.getElementById('status-message');
+        const videoContainer = document.getElementById('video-container');
+        const endCallBtn = document.getElementById('end-call-btn');
+        let localStream;
+        let peerConnection;
+
+        const configuration = {
+            iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+        };
+
+        async function startCall() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const appointmentId = urlParams.get('appointmentId');
+                const userId = socket.id;
+                const role = urlParams.get('role') || 'patient';
+
+                if (!appointmentId) {
+                    throw new Error('Appointment ID is missing');
+                }
+
+                // Show video container and hide Start Call button
+                videoContainer.style.display = 'block';
+                document.querySelector('.btn-primary').style.display = 'none';
+                endCallBtn.style.display = 'inline-block';
+                statusMessage.textContent = 'Connecting...';
+
+                // Get local stream
+                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                localVideo.srcObject = localStream;
+
+                // Initialize peer connection
+                peerConnection = new RTCPeerConnection(configuration);
+                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+                // Handle remote stream
+                peerConnection.ontrack = (event) => {
+                    remoteVideo.srcObject = event.streams[0];
+                    statusMessage.textContent = 'Consultation in progress';
+                    statusMessage.classList.replace('alert-info', 'alert-success');
+                };
+
+                // Handle ICE candidates
+                peerConnection.onicecandidate = (event) => {
+                    if (event.candidate) {
+                        socket.emit('ice-candidate', appointmentId, event.candidate);
+                    }
+                };
+
+                // Create and send offer
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+                socket.emit('offer', appointmentId, offer);
+
+                socket.emit('join-room', appointmentId, userId, role);
+            } catch (err) {
+                console.error('Error starting call:', err);
+                statusMessage.textContent = 'Failed to start consultation: ' + (err.message || 'Unknown error');
+                statusMessage.classList.replace('alert-info', 'alert-danger');
+                videoContainer.style.display = 'none';
+                document.querySelector('.btn-primary').style.display = 'inline-block';
+                endCallBtn.style.display = 'none';
+            }
+        }
+
+        socket.on('offer', async (offer) => {
+            try {
+                if (!peerConnection) {
+                    peerConnection = new RTCPeerConnection(configuration);
+                    localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+                    peerConnection.ontrack = (event) => {
+                        remoteVideo.srcObject = event.streams[0];
+                        statusMessage.textContent = 'Consultation in progress';
+                        statusMessage.classList.replace('alert-info', 'alert-success');
+                    };
+                    peerConnection.onicecandidate = (event) => {
+                        if (event.candidate) {
+                            socket.emit('ice-candidate', appointmentId, event.candidate);
+                        }
+                    };
+                }
+                await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+                const answer = await peerConnection.createAnswer();
+                await peerConnection.setLocalDescription(answer);
+                socket.emit('answer', appointmentId, answer);
+            } catch (err) {
+                console.error('Error handling offer:', err);
+                statusMessage.textContent = 'Failed to connect: ' + (err.message || 'Unknown error');
+                statusMessage.classList.replace('alert-info', 'alert-danger');
+            }
+        });
+
+        socket.on('answer', (answer) => {
+            peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+        });
+
+        socket.on('ice-candidate', (candidate) => {
+            peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+        });
+
+        socket.on('user-joined', (userId) => {
+            console.log(`User ${userId} joined the room`);
+            statusMessage.textContent = 'Another participant has joined. Connecting...';
+        });
+
+        socket.on('room-full', () => {
+            statusMessage.textContent = 'Room is full. Please try again later.';
+            statusMessage.classList.replace('alert-info', 'alert-danger');
+            endCall();
+        });
+
+        socket.on('user-left', (userId) => {
+            statusMessage.textContent = 'The other participant has left the consultation.';
+            statusMessage.classList.replace('alert-info', 'alert-warning');
+            endCall();
+        });
+
+        function endCall() {
+            if (peerConnection) {
+                peerConnection.close();
+                peerConnection = null;
+            }
+            if (localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+                localStream = null;
+            }
+            localVideo.srcObject = null;
+            remoteVideo.srcObject = null;
+            socket.emit('leave-room', appointmentId);
+            videoContainer.style.display = 'none';
+            document.querySelector('.btn-primary').style.display = 'inline-block';
+            endCallBtn.style.display = 'none';
+            statusMessage.textContent = 'Call ended. Click "Start Call" to begin a new consultation.';
+            statusMessage.classList.replace('alert-success', 'alert-info');
+            statusMessage.classList.replace('alert-warning', 'alert-info');
+            window.location.href = '/ui/appointment';
+        }
+    </script>
+</body>
+</html>

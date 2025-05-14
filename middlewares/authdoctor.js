@@ -4,12 +4,13 @@ const createToken = (doctors) =>{
     const docToken = sign(
         {
             doctor_id: doctors.doctor_id, 
-            name: doctors.name
+            doc_name: doctors.doc_name
         }, 
         process.env.doc_JWT_SECRET, 
         {
         expiresIn: process.env.doc_JWT_EXPIRES_IN
     });
+    // console.log(docToken)
     return docToken;
 
 };

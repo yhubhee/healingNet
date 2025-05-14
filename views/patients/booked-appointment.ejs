@@ -16,19 +16,19 @@
             <% appointments.forEach(appointment => { %>
                 <div class="card mb-3 border-light shadow">
                     <div class="card-body p-4">
-                        <h5 class="card-title"><%= appointment.doctor %></h5>
-                        <p class="card-text text-muted"><b>Specialty :</b> <%= appointment.specialty %></p>
-                        <p class="card-text" style="word-wrap: break-word;"><b>Email:</b> <%= appointment.email %></p>
-                        <p class="card-text" style="word-wrap: break-word;"><b>Date :</b><%= appointment.appointmentDate %> </p>
+                        <h5 class="card-title">Doctor's Name :<%= appointment.doctor %></h5>
+                        <p class="card-text text-muted"><b>Doctor's Specialty :</b> <%= appointment.specialty %></p>
+                        <p class="card-text" style="word-wrap: break-word;"><b>Doctor's Email:</b> <%= appointment.email %></p>
+                        <p class="card-text" style="word-wrap: break-word;"><b>Date : </b><%= appointment.appointmentDate.toDateString() %> </p>
                         <p class="card-text" style="word-wrap: break-word;">
-                            <b>Time :</b> <span class="appointment-time" data-time="<%= appointment.appointmentTime %>"></span>
+                            <b>Time : </b> <span class="appointment-time" data-time="<%= appointment.appointmentTime %>"></span> 
                         </p>
                         <p class="card-text"><b>Appointment ID:</b> <%= appointment.appointment_id %></p>
                         <div class="d-flex gap-2 mt-3">
                             <% if (appointment.status.toLowerCase() === 'cancelled') { %>
                                 <span class="badge bg-danger text-white">Appointment cancelled</span>
                             <% } else { %>
-                                <a href="#" class="btn btn-outline-secondary btn-sm">Start Appointment</a>
+                                <a href="/consultation/live_consultation" target="_blank" class="btn btn-outline-secondary btn-sm">Start Appointment</a>
                                 <form action="/cancel-appointment" method="POST" class="d-inline cancel-form">
                                     <input type="hidden" name="appointment_id" value="<%= appointment.appointment_id %>">
                                     <button type="submit" class="btn btn-outline-secondary btn-sm">Cancel Appointment</button>
@@ -54,6 +54,7 @@
     <script>
         document.querySelectorAll('.appointment-time').forEach(element => {
             const serverTime = element.getAttribute('data-time');
+                console.log('Server Time:', serverTime);
             if (serverTime) {
                 const localTime = new Date(`1970-01-01T${serverTime}Z`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 element.textContent = localTime;

@@ -1,4 +1,5 @@
 const { sign, verify } = require("jsonwebtoken");
+const db = require('../database'); 
 // Password reset tokens
 const password_reset_secret = (patients) => {
     const password_reset = sign(
@@ -51,27 +52,44 @@ const createToken = (patients) => {
 };
 
 const validateTokens = (req, res, next) => {
-    const accessToken = req.cookies["access-Token"];
+    const accessToken = req.cookies['access-Token'];
 
+    // Check if token exists
     if (!accessToken) {
         return res.render('ui/login', {
-            error: 'User not authenticated',
+            error: 'User not authenticated'
         });
     }
 
-    try {
-        const validToken = verify(accessToken, process.env.JWT_SECRET);
-        if (validToken) {
-            req.authenticated = true;
-            req.user = validToken; // Attach user data to the request
-            return next();
+    // Check if token is blacklisted
+    db.query(`SELECT * FROM token_blacklist WHERE token = ?`, [accessToken], (err, result) => {
+        if (err) {
+            console.error('Error checking token blacklist:', err);
+            return res.render('ui/login', {
+                error: 'An error occurred. Please try again.'
+            });
         }
-    } catch (err) {
-        return res.render('ui/login', {
-            error: 'Invalid token, please log in again.',
-        });
-    }
+        if (result.length > 0) {
+            return res.render('ui/login', {
+                error: 'Your session has been invalidated. Please log in again.'
+            });
+        }
+
+        // Verify the token
+        try {
+            const validToken = verify(accessToken, process.env.JWT_SECRET);
+            req.authenticated = true;
+            req.user = validToken; 
+            return next();
+        } catch (err) {
+            console.log(err)
+            return res.render('ui/login', {
+                error: 'Invalid token, please log in again.'
+            });
+        }
+    });
 };
+
 
 
 module.exports = { createToken, validateTokens, password_reset_secret, validatePasswordResetToken};

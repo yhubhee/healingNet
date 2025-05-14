@@ -25,10 +25,6 @@ router.get('/clinicians', (req, res) => {
 router.get('/ui/donations', (req, res) => {
     res.render('ui/donations');
 });
-
-// router.get('/service-details', (req, res) => {
-//     res.render('service-details');
-// });
 router.get('/ui/price', (req, res) => {
     res.render('ui/price');
 });
@@ -46,6 +42,9 @@ router.get('/ui/contact', (req, res) => {
 // });
 // router.get('/ui/team', (req, res) => {
 //     res.render('ui/team');
+// });
+// router.get('/service-details', (req, res) => {
+//     res.render('service-details');
 // });
 router.get('/ui/search', (req, res) => {
     const sql1 = `SELECT doc_img, doc_name, specialty, about_doctor FROM doctors`;
@@ -565,7 +564,7 @@ router.get('/patients/settings', validateTokens, (req, res) => {
 router.get('/patients/booked-appointment', validateTokens, (req, res) => {
     const { firstname, lastname, patient_id } = req.user; // Access the attached names and user_id
     const sql = `
-       select a.doctor, d.specialty, a.fullname, a.appointmentDate, a.appointmentTime, d.email,a.appointment_id, a.doctor_id, a.status from appointment a join doctors d on a.doctor_id = d.doctor_id WHERE patient_id = ? ;
+       select a.doctor, d.specialty, a.patientFullName, a.appointmentDate, a.appointmentTime, d.email,a.appointment_id, a.doctor_id, a.status from appointment a join doctors d on a.doctor_id = d.doctor_id WHERE patient_id = ? ;
     `;
     db.getConnection((err, connection) => {
         if (err) {
@@ -579,6 +578,7 @@ router.get('/patients/booked-appointment', validateTokens, (req, res) => {
                 console.error('Database query error:', err);
                 return res.status(500).send('Failed to fetch appointments');
             }
+            console.log(results)
             res.render('patients/booked-appointment', {
                 firstname,
                 lastname,
@@ -613,11 +613,45 @@ router.get('/patients/prescriptions', validateTokens, (req, res) => {
     });
 });
 
+// Live Video Consultation
+router.get('/consultation/live_consultation', validateTokens, (req, res) =>{
+    res.render('consultation/live_consultation')
+})
+
 // Doctor Section
+router.get('/doctor/doctordashboard', doctorvalidateTokens, (req, res) => {
+    const today = new Date
+    console.log(today)
+
+    const doc_count = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ?';
+    const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE doctor_id = ?';
+
+    const { doc_name, doctor_id } = req.user; // Access the attached names
+    console.log(doctor_id, doc_name)
+
+    db.query(sql, [doctor_id], (err, results) => {
+        if (err) {
+            console.error('Database query error:', err); // Debugging log
+            return res.status(500).json({ error: 'Failed to fetch appointments' });
+        }
+
+        const patient_count = results[0].count
+        const doc_appointmentsCount = results[0].count;
+
+        res.render('doctor/doctordashboard', {
+            doc_name,
+            doc_appointmentsCount,
+            patient_count
+        });
+    })
+});
 router.get('/doctor/doctorsignup', (req, res) => {
     res.render('doctor/doctorsignup');
 });
-router.get('/doctor/doctorlogin', (req, res) => {
+router.get('/doctor/doctorlogin', doctorvalidateTokens, (req, res) => {
+    if (req.authenticated) {
+        return res.redirect('/doctor/doctordashboard');
+    }
     res.render('doctor/doctorlogin');
 });
 router.get('/doctorlogout', (req, res) => {
@@ -695,46 +729,21 @@ router.get('/doc_patients', doctorvalidateTokens, (req, res) => {
     });
 
 })
-router.get('/doctor/doctordashboard', doctorvalidateTokens, (req, res) => {
-    const today = new Date
-    console.log(today)
-
-    const doc_count = 'SELECT COUNT(*) AS count FROM appointment WHERE patient_id = ?';
-    const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE doctor_id = ?';
-
-    const { name, doctor_id } = req.user; // Access the attached names
-
-    db.query(sql, [doctor_id], (err, results) => {
-        if (err) {
-            console.error('Database query error:', err); // Debugging log
-            return res.status(500).json({ error: 'Failed to fetch appointments' });
-        }
-
-        const patient_count = results[0].count
-        const doc_appointmentsCount = results[0].count;
-
-        res.render('doctor/doctordashboard', {
-            name,
-            doc_appointmentsCount,
-            patient_count
-        });
-    })
-});
-router.get('/doc_appointment', doctorvalidateTokens, (req, res) => {
-    const { firstname, lastname, doctor_id } = req.user; // Access the attached names and user_id
+router.get('/doctor/doc_appointment', doctorvalidateTokens, (req, res) => {
+    const { doc_name, doctor_id } = req.user; // Access the attached names and user_id
     const sql = `
-    select a.fullname, a.email, a.appointment_date, a.appointment_time, a.appointment_id, a.patient_id, a.illness, a.status from appointment a join patients p on a.patient_id = p.patient_id Where doctor_id = ?; 
+ SELECT a.patientFullName, p.symptoms, a.appointmentDate, a.appointmentTime, p.email, a.appointment_id, a.patient_id, a.status FROM appointment a JOIN patients p ON a.patient_id = p.patient_id WHERE doctor_id = ?; 
     `
     db.query(sql, [doctor_id], (err, results) => {
         if (err) {
             console.error('Database connection error:', err);
             return res.status(500).send('Failed to fetch appointments');
         }
-        res.render('doc_appointment', {
-            firstname,
-            lastname,
-            appointments: results || []
+            // console.log(results)
+        res.render('doctor/doc_appointment', {
+            appointments: results || [],
         });
+        
 
     });
 });
@@ -806,8 +815,11 @@ router.get('/admin/admin_dashboard', Admin_validate_Tokens, (req, res) => {
 router.get('/admin/admin_signup', (req, res) => {
     res.render('admin/admin_signup');
 });
-router.get('/admin/admin_login', (req, res) => {
-    res.render('admin/admin_login');
+router.get('/admin/admin_login', Admin_validate_Tokens, (req, res) => {
+     if (req.authenticated) {
+        return res.redirect('/admin/admin_dashboard');
+    }
+    res.render('admin/admin_login')
 });
 router.get('/admin/add_doctor', (req, res) => {
     res.render('admin/add_doctor');

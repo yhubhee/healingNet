@@ -130,7 +130,7 @@ exports.doctorregister = (req, res) => {
             return res.render('admin/add_doctor', { error: 'Failed to upload image' });
         }
 
-        const { doc_name, specialty, email, phone, address, password, gender, date_joined, about_doctor } = req.body;
+        const { doc_name, specialty, email, phone, address, password, gender, date_joined, about_doctor, status } = req.body;
         const doc_img = req.file ? req.file.filename : null;
 
         pool.query('SELECT email FROM doctors WHERE email = ?', [email], async (err, result) => {
@@ -159,7 +159,7 @@ exports.doctorregister = (req, res) => {
                 password: hashedpassword,
                 address,
                 about_doctor,
-                status: 'active',
+                status,
                 doc_img
             }, (err) => {
                 if (err) {

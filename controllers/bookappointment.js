@@ -74,9 +74,9 @@ exports.bookappointment = (req, res) => {
 
     // Check if the appointment time is within the allowed range (8 AM to 10 PM)
     const appointmentHour = parseInt(appointmentTime.split(':')[0], 10);
-    if (appointmentHour < 8 || appointmentHour > 22) {
+    if (appointmentHour < 5 || appointmentHour > 23) {
         return res.render('ui/book_appointment', {
-            error: 'Appointments can only be booked between 8 AM and 10 PM',
+            error: 'Appointments can only be booked between 5 AM and 11 PM',
             doctor,
             specialty
         });
@@ -213,6 +213,7 @@ exports.bookappointment = (req, res) => {
                     }
 
                     // Profile is complete and time slot is available, proceed with booking
+                    const patientFullName = `${firstname} ${lastname}`;
                     const appointmentData = {
                         doctor,
                         specialty,
@@ -220,6 +221,7 @@ exports.bookappointment = (req, res) => {
                         appointmentTime,
                         patient_id,
                         doctor_id,
+                        patientFullName,
                         status: 'scheduled'
                     };
 
@@ -233,6 +235,8 @@ exports.bookappointment = (req, res) => {
                                 specialty
                             });
                         }
+                        const insertedId = result.insertId;
+                        console.log('Inserted appointment ID:', insertedId);
 
                         // Query to count today's appointments for the user
                         const countAppointmentsQuery = `

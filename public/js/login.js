@@ -1,26 +1,27 @@
-  // Toggle Password Visibility
-  const showpass = document.querySelector(".showpass");
+// Toggle Password Visibility
+document.addEventListener('DOMContentLoaded', function () {
+    const password = document.getElementById("password"); // Select the password input field
+    const showpass = document.querySelector(".showpass"); // Select the eye icon
 
-  showpass.addEventListener("click",()=>{
-      if ((password.type === "password")){
-          password.type = 'text';
-          showpass.classList.replace("fa-eye-slash", "fa-eye");
-      }
-      else{
-          password.type = 'password';
-          showpass.classList.replace("fa-eye", "fa-eye-slash");
-  
-      }
-  })
+    if (showpass && password) {
+        showpass.addEventListener("click", () => {
+            if (password.type === "password") {
+                password.type = 'text';
+                showpass.classList.replace("fa-eye-slash", "fa-eye");
+            } else {
+                password.type = 'password';
+                showpass.classList.replace("fa-eye", "fa-eye-slash");
+            }
+        });
+    }
 
-  document.addEventListener('DOMContentLoaded', function () {
-    const message = document.querySelectorAll('.show');
-    if (message) {
+    // Hide messages after 5 seconds
+    const messages = document.querySelectorAll('.show');
+    if (messages) {
         setTimeout(() => {
-            message.forEach(message => {
+            messages.forEach(message => {
                 message.style.display = 'none';
             });
         }, 5000); // Hide after 5 seconds
     }
 });
-

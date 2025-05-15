@@ -11,7 +11,8 @@
                     <h1 class="display-4 mb-4">Video Consultation</h1>
                     <div class="alert alert-info" id="status-message">Click "Start Call" to begin the consultation.</div>
                     <div class="d-flex justify-content-center gap-3 mb-4">
-                        <button onclick="startCall()" class="btn btn-primary py-2 px-4">Start Call</button>
+                        <button onclick="startCall()" class="btn btn-primary py-2 px-4" id="start-call-btn">Start Call</button>
+                        <button onclick="acceptCall()" class="btn btn-success py-2 px-4" id="accept-call-btn" style="display: none;">Accept Call</button>
                         <button onclick="endCall()" class="btn btn-danger py-2 px-4" id="end-call-btn" style="display: none;">End Call</button>
                     </div>
                     <div id="video-container" style="display: none;">
@@ -29,14 +30,101 @@
     </div>
     <%- include('../partials/footer') %>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io('http://localhost:3001'); // Adjust to signaling server URL in production
+    <script src="http://localhost:3001/socket.io/socket.io.js" defer onload="socketLoaded()" onerror="socketLoadError()"></script>
+    <script defer>
+        let socket;
+        const urlParams = new URLSearchParams(window.location.search);
+        const appointmentId = urlParams.get('appointmentId');
+        const userId = urlParams.get('userId');
+
+        function socketLoaded() {
+            console.log('Socket.IO client loaded successfully');
+            socket = io('http://localhost:3001');
+            initializeSocketEvents();
+        }
+
+        function socketLoadError() {
+            console.error('Failed to load Socket.IO client. Check server at http://localhost:3001');
+            const statusMessage = document.getElementById('status-message');
+            statusMessage.textContent = 'Failed to connect to signaling server. Please try again.';
+            statusMessage.classList.replace('alert-info', 'alert-danger');
+        }
+
+        function initializeSocketEvents() {
+            socket.on('connect', () => {
+                console.log('Connected to signaling server:', socket.id);
+            });
+
+            socket.on('connect_error', (err) => {
+                console.error('Signaling server connection error:', err);
+                statusMessage.textContent = 'Failed to connect to signaling server: ' + err.message;
+                statusMessage.classList.replace('alert-info', 'alert-danger');
+            });
+
+            socket.on('user-joined', (joinedUserId) => {
+                console.log(`User ${joinedUserId} joined the room`);
+                const statusMessage = document.getElementById('status-message');
+                statusMessage.textContent = `User ${joinedUserId} has joined. Click "Accept Call" to connect.`;
+                statusMessage.classList.add('alert-warning');
+                document.getElementById('accept-call-btn').style.display = 'inline-block';
+            });
+
+            socket.on('offer', async (offer) => {
+                try {
+                    console.log('Received offer');
+                    if (!peerConnection) {
+                        await setupPeerConnection();
+                        await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+                        const answer = await peerConnection.createAnswer();
+                        await peerConnection.setLocalDescription(answer);
+                        socket.emit('answer', appointmentId, answer);
+                    }
+                } catch (err) {
+                    console.error('Error handling offer:', err);
+                    statusMessage.textContent = 'Failed to connect: ' + (err.message || 'Unknown error');
+                    statusMessage.classList.replace('alert-info', 'alert-danger');
+                }
+            });
+
+            socket.on('answer', (answer) => {
+                console.log('Received answer');
+                peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+            });
+
+            socket.on('ice-candidate', (candidate) => {
+                console.log('Received ICE candidate');
+                peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+            });
+
+            socket.on('error', (message) => {
+                console.log('Server error:', message);
+                statusMessage.textContent = message;
+                statusMessage.classList.replace('alert-info', 'alert-danger');
+                endCall();
+            });
+
+            socket.on('room-full', () => {
+                console.log('Room is full');
+                statusMessage.textContent = 'Room is full. Please try again later.';
+                statusMessage.classList.replace('alert-info', 'alert-danger');
+                endCall();
+            });
+
+            socket.on('user-left', (userId) => {
+                console.log(`User ${userId} left the room`);
+                statusMessage.textContent = 'The other participant has left the consultation.';
+                statusMessage.classList.replace('alert-info', 'alert-warning');
+                endCall();
+            });
+        }
+
         const localVideo = document.getElementById('localVideo');
         const remoteVideo = document.getElementById('remoteVideo');
         const statusMessage = document.getElementById('status-message');
         const videoContainer = document.getElementById('video-container');
         const endCallBtn = document.getElementById('end-call-btn');
+        const startCallBtn = document.getElementById('start-call-btn');
+        const acceptCallBtn = document.getElementById('accept-call-btn');
         let localStream;
         let peerConnection;
 
@@ -44,114 +132,75 @@
             iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
         };
 
+        async function setupPeerConnection() {
+            peerConnection = new RTCPeerConnection(configuration);
+            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+            peerConnection.ontrack = (event) => {
+                console.log('Received remote stream');
+                remoteVideo.srcObject = event.streams[0];
+                statusMessage.textContent = 'Consultation in progress';
+                statusMessage.classList.replace('alert-info', 'alert-success');
+            };
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate) {
+                    console.log('Sending ICE candidate');
+                    socket.emit('ice-candidate', appointmentId, event.candidate);
+                }
+            };
+        }
+
         async function startCall() {
             try {
-                const urlParams = new URLSearchParams(window.location.search);
-                const appointmentId = urlParams.get('appointmentId');
-                const userId = socket.id;
-                const role = urlParams.get('role') || 'patient';
-
-                if (!appointmentId) {
-                    throw new Error('Appointment ID is missing');
+                console.log('Starting call...');
+                if (!socket) {
+                    throw new Error('Socket.IO not initialized. Check script load.');
                 }
 
-                // Show video container and hide Start Call button
-                videoContainer.style.display = 'block';
-                document.querySelector('.btn-primary').style.display = 'none';
-                endCallBtn.style.display = 'inline-block';
-                statusMessage.textContent = 'Connecting...';
-
-                // Get local stream
                 localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                console.log('Local stream acquired');
                 localVideo.srcObject = localStream;
 
-                // Initialize peer connection
-                peerConnection = new RTCPeerConnection(configuration);
-                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-
-                // Handle remote stream
-                peerConnection.ontrack = (event) => {
-                    remoteVideo.srcObject = event.streams[0];
-                    statusMessage.textContent = 'Consultation in progress';
-                    statusMessage.classList.replace('alert-info', 'alert-success');
-                };
-
-                // Handle ICE candidates
-                peerConnection.onicecandidate = (event) => {
-                    if (event.candidate) {
-                        socket.emit('ice-candidate', appointmentId, event.candidate);
-                    }
-                };
-
-                // Create and send offer
+                await setupPeerConnection();
                 const offer = await peerConnection.createOffer();
                 await peerConnection.setLocalDescription(offer);
+                console.log('Offer created and set');
                 socket.emit('offer', appointmentId, offer);
 
-                socket.emit('join-room', appointmentId, userId, role);
+                socket.emit('join-room', appointmentId, userId);
+                console.log('Join-room emitted');
+
+                videoContainer.style.display = 'block';
+                startCallBtn.style.display = 'none';
+                statusMessage.textContent = 'Waiting for other party to accept...';
+                statusMessage.classList.add('alert-warning');
             } catch (err) {
                 console.error('Error starting call:', err);
                 statusMessage.textContent = 'Failed to start consultation: ' + (err.message || 'Unknown error');
                 statusMessage.classList.replace('alert-info', 'alert-danger');
                 videoContainer.style.display = 'none';
-                document.querySelector('.btn-primary').style.display = 'inline-block';
+                startCallBtn.style.display = 'inline-block';
                 endCallBtn.style.display = 'none';
             }
         }
 
-        socket.on('offer', async (offer) => {
+        async function acceptCall() {
             try {
+                console.log('Accepting call...');
                 if (!peerConnection) {
-                    peerConnection = new RTCPeerConnection(configuration);
-                    localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-                    peerConnection.ontrack = (event) => {
-                        remoteVideo.srcObject = event.streams[0];
-                        statusMessage.textContent = 'Consultation in progress';
-                        statusMessage.classList.replace('alert-info', 'alert-success');
-                    };
-                    peerConnection.onicecandidate = (event) => {
-                        if (event.candidate) {
-                            socket.emit('ice-candidate', appointmentId, event.candidate);
-                        }
-                    };
+                    await setupPeerConnection();
                 }
-                await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-                const answer = await peerConnection.createAnswer();
-                await peerConnection.setLocalDescription(answer);
-                socket.emit('answer', appointmentId, answer);
+                acceptCallBtn.style.display = 'none';
+                endCallBtn.style.display = 'inline-block';
+                statusMessage.textContent = 'Connecting...';
             } catch (err) {
-                console.error('Error handling offer:', err);
-                statusMessage.textContent = 'Failed to connect: ' + (err.message || 'Unknown error');
+                console.error('Error accepting call:', err);
+                statusMessage.textContent = 'Failed to accept call: ' + (err.message || 'Unknown error');
                 statusMessage.classList.replace('alert-info', 'alert-danger');
             }
-        });
-
-        socket.on('answer', (answer) => {
-            peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
-        });
-
-        socket.on('ice-candidate', (candidate) => {
-            peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-        });
-
-        socket.on('user-joined', (userId) => {
-            console.log(`User ${userId} joined the room`);
-            statusMessage.textContent = 'Another participant has joined. Connecting...';
-        });
-
-        socket.on('room-full', () => {
-            statusMessage.textContent = 'Room is full. Please try again later.';
-            statusMessage.classList.replace('alert-info', 'alert-danger');
-            endCall();
-        });
-
-        socket.on('user-left', (userId) => {
-            statusMessage.textContent = 'The other participant has left the consultation.';
-            statusMessage.classList.replace('alert-info', 'alert-warning');
-            endCall();
-        });
+        }
 
         function endCall() {
+            console.log('Ending call');
             if (peerConnection) {
                 peerConnection.close();
                 peerConnection = null;
@@ -162,10 +211,13 @@
             }
             localVideo.srcObject = null;
             remoteVideo.srcObject = null;
-            socket.emit('leave-room', appointmentId);
+            if (socket) {
+                socket.emit('leave-room', appointmentId); // Use globally defined appointmentId
+            }
             videoContainer.style.display = 'none';
-            document.querySelector('.btn-primary').style.display = 'inline-block';
+            startCallBtn.style.display = 'inline-block';
             endCallBtn.style.display = 'none';
+            acceptCallBtn.style.display = 'none';
             statusMessage.textContent = 'Call ended. Click "Start Call" to begin a new consultation.';
             statusMessage.classList.replace('alert-success', 'alert-info');
             statusMessage.classList.replace('alert-warning', 'alert-info');

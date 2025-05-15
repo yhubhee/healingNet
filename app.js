@@ -11,27 +11,16 @@ env.config({ path: './env' });
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server, {
-    cors: {
-        origin: '*', // Adjust for production with specific origins
-        methods: ['GET', 'POST']
-    }
-});
 
-// Serve static files
+// Application server setup (port 3000)
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Set the view engine to EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-// Parse URL encoded bodies as sent by HTML forms
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-// Define Routes
 app.use('/', pagesRoutes);
 app.use('/auth', require('./routes/auth'));
 
@@ -40,23 +29,17 @@ app.get('/', (req, res) => {
 });
 app.set('view cache', false);
 
-// Placeholder for dedicated signaling server route
-app.get('/signaling', (req, res) => {
-    res.send('Signaling server endpoint - use dedicated server in production');
-});
-
-// Start the application server
 const APP_PORT = process.env.APP_PORT || 3000;
 server.listen(APP_PORT, () => {
     const now = new Date();
     console.log(`Application server running on port ${APP_PORT} at ${now.toLocaleString('en-US', { timeZone: 'Africa/Lagos' })}`);
 });
 
-// Separate signaling server (to be moved to a dedicated process in production)
+// Separate signaling server (port 3001)
 const signalingServer = http.createServer();
 const signalingIo = socketIo(signalingServer, {
     cors: {
-        origin: '*', // Adjust for production
+        origin: 'http://localhost:3000', // Adjust for production
         methods: ['GET', 'POST']
     }
 });
@@ -64,36 +47,57 @@ const signalingIo = socketIo(signalingServer, {
 signalingIo.on('connection', (socket) => {
     console.log('Signaling server: User connected:', socket.id);
 
-    socket.on('join-room', (roomId, userId, role) => {
-        socket.join(roomId);
-        socket.data.role = role;
-        const room = signalingIo.sockets.adapter.rooms.get(roomId);
-        if (room && room.size === 2 && ![...room].some(s => s.data.role === role)) {
-            socket.to(roomId).emit('user-joined', userId);
-            socket.emit('room-joined', socket.id);
-        } else if (room && room.size >= 2) {
-            socket.emit('room-full');
-        } else {
-            socket.to(roomId).emit('user-joined', userId);
-            socket.emit('room-joined', socket.id);
-        }
+    socket.on('join-room', (appointmentId, userId) => {
+        // Query the database to verify the user
+        pool.query(
+            'SELECT doctor_id, patient_id FROM appointment WHERE appointment_id = ?',
+            [appointmentId],
+            console.log('Querying appointment:', appointmentId),
+            (err, results) => {
+                if (err || results.length === 0) {
+                    socket.emit('error', 'Appointment not found.');
+                    return;
+                }
+
+                const appointment = results[0];
+                const allowedIds = [appointment.doctor_id, appointment.patient_id];
+
+                // Check if userId matches doctor_id or patient_id
+                if (!allowedIds.includes(userId)) {
+                    socket.emit('error', 'You’re not authorized for this appointment.');
+                    return;
+                }
+
+                // Join the room (roomId = appointmentId)
+                socket.join(appointmentId);
+
+                // Check room size
+                const room = signalingIo.sockets.adapter.rooms.get(appointmentId);
+                if (room && room.size > 2) {
+                    socket.emit('room-full');
+                } else {
+                    socket.to(appointmentId).emit('user-joined', userId);
+                    socket.emit('room-joined', socket.id);
+                }
+            }
+        );
     });
 
-    socket.on('offer', (roomId, offer) => {
-        socket.to(roomId).emit('offer', offer);
+    socket.on('offer', (appointmentId, offer) => {
+        socket.to(appointmentId).emit('offer', offer);
     });
 
-    socket.on('answer', (roomId, answer) => {
-        socket.to(roomId).emit('answer', answer);
+    socket.on('answer', (appointmentId, answer) => {
+        socket.to(appointmentId).emit('answer', answer);
     });
 
-    socket.on('ice-candidate', (roomId, candidate) => {
-        socket.to(roomId).emit('ice-candidate', candidate);
+    socket.on('ice-candidate', (appointmentId, candidate) => {
+        socket.to(appointmentId).emit('ice-candidate', candidate);
     });
 
-    socket.on('leave-room', (roomId) => {
-        socket.leave(roomId);
-        socket.to(roomId).emit('user-left', socket.id);
+    socket.on('leave-room', (appointmentId) => {
+        socket.leave(appointmentId);
+        socket.to(appointmentId).emit('user-left', socket.id);
     });
 
     socket.on('disconnect', () => {
@@ -105,7 +109,6 @@ signalingIo.on('connection', (socket) => {
     });
 });
 
-// Start the signaling server on a different port (for development)
 const SIGNALING_PORT = process.env.SIGNALING_PORT || 3001;
 signalingServer.listen(SIGNALING_PORT, () => {
     const now = new Date();

@@ -28,7 +28,7 @@
                             <% if (appointment.status.toLowerCase() === 'cancelled') { %>
                                 <span class="badge bg-danger text-white">Appointment cancelled</span>
                             <% } else { %>
-                                <a href="#" class="btn btn-outline-secondary btn-sm">Start Appointment</a>
+                                <a href="/consultation/live_consultation?appointmentId=<%= appointment.appointment_id %>&userId=<%= user.doctor_id %>" target="_blank" class="btn btn-outline-secondary btn-sm">Start Appointment</a>
                                 <form action="/cancel-appointment" method="POST" class="d-inline cancel-form">
                                     <input type="hidden" name="appointment_id" value="<%= appointment.appointment_id %>">
                                     <button type="submit" class="btn btn-outline-secondary btn-sm">Cancel Appointment</button>

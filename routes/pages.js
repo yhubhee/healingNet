@@ -578,12 +578,14 @@ router.get('/patients/booked-appointment', validateTokens, (req, res) => {
                 console.error('Database query error:', err);
                 return res.status(500).send('Failed to fetch appointments');
             }
-            console.log(results)
+            // console.log(results)
             res.render('patients/booked-appointment', {
                 firstname,
                 lastname,
-                appointments: results || []
+                appointments: results || [],
+                user: req.user,
             });
+                console.log(req.user)
         });
     });
 });
@@ -614,9 +616,25 @@ router.get('/patients/prescriptions', validateTokens, (req, res) => {
 });
 
 // Live Video Consultation
-router.get('/consultation/live_consultation', validateTokens, (req, res) =>{
-    res.render('consultation/live_consultation')
-})
+router.get('/consultation/live_consultation', (req, res, next) => {
+    // Check which token is present to determine user type
+    const docToken = req.cookies['doc-Token'];
+    const patientToken = req.cookies['access-Token'];
+
+    if (docToken) {
+        return doctorvalidateTokens(req, res, next);
+    } else if (patientToken) {
+        return validateTokens(req, res, next);
+    } else {
+        return res.status(401).render('patients/login', {
+            error: 'Please log in to continue'
+        });
+    }
+}, (req, res) => {
+    res.render('consultation/live_consultation', {
+        user: req.user // Pass user data to the view if needed
+    });
+});
 
 // Doctor Section
 router.get('/doctor/doctordashboard', doctorvalidateTokens, (req, res) => {
@@ -641,7 +659,8 @@ router.get('/doctor/doctordashboard', doctorvalidateTokens, (req, res) => {
         res.render('doctor/doctordashboard', {
             doc_name,
             doc_appointmentsCount,
-            patient_count
+            patient_count,
+            user: req.user
         });
     })
 });
@@ -654,7 +673,7 @@ router.get('/doctor/doctorlogin', doctorvalidateTokens, (req, res) => {
     }
     res.render('doctor/doctorlogin');
 });
-router.get('/doctorlogout', (req, res) => {
+router.get('/doctor/doctorlogout', (req, res) => {
     const token = req.cookies['doc-Token'];
 
     if (token) {
@@ -678,14 +697,14 @@ router.get('/doctorlogout', (req, res) => {
             });
 
             // Render the login page
-            res.render('ui/doctorlogin', {
+            res.render('doctor/doctorlogin', {
                 success: 'You have been logged out successfully.',
                 redirect: false
             });
         });
     } else {
         // No token found, proceed to render login page
-        res.render('ui/doctorlogin', {
+        res.render('doctor/doctorlogin', {
             success: 'You have been logged out successfully.',
             redirect: false
         });
@@ -742,7 +761,9 @@ router.get('/doctor/doc_appointment', doctorvalidateTokens, (req, res) => {
             // console.log(results)
         res.render('doctor/doc_appointment', {
             appointments: results || [],
+            user: req.user,
         });
+        console.log(req.user)
         
 
     });
@@ -803,7 +824,7 @@ router.get('/admin/admin_dashboard', Admin_validate_Tokens, (req, res) => {
                             total_doc,
                             total_patient,
                             total_appoint,
-                            total_prescription
+                            total_prescription,
                         });
                     });
                 });

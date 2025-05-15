@@ -1,5 +1,5 @@
 const {sign,verify} = require("jsonwebtoken");
-// Lodin tokens
+// Login tokens
 const createToken = (doctors) =>{
     const docToken = sign(
         {
@@ -21,7 +21,7 @@ const doctorvalidateTokens = (req, res, next) =>{
     if(!docToken)
         return res.render('doctor/doctorlogin', {
             error: 'Doctor not authenticated'
-        }).status(400);
+        });
 
     try{
         const validToken = verify(docToken,process.env.doc_JWT_SECRET,)

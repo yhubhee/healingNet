@@ -48,7 +48,7 @@ router.get('/ui/contact', (req, res) => {
 // });
 router.get('/ui/search', (req, res) => {
     const sql1 = `SELECT doc_img, doc_name, specialty, about_doctor FROM doctors`;
-    const sql2 = `SELECT doc_name, status FROM appointment WHERE status = 'scheduled'`;
+    const sql2 = `SELECT doctor, status FROM appointment WHERE status = 'scheduled'`;
 
     db.getConnection((err, connection) => {
         if (err) {
@@ -72,7 +72,6 @@ router.get('/ui/search', (req, res) => {
                     connection.release(); // Release connection on error
                     return res.status(500).send('Failed to fetch booked doctors');
                 }
-                console.log(sql2);
 
                 // Map over doctors and add isBooked property
                 const bookedDoctors = new Set(isbooked.map(booking => booking.doctor)); // Create a Set of booked doctor names

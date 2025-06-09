@@ -55,7 +55,7 @@ router.get('/ui/search', (req, res) => {
             console.error('Database connection error:', err);
             return res.status(500).send('Failed to fetch doctors');
         }
-        
+
 
         // Execute the first query to get doctors
         connection.query(sql1, (err, doctors) => {
@@ -208,9 +208,9 @@ router.get('/ui/appointment', (req, res) => {
                             });
                         }
                     });
-                    
+
                 }
-                
+
 
                 // Add the most recent booked time and formatted message to each doctor
                 const today = new Date();
@@ -292,7 +292,7 @@ router.get('/ui/book_appointment', (req, res) => {
                     doctor.latestBookedTime = latestBookings.get(doctor.doc_name) || null;
                     doctor.isBooked = doctor.latestBookedTime;
                 });
-                
+
 
                 res.render('ui/book_appointment', {
                     doctor,
@@ -379,8 +379,6 @@ router.get('/patients/dashboard', validateTokens, (req, res) => {
             error: 'Authentication failed: No patient ID found. Please log in again.',
             firstname,
             lastname,
-            todayAppointment: null,
-            showProfileModal: false
         });
     }
 
@@ -418,7 +416,8 @@ router.get('/patients/dashboard', validateTokens, (req, res) => {
                         firstname,
                         lastname,
                         todayAppointment: null,
-                        showProfileModal: false
+                        showProfileModal: null
+
                     });
                 }
 
@@ -586,7 +585,7 @@ router.get('/patients/booked-appointment', validateTokens, (req, res) => {
                 appointments: results || [],
                 user: req.user,
             });
-                console.log(req.user)
+            console.log(req.user)
         });
     });
 });
@@ -618,6 +617,14 @@ router.get('/patients/prescriptions', validateTokens, (req, res) => {
 
 // Live Video Consultation
 router.get('/consultation/live_consultation', (req, res, next) => {
+    const appointmentId = req.query.appointmentId;
+    const userId = req.query.userId;
+
+    console.log(appointmentId, userId)
+    if (!appointmentId || !userId) {
+        res.render('ui/index');
+    }
+
     // Check which token is present to determine user type
     const docToken = req.cookies['doc-Token'];
     const patientToken = req.cookies['access-Token'];
@@ -627,7 +634,7 @@ router.get('/consultation/live_consultation', (req, res, next) => {
     } else if (patientToken) {
         return validateTokens(req, res, next);
     } else {
-        return res.status(401).render('patients/login', {
+        return res.status(401).render('/patients/login', {
             error: 'Please log in to continue'
         });
     }
@@ -752,20 +759,20 @@ router.get('/doc_patients', doctorvalidateTokens, (req, res) => {
 router.get('/doctor/doc_appointment', doctorvalidateTokens, (req, res) => {
     const { doc_name, doctor_id } = req.user; // Access the attached names and user_id
     const sql = `
- SELECT a.patientFullName, p.symptoms, a.appointmentDate, a.appointmentTime, p.email, a.appointment_id, a.patient_id, a.status FROM appointment a JOIN patients p ON a.patient_id = p.patient_id WHERE doctor_id = ?; 
+ SELECT a.patientFullName, p.symptoms, a.appointmentDate, a.appointmentTime, a.doctor, p.email, a.appointment_id, a.patient_id, a.status FROM appointment a JOIN patients p ON a.patient_id = p.patient_id WHERE doctor_id = ?; 
     `
     db.query(sql, [doctor_id], (err, results) => {
         if (err) {
             console.error('Database connection error:', err);
             return res.status(500).send('Failed to fetch appointments');
         }
-            // console.log(results)
+        // console.log(results)
         res.render('doctor/doc_appointment', {
             appointments: results || [],
             user: req.user,
         });
         console.log(req.user)
-        
+
 
     });
 });
@@ -838,7 +845,7 @@ router.get('/admin/admin_signup', (req, res) => {
     res.render('admin/admin_signup');
 });
 router.get('/admin/admin_login', Admin_validate_Tokens, (req, res) => {
-     if (req.authenticated) {
+    if (req.authenticated) {
         return res.redirect('/admin/admin_dashboard');
     }
     res.render('admin/admin_login')

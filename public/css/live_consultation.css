@@ -1,0 +1,336 @@
+/* General Layout */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #f6f8fa;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.home-wrap {
+    min-height: 100vh;
+    background: #f6f8fa;
+}
+
+.g-top {
+    background: linear-gradient(90deg, #3a6186 0%, #89253e 100%);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 0;
+    min-height: 90vh;
+    position: relative;
+}
+
+.top-remote-video-show-wrap {
+    width: 75%;
+    margin: 0 auto;
+    padding: 2rem 0 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#meetingContainer {
+    background: #181818;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    padding: 1.5rem;
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.call_wrap {
+    width: 100%;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 1rem;
+}
+
+.video-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    justify-items: center;
+    align-items: start;
+    width: 100%;
+}
+
+.userbox {
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    min-width: 220px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: box-shadow 0.2s;
+}
+
+.userbox:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
+.userbox .user-name {
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+}
+
+.video-container {
+    width: 200px;
+    height: 140px;
+    background: #222;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #111;
+}
+
+.g-top-left {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    padding: 1rem 1.5rem;
+    min-width: 220px;
+    z-index: 10;
+}
+
+.top-left-participant-wrap,
+.top-left-chat-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+}
+
+.top-left-participant-wrap:hover,
+.top-left-chat-wrap:hover {
+    background: #fff;
+    cursor: pointer;
+}
+
+.top-left-participant-icon i,
+.top-left-chat-wrap i {
+    font-size: 1.3rem;
+    color: #3a6186;
+}
+
+.top-left-participant-count {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #89253e;
+}
+
+.top-left-time-wrap {
+    font-size: 0.95rem;
+    color: #666;
+    margin-left: 1rem;
+}
+
+.g-bottom {
+    background: #fff;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+    padding: 1.2rem 2.5rem;
+    min-height: 10vh;
+    position: fixed;
+    width: 100vw;
+    left: 0;
+    bottom: 0;
+    z-index: 20;
+}
+
+.bottom-left, .bottom-middle, .bottom-right {
+    display: flex;
+    align-items: center;
+}
+
+.meeting-details-button {
+    background: #3a6186;
+    color: #fff;
+    border-radius: 8px;
+    padding: 0.7rem 1.3rem;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(58,97,134,0.10);
+}
+
+.meeting-details-button:hover {
+    background: #89253e;
+    color: #fff;
+}
+
+.action-icon-style {
+    background: #f6f8fa;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 1.4rem;
+    margin: 0 0.5rem;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.action-icon-style:hover {
+    background: #3a6186;
+    color: #fff;
+}
+
+.end-call-wrap {
+    background: #fff0f0;
+    border: 2px solid #ff4d4f;
+}
+
+.end-call-wrap i {
+    color: #ff4d4f !important;
+    transform: rotate(135deg);
+}
+
+.end-call-wrap:hover {
+    background: #ff4d4f;
+}
+
+.end-call-wrap:hover i {
+    color: #fff !important;
+}
+
+.video-toggle-wrap i,
+.mic-toggle-wrap i {
+    color: #3a6186;
+}
+
+.video-toggle-wrap:hover i,
+.mic-toggle-wrap:hover i {
+    color: #fff;
+}
+
+.present-now-wrap {
+    background: #f6f8fa;
+    border-radius: 8px;
+    padding: 0.7rem 1.2rem;
+    transition: background 0.2s;
+    font-size: 1.2rem;
+    color: #3a6186;
+    margin-right: 0.7rem;
+}
+
+.present-now-wrap:hover {
+    background: #3a6186;
+    color: #fff;
+}
+
+.option-wrap {
+    margin-left: 1.5rem;
+    background: #3a6186;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.option-wrap:hover {
+    background: #89253e;;
+}
+
+.option-icon i {
+    font-size: 1.3rem;
+    color: #fff;
+}
+
+
+@media (max-width: 1200px) {
+    .g-top, .g-bottom {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .g-top-left {
+        right: 1rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .top-remote-video-show-wrap {
+        width: 100%;
+        padding: 1rem 0;
+    }
+    .g-top-left {
+        min-width: 160px;
+        padding: 0.7rem 1rem;
+    }
+    .video-wrap {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+    }
+}
+
+/* For very small screens, stack in one column */
+@media (max-width: 600px) {
+    .video-wrap {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+    }
+}
+
+@media (max-width: 700px) {
+    .g-top, .g-bottom {
+        border-radius: 0;
+        padding: 0.5rem;
+    }
+    .g-bottom {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.7rem 0.5rem;
+    }
+    .bottom-left, .bottom-middle, .bottom-right {
+        margin-bottom: 0.5rem;
+        justify-content: center;
+    }
+    .g-top-left {
+        position: static;
+        margin: 0.5rem 0;
+        width: 100%;
+    }
+    .video-wrap {
+        flex-direction: column;
+        gap: 0.7rem;
+    }
+    .userbox {
+        min-width: 90vw;
+        padding: 0.7rem 0.5rem;
+    }
+    .video-container {
+        width: 90vw;
+        height: 30vw;
+        min-height: 120px;
+    }
+}
+

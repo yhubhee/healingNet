@@ -15,10 +15,11 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage });
-
+    var date = new Date().toISOString().split('T')[0] ;
+    console.log(date)
 exports.register = (req, res) => {
-    const { firstname, lastname, phone, email, date_of_birth, date_joined, address, gender, password } = req.body;
-
+    const { firstname, lastname, phone, email, date_of_birth, date_joined, gender, password } = req.body;
+        const dateOfBirthStr = new Date(date_of_birth).toISOString().split('T')[0];
     pool.query('SELECT email FROM patients WHERE email = ?', [email], async (err, result) => {
         if (err) {
             console.log(err);
@@ -33,11 +34,11 @@ exports.register = (req, res) => {
             return res.render('ui/signup', { error: 'Password weak or empty' });
         }
 
-        if (date_joined > new Date()) {
-            return res.render('ui/signup', { error: 'Date Joined cannot be in the future' });
+        if (date_joined > date || date_joined < date) {
+            return res.render('ui/signup', { error: 'Date Joined cannot be in the future or past' });
         }
-        if (new Date(date_of_birth) > new Date()) {
-            return res.render('ui/signup', { error: 'Date of Birth cannot be in the future' });
+        if (dateOfBirthStr  > date || dateOfBirthStr === date) {
+            return res.render('ui/signup', { error: 'Date of Birth cannot be in the future or today' });
         }
         if (new Date(date_joined) < new Date(date_of_birth)) {
             return res.render('ui/signup', { error: 'Date Joined cannot be before Date of Birth' });
@@ -58,6 +59,9 @@ exports.register = (req, res) => {
         if (!date_of_birth) {
             return res.render('ui/signup', { error: 'Date of Birth field is empty' });
         }
+        if (!gender) {
+            return res.render('ui/signup', { error: 'Gender field is empty' });
+        }
 
         const hashedpassword = await bcrypt.hash(password, 8);
 
@@ -69,7 +73,6 @@ exports.register = (req, res) => {
             date_of_birth,
             date_joined,
             gender,
-            address,
             password: hashedpassword,
             status: 'active'
         }, (err) => {

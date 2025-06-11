@@ -20,98 +20,92 @@ body, html {
     padding: 0;
     min-height: 90vh;
     position: relative;
+    overflow: hidden;
 }
 
-.top-remote-video-show-wrap {
-    width: 75%;
-    margin: 0 auto;
-    padding: 2rem 0 1rem 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-#meetingContainer {
-    background: #181818;
-    border-radius: 14px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
-    padding: 1.5rem;
-    min-height: 40vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.call_wrap {
+#otherTemplate {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    /* height: 100%; */
+    min-height: 90vh;
     background: #000;
-    border-radius: 12px;
-    overflow: hidden;
-    padding: 1rem;
+    border-radius: inherit;
 }
 
-.video-wrap {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-    justify-items: center;
-    align-items: start;
+#otherTemplate .display_center {
     width: 100%;
+    height: 100%;
 }
 
-.userbox {
-    background: rgba(255,255,255,0.06);
-    border-radius: 10px;
-    padding: 1rem 1.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-    min-width: 220px;
-    min-height: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: box-shadow 0.2s;
-}
-
-.userbox:hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-}
-
-.userbox .user-name {
-    color: #fff;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.5px;
-}
-
-.video-container {
-    width: 200px;
-    height: 140px;
-    background: #222;
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-video {
+#otherTemplate video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
-    background: #111;
+}
+
+#otherTemplate h2 {
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    z-index: 10;
+}
+
+#me {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 150px;
+    height: 100px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    z-index: 15;
+    transition: opacity 0.5s;
+}
+
+#me .display-center {
+    width: 100%;
+    height: 100%;
+}
+
+#me video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+#me h2 {
+    position: absolute;
+    top: 5px;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+    z-index: 10;
+}
+
+#me.auto-hide, .g-bottom.auto-hide {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .g-top-left {
     position: absolute;
     top: 1.5rem;
-    right: 2rem;
+    right: 1rem;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-    padding: 1rem 1.5rem;
-    min-width: 220px;
-    z-index: 10;
+    padding: 0.8rem 1rem;
+    min-width: 180px;
+    z-index: 20; /* Higher than #me to avoid overlap */
 }
 
 .top-left-participant-wrap,
@@ -121,31 +115,31 @@ video {
     gap: 0.5rem;
     transition: background 0.2s;
     border-radius: 8px;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.8rem;
 }
 
 .top-left-participant-wrap:hover,
 .top-left-chat-wrap:hover {
-    background: #fff;
+    background: #e1ecf8;
     cursor: pointer;
 }
 
 .top-left-participant-icon i,
 .top-left-chat-wrap i {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: #3a6186;
 }
 
 .top-left-participant-count {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: #89253e;
 }
 
 .top-left-time-wrap {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     color: #666;
-    margin-left: 1rem;
+    margin-left: 0.8rem;
 }
 
 .g-bottom {
@@ -160,6 +154,7 @@ video {
     left: 0;
     bottom: 0;
     z-index: 20;
+    transition: opacity 0.5s;
 }
 
 .bottom-left, .bottom-middle, .bottom-right {
@@ -258,14 +253,13 @@ video {
 }
 
 .option-wrap:hover {
-    background: #89253e;;
+    background: #89253e;
 }
 
 .option-icon i {
     font-size: 1.3rem;
     color: #fff;
 }
-
 
 @media (max-width: 1200px) {
     .g-top, .g-bottom {
@@ -278,25 +272,28 @@ video {
 }
 
 @media (max-width: 900px) {
-    .top-remote-video-show-wrap {
-        width: 100%;
-        padding: 1rem 0;
-    }
     .g-top-left {
-        min-width: 160px;
-        padding: 0.7rem 1rem;
+        min-width: 140px;
+        padding: 0.6rem 0.8rem;
     }
-    .video-wrap {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 1rem;
+    .top-left-participant-wrap,
+    .top-left-chat-wrap {
+        padding: 0.4rem 0.6rem;
     }
-}
-
-/* For very small screens, stack in one column */
-@media (max-width: 600px) {
-    .video-wrap {
-        grid-template-columns: 1fr;
-        gap: 0.7rem;
+    .top-left-participant-icon i,
+    .top-left-chat-wrap i {
+        font-size: 1rem;
+    }
+    .top-left-participant-count {
+        font-size: 0.8rem;
+    }
+    .top-left-time-wrap {
+        font-size: 0.75rem;
+        margin-left: 0.6rem;
+    }
+    #me {
+        width: 120px;
+        height: 80px;
     }
 }
 
@@ -306,31 +303,34 @@ video {
         padding: 0.5rem;
     }
     .g-bottom {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: row !important;    /* Keep items in a row */
+        align-items: center !important;
+        justify-content: flex-start !important;
+        overflow-x: auto;
+        overflow-y: hidden;
         padding: 0.7rem 0.5rem;
+        min-height: 60px;
+        height: auto !important;
+        gap: 0.5rem;
     }
-    .bottom-left, .bottom-middle, .bottom-right {
-        margin-bottom: 0.5rem;
-        justify-content: center;
+    .g-bottom > div {
+        flex: 0 0 auto !important;
+        margin-bottom: 0 !important;
+        margin-right: 8px;
+    }
+    .present-now-wrap {
+        margin-right: 16px !important;
     }
     .g-top-left {
-        position: static;
-        margin: 0.5rem 0;
-        width: 100%;
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        min-width: 120px;
+        padding: 0.5rem 0.6rem;
+        z-index: 20;
     }
-    .video-wrap {
-        flex-direction: column;
-        gap: 0.7rem;
-    }
-    .userbox {
-        min-width: 90vw;
-        padding: 0.7rem 0.5rem;
-    }
-    .video-container {
-        width: 90vw;
-        height: 30vw;
-        min-height: 120px;
+    #me {
+        width: 100px;
+        height: 70px;
     }
 }
-

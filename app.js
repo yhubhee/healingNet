@@ -33,6 +33,8 @@ app.get('/', (req, res) => {
 app.set('view cache', false);
 
 // Socket.IO handling
+const userConnections = [];
+
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
@@ -60,6 +62,12 @@ io.on('connection', (socket) => {
         // Join the socket.io room using appointment_id
         socket.join(appointment_id);
 
+        userConnections.push({
+        connection_id: socket.id,
+        appointment_id,
+        user_display_id
+        });        
+
         // Get all sockets in the room except the current one
         io.in(appointment_id).allSockets().then(socketsInRoom => {
           const otherSockets = Array.from(socketsInRoom).filter(id => id !== socket.id);
@@ -76,7 +84,7 @@ io.on('connection', (socket) => {
             connection_id: id
             // Optionally add more user info if you store it elsewhere
           }));
-          socket.emit("infrom_me_about_others", other_users);
+          socket.emit("inform_me_about_others", other_users);
         });
       }).catch(err => {
         connection.release();
@@ -95,6 +103,21 @@ io.on('connection', (socket) => {
   });
 
   // Optionally handle disconnects and clean up if you store user info elsewhere
+  socket.on("disconnect", function(){
+    console.log("Disconnected");
+    var disuser = userConnections.find((p) => p.connection_id == socket.id);
+    if(disuser){
+      var appointment_id = disuser.appointment_id;
+      userConnections.filter((p) => p.connection_id != socket.id);
+      var list = userConnections.filter((p) => p.appointment_id == appointment_id)
+      list.forEach((v) =>{
+        socket.to(v.connection_id).emit("inform_about_disconnections", {
+          connId: socket.id
+        });
+      });
+      console.log("User disconnected:", socket.id, "from appointment:", appointment_id);
+    }
+  });
 });
 
 const APP_PORT = process.env.APP_PORT || 3000;

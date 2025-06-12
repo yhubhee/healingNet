@@ -35,7 +35,7 @@
     <main class="d-flex flex-column home-wrap">
         <div class="g-top text-light" id="main">
             <div id="otherTemplate" class="userbox display-center flex-column" style="display: none;">
-                <h2 class="display-center" style="font-size: 14px;"></h2>
+                <h2 class="display-center" style="font-size: 54px;"></h2>
                 <div class="display_center">
                     <video id="v_" autoplay></video>
                     <audio id="a_" autoplay controls style="display: none;"></audio>
@@ -69,9 +69,8 @@
                 <div class="meeting-heading d-flex justify-content-between align-items-center border-bottom p-2 pr-3 pl-3"
                     style="height: 10vh;">
                     <span class="font-weight-bold">Meeting Details</span>
-                    <button type="button" class="close" aria-label="Close"
-                        onclick="this.parentElement.parentElement.style.display='none'">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="close" aria-label="Close" style="border: none;" id="close">
+                        <i class="fas fa-times" style="font-weight: bold; font-size: large; font-size: 30px;"></i>
                     </button>
                 </div>
                 <!-- Tabs -->
@@ -89,43 +88,49 @@
                 <!-- Participant List -->
                 <div class="participant-list py-3 justify-content-between d-flex mx-4" id="participants-panel"
                     style="flex-wrap: wrap; gap: 10px; display: none;">
-                    <div class="d-flex align-items-center mb-2 px-2 py-1 rounded"
-                        style="background: rgba(0, 0, 0, 0.05);">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="avatar" width="32"
-                            height="32" class="rounded-circle mr-2 border"
-                            style="object-fit: cover; border-color: #ddd;">
-                        <span class="font-weight-bold text-dark">You</span>
+                    <div class="participant-item d-flex justify-content-between align-items-center mb-2 px-2 py-1 rounded" id="participants"
+                        style="background: rgba(0, 0, 0, 0.05); width: 100%;">
+                        <div class="d-flex align-items-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="avatar" width="32"
+                                height="32" class="rounded-circle mr-2 border"
+                                style="object-fit: cover; border-color: #ddd;">
+                            <span class="font-weight-bold text-dark">You</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="fas fa-ellipsis-v mx-2"
+                                style="cursor:pointer; color: #888; font-size: 1.1rem;"></i>
+                            <i class="fas fa-thumbtack" style="cursor:pointer; color: #888; font-size: 1.1rem;"></i>
+                        </div>
                     </div>
-                    <div class="d-flex align-items-center gap-3">
-                        <i class="fas fa-ellipsis-v mx-2" style="cursor:pointer; color: #888; font-size: 1.1rem;"></i>
-                        <i class="fas fa-thumbtack" style="cursor:pointer; color: #888; font-size: 1.1rem;"></i>
-                    </div>
-                    <!-- Add more participants here dynamically if needed -->
+
                 </div>
                 <!-- Chat Area -->
                 <div class="in-call-chat mx-2 px-4 d-flex flex-column" id="chat-panel"
                     style="font-size: 14px; height: 69vh; overflow-y: hidden; display: none;">
-                    <!-- Hidden in-call status (if needed) -->
+                    <!-- Hidden in-call status -->
                     <div class="in-call" style="display: none !important;"></div>
                     <div class="chat-show text-secondary d-flex flex-column" style="font-size: 14px; flex: 1 1 auto;">
                         <!-- Messages area -->
-                        <div class="chat-message-show flex-grow-1 mb-2" id="messages" style="overflow-y: auto;"></div>
+                        <div class="chat-message-show flex-grow-1 mb-2" id="messages"
+                            style="overflow-y: auto; min-height: 150px;"></div>
                         <!-- Message input area -->
-                        <form class="chat-massage-sent d-flex justify-content-between align-items-center"
-                            style="gap: 8px;">
-                            <div class="chat-message-sent-input flex-grow-1 my-5">
-                                <input type="text" class="chat-message-input form-control" id="megbox"
-                                    placeholder="Send Message Here"
-                                    style="border-bottom: 1px solid #3a6186; border-radius: 0; box-shadow: none;">
-                            </div>
-                            <button type="submit" class="chat-send-button btn p-0" id="btnsend"
-                                style="color: #3a6186; background: none; border: none; outline: none; cursor: pointer;">
+                        <form class="chat-message-sent-input d-flex align-items-center mb-5" id="chatInputForm"
+                            autocomplete="off" style="gap: 8px;">
+                            <input type="text" class="chat-message-input form-control" id="msgbox"
+                                placeholder="Send Message Here"
+                                style="border-bottom: 1px solid #3a6186; border-radius: 0; box-shadow: none;"
+                                autocomplete="off" required>
+                            <button type="submit" class="chat-send-button btn p-0 d-flex align-items-center"
+                                id="btnsend"
+                                style="color: #3a6186; background: none; border: none; outline: none; cursor: pointer;"
+                                aria-label="Send">
                                 <i class="fas fa-paper-plane fa-lg"></i>
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
 
         <!-- Bottom -->
@@ -181,40 +186,52 @@
             $(document).on('mousemove', showElements);
         });
 
-        // $(function () {
-        //     $('#tab-participants').on('click', function () {
-        //         $('#participants-panel').show();
-        //         $('#chat-panel').hide();
-        //         $('#tab-participants').addClass('active');
-        //         $('#tab-chat').removeClass('active');
-        //     });
-
-        //     $('#tab-chat').on('click', function () {
-        //         $('#participants-panel').hide();
-        //         $('#chat-panel').show();
-        //         $('#tab-chat').addClass('active');
-        //         $('#tab-participants').removeClass('active');
-        //     });
-        // });
 
         $(function () {
             // Show sidebar when clicking #meetingShow
             $('#meetingShow').on('click', function (e) {
                 $('#sidebar-panel').removeClass('d-none').addClass('d-flex');
                 $('#meetingShow').removeClass('d-flex').addClass('d-none');
-                e.stopPropagation(); // Prevent event from bubbling up
+                $('#chatInputForm').addClass('d-none')
+                e.stopPropagation();
             });
 
             // Hide sidebar when clicking outside of it
             $(document).on('click', function (e) {
-                if (!$(e.target).closest('#sidebar-panel').length && !$(e.target).closest('#meetingShow').length) {
+                if (
+                    !$(e.target).closest('#sidebar-panel').length &&
+                    !$(e.target).closest('#meetingShow').length
+                ) {
                     $('#sidebar-panel').removeClass('d-flex').addClass('d-none');
-                    $('#meetingShow').removeClass('d-none').addClass('d-flex'); // <-- fixed selector
+                    $('#meetingShow').removeClass('d-none').addClass('d-flex');
                 }
             });
 
             // Prevent clicks inside sidebar from closing it
             $('#sidebar-panel').on('click', function (e) {
+                e.stopPropagation();
+            });
+
+            // Tab switching inside sidebar-panel
+            $('#tab-participants').on('click', function (e) {
+                $('#participants-panel').removeClass('d-none').addClass('d-flex');
+                $('#chat-panel').removeClass('d-flex').addClass('d-none');
+                $('#tab-participants').addClass('active');
+                $('#tab-chat').removeClass('active');
+                e.stopPropagation();
+            });
+
+            $('#tab-chat').on('click', function (e) {
+                $('#participants-panel').removeClass('d-flex').addClass('d-none');
+                $('#chat-panel').removeClass('d-none').addClass('d-flex');
+                $('#chatInputForm').removeClass('d-none');
+                $('#tab-chat').addClass('active');
+                $('#tab-participants').removeClass('active');
+                e.stopPropagation();
+            });
+            $('#close').on('click', function (e) {
+                $('#sidebar-panel').removeClass('d-flex').addClass('d-none');
+                $('#meetingShow').removeClass('d-none').addClass('d-flex');
                 e.stopPropagation();
             });
         });

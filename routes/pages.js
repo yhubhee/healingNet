@@ -646,14 +646,15 @@ router.get('/consultation/live_consultation', (req, res, next) => {
 
 // Doctor Section
 router.get('/doctor/doctordashboard', doctorvalidateTokens, (req, res) => {
-    const today = new Date
-    console.log(today)
+    const today = new Date().toISOString().split('T')[0];
+    const { doc_name, doctor_id } = req.user;
 
-    const doc_count = `SELECT COUNT(*) AS count, d.doc_name FROM appointment a JOIN doctors d ON a.doctor_id = d.doctor_id WHERE a.patient_id = ? AND a.appointmentDate = ? AND a.status = 'scheduled'`;
-    const sql = 'SELECT COUNT(*) AS count FROM appointment WHERE doctor_id = ?';
-
-    const { doc_name, doctor_id } = req.user; // Access the attached names
-    console.log(doctor_id, doc_name)
+    const todayAppointmentsSql = `
+        SELECT COUNT(*) AS count 
+        FROM appointment 
+        WHERE doctor_id = ? AND appointmentDate = ? AND status = 'scheduled'
+    `;
+    const sqlPatientCount = `SELECT COUNT(*) AS count FROM patients`;
 
     db.getConnection((err, connection) => {
         if (err) {
@@ -661,46 +662,32 @@ router.get('/doctor/doctordashboard', doctorvalidateTokens, (req, res) => {
             return res.status(500).json({ error: 'Failed to fetch appointments' });
         }
 
-        connection.query(sql1, [patient_id, date], (err, todayResult) => {
+        connection.query(todayAppointmentsSql, [doctor_id, today], (err, todayResult) => {
             if (err) {
                 console.error('Database query error:', err);
                 connection.release();
                 return res.status(500).send('Failed to fetch today appointments');
             }
 
-            connection.query(completeProfileQuery, [patient_id], (err, completeProfileResult) => {
+            connection.query(sqlPatientCount, (err, patientResult) => {
+                connection.release();
                 if (err) {
-                    console.error('Database query error (profile check):', err);
-                    connection.release();
-                    return res.render('patients/dashboard', {
-                        error: 'An error occurred while checking your profile. Please try again.',
-                        firstname,
-                        lastname,
-                        todayAppointment: null,
-                        showProfileModal: null
-
-                    });
+                    console.error('Database query error:', err);
+                    return res.status(500).send('Failed to fetch patient count');
                 }
-
-                console.log('Profile incomplete?', completeProfileResult.length > 0);
-                const showProfileModal = completeProfileResult.length > 0; // Boolean flag
 
                 let todayAppointment = 'You have no appointment due today';
                 if (todayResult.length > 0 && todayResult[0].count > 0) {
-                    const doctor = todayResult[0];
-                    todayAppointment = `You have ${todayResult[0].count} appointment today with ${doctor.doc_name}`;
-                } else {
-                    todayAppointment = 'You have no appointment due';
+                    todayAppointment = `You have ${todayResult[0].count} appointment(s) scheduled today.`;
                 }
 
-                res.render('patients/dashboard', {
-                    firstname,
-                    lastname,
-                    todayAppointment,
-                    showProfileModal
-                });
+                const patient_count = patientResult[0].count;
 
-                connection.release();
+                res.render('doctor/doctordashboard', {
+                    doc_name,
+                    todayAppointment,
+                    patient_count
+                });
             });
         });
     });

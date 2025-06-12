@@ -51,46 +51,54 @@ io.on('connection', (socket) => {
         'SELECT patient_id, doctor_id FROM appointment WHERE appointment_id = ? AND status = ? AND (patient_id = ? OR doctor_id = ?)',
         [appointment_id, 'scheduled', user_display_id, user_display_id]
       )
-      .then(([results]) => {
-        connection.release();
-        if (results.length === 0) {
-          console.error('Appointment not found');
-          socket.emit('error', 'Appointment not found');
-          return;
-        }
+        .then(([results]) => {
+          connection.release();
+          if (results.length === 0) {
+            console.error('Appointment not found');
+            socket.emit('error', 'Appointment not found');
+            return;
+          }
 
-        // Join the socket.io room using appointment_id
-        socket.join(appointment_id);
+          // Join the socket.io room using appointment_id
+          socket.join(appointment_id);
 
-        userConnections.push({
-        connection_id: socket.id,
-        appointment_id,
-        user_display_id
-        });        
-
-        // Get all sockets in the room except the current one
-        io.in(appointment_id).allSockets().then(socketsInRoom => {
-          const otherSockets = Array.from(socketsInRoom).filter(id => id !== socket.id);
-
-          // Inform others in the room about the new user
-          socket.to(appointment_id).emit("inform_others", {
-            other_users_id: user_display_id,
-            connId: socket.id
+          userConnections.push({
+            connection_id: socket.id,
+            appointment_id,
+            user_display_id,
+            user_name
           });
+          // Participant
+          var userCount = userConnections.length;
+          console.log(userCount)
 
-          // Inform the new user about all others in the room
-          // You can fetch user info from a scalable store if needed
-          const other_users = otherSockets.map(id => ({
-            connection_id: id
-            // Optionally add more user info if you store it elsewhere
-          }));
-          socket.emit("inform_me_about_others", other_users);
+          // Get all sockets in the room except the current one
+          io.in(appointment_id).allSockets().then(socketsInRoom => {
+            const otherSockets = Array.from(socketsInRoom).filter(id => id !== socket.id);
+
+            // Inform others in the room about the new user
+            socket.to(appointment_id).emit("inform_others", {
+              other_users: {
+                user_display_id: user_display_id,
+                user_name: user_name
+              },
+              connId: socket.id
+            });
+
+            // Inform the new user about all others in the room
+            const other_users = otherSockets.map(id => ({
+              connection_id: id,
+              user_name: userConnections.find(u => u.connection_id === id)?.user_name || 'Unknown',
+              user_display_id: userConnections.find(u => u.connection_id === id)?.user_display_id || 'Unknown'
+            }));
+            console.log("other_users sent to new user:", other_users);
+            socket.emit("inform_me_about_others", other_users);
+          });
+        }).catch(err => {
+          connection.release();
+          console.error('Query error:', err);
+          socket.emit('error', 'Failed to join room');
         });
-      }).catch(err => {
-        connection.release();
-        console.error('Query error:', err);
-        socket.emit('error', 'Failed to join room');
-      });
     });
   });
 
@@ -102,17 +110,36 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on("sendMessage", (msg) => {
+    console.log(msg);
+    var mUser = userConnections.find((p) => p.connection_id == socket.id);
+    if (mUser) {
+      var appointment_id = mUser.appointment_id;
+      var from = mUser.user_name;
+      var list = userConnections.filter((p) => p.appointment_id == appointment_id);
+      list.forEach((v) => {
+        socket.to(v.connection_id).emit("showChatMessage", {
+          from: from,
+          message: msg
+        })
+
+      })
+    }
+  });
+
   // Optionally handle disconnects and clean up if you store user info elsewhere
-  socket.on("disconnect", function(){
+  socket.on("disconnect", function () {
     console.log("Disconnected");
     var disuser = userConnections.find((p) => p.connection_id == socket.id);
-    if(disuser){
+    if (disuser) {
       var appointment_id = disuser.appointment_id;
       userConnections.filter((p) => p.connection_id != socket.id);
       var list = userConnections.filter((p) => p.appointment_id == appointment_id)
-      list.forEach((v) =>{
+      list.forEach((v) => {
+        var userNumberAffDisconnect = userConnections.length;
         socket.to(v.connection_id).emit("inform_about_disconnections", {
-          connId: socket.id
+          connId: socket.id,
+          uNumber: userNumberAffDisconnect
         });
       });
       console.log("User disconnected:", socket.id, "from appointment:", appointment_id);

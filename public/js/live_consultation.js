@@ -146,7 +146,7 @@ var AppProcess = (function () {
                     },
                     audio: false
                 });
-                vstream.oninactive = (e) =>{
+                vstream.oninactive = (e) => {
                     removeVideoStream(rtp_vid_senders);
                     $("#ScreenShareOnOff").html("<i class='fas fa-desktop'></i><div>ShareScreen Now</div>");
                 }
@@ -305,20 +305,20 @@ var AppProcess = (function () {
             }
         }
     }
-    async function closeConnection(connid){
+    async function closeConnection(connid) {
         peers_connection_ids[connid] = null;
-        if(peers_connection[connid]){
+        if (peers_connection[connid]) {
             peers_connection[connid].close();
             peers_connection[connid] = null;
         }
-        if(remote_aud_stream[connid]){
-            remote_aud_stream[connid].getTracks().forEach((t) =>{
+        if (remote_aud_stream[connid]) {
+            remote_aud_stream[connid].getTracks().forEach((t) => {
                 if (t.stop) t.stop();
             });
             remote_aud_stream[connid] = null;
         }
-        if(remote_vid_stream[connid]){
-            remote_vid_stream[connid].getTracks().forEach((t) =>{
+        if (remote_vid_stream[connid]) {
+            remote_vid_stream[connid].getTracks().forEach((t) => {
                 if (t.stop) t.stop();
             });
             remote_vid_stream[connid] = null;
@@ -345,6 +345,8 @@ var MyApp = (function () {
     var user_id = "";
     var appointment_id = "";
     var FullName = "";
+    // Track all connected user connection IDs
+    var userConnections = [];
 
     function init(aip, uid, FN) {
         user_id = uid;
@@ -353,6 +355,12 @@ var MyApp = (function () {
         $("#me h2").text(FullName + " (Me)");
         document.title = FullName;
         signaling_server();
+        eventHandling();
+    }
+
+    function updateParticipantCount() {
+        // +1 for self
+        $("#participant-count").text(userConnections.length + 1);
     }
 
     function signaling_server() {
@@ -376,37 +384,100 @@ var MyApp = (function () {
                     });
                 }
             }
-            console.log(user_id);
+            console.log(FullName);
         });
-        socket.on("inform_about_disconnections", function(data){
-            $("#"+ data.connId).remove();
+        socket.on("inform_about_disconnections", function (data) {
+            $("#" + data.connId).remove();
+            $(".participant-count").text(data.uNumber)
+            $("#participants_" + data.connId + "").remove();
+            // Remove from userConnections
+            userConnections = userConnections.filter(id => id !== data.connId);
+            updateParticipantCount();
             AppProcess.closeConnectionCall(data.connId)
         });
 
         socket.on("inform_others", function (data) {
-            addUser(data.other_users_id, data.connId);
+            // Add to userConnections if not already present
+            if (!userConnections.includes(data.connId)) {
+                userConnections.push(data.connId);
+            }
+            addUser(data.other_users, data.connId);
+            updateParticipantCount();
             AppProcess.setNewConnection(data.connId);
         });
         socket.on("inform_me_about_others", function (other_users) {
+            // Reset userConnections
+            userConnections = [];
             if (other_users) {
                 for (var i = 0; i < other_users.length; i++) {
-                    addUser(other_users[i].user_name, other_users[i].connection_id);
+                    userConnections.push(other_users[i].connection_id);
+                    addUser(other_users[i], other_users[i].connection_id);
                     AppProcess.setNewConnection(other_users[i].connection_id);
                 }
             }
+            updateParticipantCount();
         });
         socket.on("SDPProcess", async function (data) {
             await AppProcess.processClientFunction(data.message, data.from_connid);
         });
+
+        socket.on("showChatMessage", function (data) {
+            var time = new Date();
+            var lTime = time.toLocaleString("en-us", {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true
+            });
+            var div = $("<div>")
+                .addClass("other-message text-end mb-2")
+                .html(
+                    "<span class='font-weight-bold ms-3' style='color:black'>" + data.from + "</span> " +
+                    lTime + "<br>" +
+                    $("<div>").text(data.message).html()
+                );
+            $("#messages").append(div);
+        });
     }
-    function addUser(other_users_id, connId) {
+    function eventHandling() {
+        // Handle form submit for both button click and Enter key
+        $("#chatInputForm").on("submit", function (e) {
+            e.preventDefault();
+            const msg = $("#msgbox").val().trim();
+            var time = new Date();
+            var lTime = time.toLocaleString("en-us", {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true
+            });
+            var div = $("<div>")
+                .addClass("my-message text-start mb-2")
+                .html(
+                    "<span class='font-weight-bold me-3' style='color: #3a6186'>" +
+                    $("<div>").text(FullName + " (Me)").html() +
+                    "</span> " +
+                    lTime + "<br>" +
+                    $("<div>").text(msg).html()
+                );
+            $("#messages").append(div);
+
+            if (msg) {
+                socket.emit("sendMessage", msg);
+                $("#msgbox").val("");
+            }
+        });
+    }
+    function addUser(other_users, connId) {
+        // Display both user_name and user_display_id
+        var displayName = other_users.user_name + " (" + other_users.user_display_id + ")";
         var newDivId = $("#otherTemplate").clone();
         newDivId = newDivId.attr("id", connId).addClass('other');
-        newDivId.find("h2").text(other_users_id);
+        newDivId.find("h2").text(displayName);
         newDivId.find("video").attr("id", "v_" + connId);
         newDivId.find("audio").attr("id", "a_" + connId);
         newDivId.show();
         $(".g-top").append(newDivId);
+        $(".participant-list").append(' <div class="d-flex align-items-center mb-2 px-2 py-1 rounded" id="participants_' + connId +'" style="background: rgba(0, 0, 0, 0.05);"> <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="avatar" width="32" height="32" class="rounded-circle mr-2 border" style="object-fit: cover; border-color: #ddd;"> <span class="font-weight-bold text-dark">'+ displayName +'</span> </div> <div class="d-flex align-items-center gap-3"> <i class="fas fa-ellipsis-v mx-2" style="cursor:pointer; color: #888; font-size: 1.1rem;"></i> <i class="fas fa-thumbtack" style="cursor:pointer; color: #888; font-size: 1.1rem;"></i> </div>'
+        );
     }
 
     return {

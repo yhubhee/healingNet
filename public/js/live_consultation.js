@@ -33,21 +33,21 @@ var AppProcess = (function () {
         try {
             let stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
             audio = stream.getAudioTracks()[0];
-            // audio.enabled = false; // Remove this line to avoid muting by default
+            updateMediaSenders(audio, rtp_aud_senders);
         } catch (e) {
             console.log("Audio permission denied or error:", e);
             audio = null;
         }
     }
-    function updateMediaSenders(track, rtp_senders) {
-        if (rtp_senders && rtp_senders.length > 0) {
-            rtp_senders.forEach(sender => {
-                if (sender && sender.track) {
-                    sender.replaceTrack(track);
-                }
-            });
-        }
-    }
+    // function updateMediaSenders(track, rtp_senders) {
+    //     if (rtp_senders && rtp_senders.length > 0) {
+    //         rtp_senders.forEach(sender => {
+    //             if (sender && sender.track) {
+    //                 sender.replaceTrack(track);
+    //             }
+    //         });
+    //     }
+    // }
     function eventProcess() {
         $("#micMuteUnmute").on("click", async function () {
             if (!audio) {
@@ -60,13 +60,12 @@ var AppProcess = (function () {
             if (isAudioMute) {
                 audio.enabled = true;
                 $(this).html('<i class="fa fa-microphone"></i>');
-                updateMediaSenders(audio, rtp_aud_senders);
             } else {
                 audio.enabled = false;
                 $(this).html('<i class="fas fa-microphone-slash"></i>');
-                removeMediaSenders(rtp_aud_senders);
             }
-            isAudioMute = !isAudioMute
+            updateMediaSenders(audio, rtp_aud_senders);
+            isAudioMute = !isAudioMute;
         });
         $("#videoCamOnOff").on("click", async function () {
             if (video_st == video_states.Camera) {
@@ -163,7 +162,7 @@ var AppProcess = (function () {
                     videoCamTrack.enabled = true; // Ensure video is enabled
                     local_div.srcObject = new MediaStream([videoCamTrack]);
                     updateMediaSenders(videoCamTrack, rtp_vid_senders);
-                    alert("video good")
+                    // alert("video good")
                 }
             }
         } catch (e) {

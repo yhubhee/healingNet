@@ -339,19 +339,19 @@
                     var html = '';
                     if (['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'].includes(data.ext)) {
                         html = `<div class="mb-2">
-                <img src="${data.file}" alt="attachment" style="max-width:100%;max-height:120px;"/><br>
-                <a href="${data.file}" target="_blank">View Full Image</a>
-            </div>`;
+                    <img src="${data.file}" alt="attachment" style="max-width:100%;max-height:120px;"/><br>
+                    <a href="${data.file}" target="_blank">View Full Image</a>
+                    </div>`;
                     } else if (data.ext === 'pdf') {
                         html = `<div class="mb-2">
-                <i class="fas fa-file-pdf fa-2x text-danger"></i>
-                <a href="${data.file}" target="_blank">View PDF</a>
-            </div>`;
+                    <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                    <a href="${data.file}" target="_blank">View PDF</a>
+                    </div>`;
                     } else {
                         html = `<div class="mb-2">
-                <i class="fas fa-file-alt fa-2x text-secondary"></i>
-                <a href="${data.file}" target="_blank">Download File</a>
-            </div>`;
+                    <i class="fas fa-file-alt fa-2x text-secondary"></i>
+                    <a href="${data.file}" target="_blank">Download File</a>
+                    </div>`;
                     }
                     $(".show-attach-file").prepend(html);
                 });

@@ -12,6 +12,8 @@ const mail = require('../controllers/mail');
 const edit_profile = require('../controllers/edit_profile');
 const admin_login = require('../controllers/admin_login');
 const admin_register = require('../controllers/admin_register');
+const liveShareController = require('../controllers/live_share');
+const authUniversal = require('../middlewares/authUniversal');
 
 // Patients auth/register
 router.post('/signup', register.register);
@@ -45,6 +47,8 @@ router.post('/Doc_reset_pass', validateDoctor_reset_secret, forgot_pass.Doc_rese
 router.post('/admin_signup', admin_register.admin_register);
 router.post('/admin_login', admin_login.admin_login);
 
+//  Live share post 
+router.post('/live_share', authUniversal, liveShareController.live_share);
 
 module.exports = router;
 

@@ -22,12 +22,18 @@ var AppProcess = (function () {
         my_connection_id = my_connid;
         eventProcess();
         local_div = document.getElementById("localVideoPlayer");
+        await loadAudio();
+        if (audio) {
+            audio.enabled = true;
+            isAudioMute = false;
+        }
+        await videoProcess(video_states.Camera);
     }
     async function loadAudio() {
         try {
             let stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
             audio = stream.getAudioTracks()[0];
-            audio.enabled = false;
+            // audio.enabled = false; // Remove this line to avoid muting by default
         } catch (e) {
             console.log("Audio permission denied or error:", e);
             audio = null;
@@ -154,6 +160,7 @@ var AppProcess = (function () {
             if (vstream && vstream.getVideoTracks().length > 0) {
                 videoCamTrack = vstream.getVideoTracks()[0];
                 if (videoCamTrack) {
+                    videoCamTrack.enabled = true; // Ensure video is enabled
                     local_div.srcObject = new MediaStream([videoCamTrack]);
                     updateMediaSenders(videoCamTrack, rtp_vid_senders);
                     alert("video good")
@@ -345,13 +352,17 @@ var MyApp = (function () {
     var user_id = "";
     var appointment_id = "";
     var FullName = "";
+    var role = "";
     // Track all connected user connection IDs
     var userConnections = [];
 
-    function init(aip, uid, FN) {
+    function init(aip, uid, FN, rl) {
         user_id = uid;
         appointment_id = aip;
         FullName = FN;
+        role = rl;
+
+        console.log(role, "...")
         $("#me h2").text(FullName + " (Me)");
         document.title = FullName;
         signaling_server();
@@ -365,6 +376,7 @@ var MyApp = (function () {
 
     function signaling_server() {
         socket = io.connect();
+        window.socket = socket; // Make socket globally accessible
 
         var SDP_funtion = function (data, to_connid) {
             socket.emit("SDPProcess", {
@@ -437,6 +449,28 @@ var MyApp = (function () {
                 );
             $("#messages").append(div);
         });
+
+        // Listen for shared files from others
+        socket.on('new_shared_file', function (data) {
+            var html = '';
+            if (['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'].includes(data.ext)) {
+                html = `<div class="mb-2">
+                    <img src="${data.file}" alt="attachment" style="max-width:100%;max-height:120px;"/><br>
+                    <a href="${data.file}" target="_blank">View Full Image</a>
+                </div>`;
+            } else if (data.ext === 'pdf') {
+                html = `<div class="mb-2">
+                    <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                    <a href="${data.file}" target="_blank">View PDF</a>
+                </div>`;
+            } else {
+                html = `<div class="mb-2">
+                    <i class="fas fa-file-alt fa-2x text-secondary"></i>
+                    <a href="${data.file}" target="_blank">Download File</a>
+                </div>`;
+            }
+            $(".show-attach-file").prepend(html);
+        });
     }
     function eventHandling() {
         // Handle form submit for both button click and Enter key
@@ -465,6 +499,51 @@ var MyApp = (function () {
                 $("#msgbox").val("");
             }
         });
+
+        // File share submit handler
+        $(".share_attach").on("submit", function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: '/auth/live_share',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.file) {
+                        var ext = response.file.split('.').pop().toLowerCase();
+                        var html = '';
+                        if (['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'].includes(ext)) {
+                            html = `<div class="mb-2">
+                                <img src="${response.file}" alt="attachment" style="max-width:100%;max-height:120px;"/><br>
+                                <a href="${response.file}" target="_blank">View Full Image</a>
+                                </div>`;
+                        } else if (ext === 'pdf') {
+                            html = `<div class="mb-2">
+                                <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                                <a href="${response.file}" target="_blank">View PDF</a>
+                                </div>`;
+                        } else {
+                            html = `<div class="mb-2">
+                                <i class="fas fa-file-alt fa-2x text-secondary"></i>
+                                <a href="${response.file}" target="_blank">Download File</a>
+                                </div>`;
+                        }
+                        $(".show-attach-file").prepend(html);
+                        if (window.socket) {
+                            window.socket.emit('new_shared_file', {
+                                appointment_id: appointment_id,
+                                file: response.file,
+                                ext: ext
+                            });
+                        }
+                    }
+                    alert("File shared successfully!");
+                    $(".share_attach")[0].reset();
+                },
+            });
+        });
     }
     function addUser(other_users, connId) {
         // Display both user_name and user_display_id
@@ -476,13 +555,38 @@ var MyApp = (function () {
         newDivId.find("audio").attr("id", "a_" + connId);
         newDivId.show();
         $(".g-top").append(newDivId);
-        $(".participant-list").append(' <div class="d-flex align-items-center mb-2 px-2 py-1 rounded" id="participants_' + connId +'" style="background: rgba(0, 0, 0, 0.05);"> <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="avatar" width="32" height="32" class="rounded-circle mr-2 border" style="object-fit: cover; border-color: #ddd;"> <span class="font-weight-bold text-dark">'+ displayName +'</span> </div> <div class="d-flex align-items-center gap-3"> <i class="fas fa-ellipsis-v mx-2" style="cursor:pointer; color: #888; font-size: 1.1rem;"></i> <i class="fas fa-thumbtack" style="cursor:pointer; color: #888; font-size: 1.1rem;"></i> </div>'
+        $(".participant-list").append(' <div class="participant-item d-flex justify-content-between align-items-center mb-2 px-2 py-1 rounded" id="participants_' + connId + '" style="background: rgba(0, 0, 0, 0.05); width: 100%;"> <div class="d-flex align-items-center"> <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="avatar" width="32" height="32" class="rounded-circle mr-2 border" style="object-fit: cover; border-color: #ddd;"> <span class="font-weight-bold text-dark">' + displayName + '</span> </div> <div class="d-flex align-items-center gap-3"> <i class="fas fa-ellipsis-v mx-2" style="cursor:pointer; color: #888; font-size: 1.1rem;"></i> <i class="fas fa-thumbtack" style="cursor:pointer; color: #888; font-size: 1.1rem;"></i> </div> </div>'
         );
     }
+    $(document).on("click", ".end-call-wrap", function () {
+        $(".top-box-show").css({
+            "display": "block"
+        }).html('<div class="top-box align-vertical-middle profile-dialogue-show"> <h1 class="mt-2 text-center">Leave Session</h1> <hr> <div class="call-leave-cancel-action d-flex justify-content-center align-items-center w-100"> <button id="leaveBtn" class="call-leave-action btn btn-danger me-3">Leave </button> <button class="call-cancel-action btn btn-secondary"> Cancel</button> </div> </div>')
+    });
+
+    $(document).on('mousedown', function (e) {
+        // If modal is visible
+        if ($('.top-box-show').is(':visible')) {
+            // If click is outside the modal content
+            if (!$(e.target).closest('.top-box-show .top-box').length) {
+                $('.top-box-show').hide();
+            }
+        }
+    });
+
+    $(document).on('click', ".call-cancel-action", function (e) {
+        $('.top-box-show').hide();
+    });
+
+    // Prevent clicks inside sidebar from closing it
+    $('#sidebar-panel').on('click', function (e) {
+        e.stopPropagation();
+    });
+
 
     return {
-        _init: function (aip, uid, FN) {
-            init(aip, uid, FN);
+        _init: function (aip, uid, FN, rl) {
+            init(aip, uid, FN, rl);
         }
     };
 })();

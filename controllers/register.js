@@ -16,7 +16,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
     var date = new Date().toISOString().split('T')[0] ;
+
     console.log(date)
+    
 exports.register = (req, res) => {
     const { firstname, lastname, phone, email, date_of_birth, date_joined, gender, password } = req.body;
         const dateOfBirthStr = new Date(date_of_birth).toISOString().split('T')[0];
@@ -34,7 +36,7 @@ exports.register = (req, res) => {
             return res.render('ui/signup', { error: 'Password weak or empty' });
         }
 
-        if (date_joined > date || date_joined < date) {
+        if (date_joined!= date) {
             return res.render('ui/signup', { error: 'Date Joined cannot be in the future or past' });
         }
         if (dateOfBirthStr  > date || dateOfBirthStr === date) {

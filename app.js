@@ -127,6 +127,14 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('new_shared_file', (data) => {
+    // Broadcast to everyone else in the same appointment room
+    socket.to(data.appointment_id).emit('new_shared_file', {
+      file: data.file,
+      ext: data.ext
+    });
+  });
+
   // Optionally handle disconnects and clean up if you store user info elsewhere
   socket.on("disconnect", function () {
     console.log("Disconnected");

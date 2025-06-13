@@ -648,6 +648,7 @@ router.get('/consultation/live_consultation', (req, res, next) => {
 router.get('/doctor/doctordashboard', doctorvalidateTokens, (req, res) => {
     const today = new Date().toISOString().split('T')[0];
     const { doc_name, doctor_id } = req.user;
+    console.log("doctor_id =" ,doctor_id)
 
     const todayAppointmentsSql = `
         SELECT COUNT(*) AS count 

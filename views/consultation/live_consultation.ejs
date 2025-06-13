@@ -21,14 +21,19 @@
         const userId = getQueryParam('userId');
         const FullName = getQueryParam('user');
 
+        const role = getQueryParam('role');
+
         if (!appointmentId || !userId) {
             alert("No AppointmentId or UserId found");
             window.location.href = 'ui/index';
             return;
         }
+        var url = window.location.href;
+        $(".session_url").text(url)
 
-        MyApp._init(appointmentId, userId, FullName);
+        MyApp._init(appointmentId, userId, FullName, role);
     });
+
 </script>
 
 <body>
@@ -88,8 +93,8 @@
                 <!-- Participant List -->
                 <div class="participant-list py-3 justify-content-between d-flex mx-4" id="participants-panel"
                     style="flex-wrap: wrap; gap: 10px; display: none;">
-                    <div class="participant-item d-flex justify-content-between align-items-center mb-2 px-2 py-1 rounded" id="participants"
-                        style="background: rgba(0, 0, 0, 0.05); width: 100%;">
+                    <div class="participant-item d-flex justify-content-between align-items-center mb-2 px-2 py-1 rounded"
+                        id="participants" style="background: rgba(0, 0, 0, 0.05); width: 100%;">
                         <div class="d-flex align-items-center">
                             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="avatar" width="32"
                                 height="32" class="rounded-circle mr-2 border"
@@ -133,9 +138,54 @@
         </div>
         </div>
 
+
         <!-- Bottom -->
         <div class="g-bottom bg-light m-0 d-flex justify-content-between align-items-center">
-            <div class="bottom-left d-flex" style="height: 10vh;">
+            <div class="bottom-left d-flex" style="height: 10vh; position: relative;">
+                <!-- Details/Attachment box floats above the bottom bar -->
+                <div class="g-details border border-success mb-2" style="display: none;">
+                    <div class="g-details-header d-flex justify-content-between align-items-center border-bottom">
+                        <div class="g-details-header-details d-flex align-items-center cursor-pointer">
+                            <i class="fas fa-exclamation-circle text-dark fa-lg pe-2" style="font-size: 17px;"></i>
+                            Details
+                        </div>
+                        <div class="g-details-header-attachment d-flex align-items-center cursor-pointer">
+                            <i class="fas fa-paperclip text-primary fa-lg ms-2" style="font-size: 20px;"></i> Attachment
+                        </div>
+                    </div>
+                    <div class="g-details-header-show-wrap">
+                        <div class="g-details-heading-show ms-2">
+                            <div style="font-weight: 600; color: grey;"> Joining Info</div>
+
+                            <div class="session_url" style="padding: 5px 0; cursor: pointer;" data-toggle="tooltip;"
+                                data-placement="top"></div>
+
+                            <div class="copy_info" style="cursor: pointer;">
+                                <i class="fas fa-copy text-primary fa-lg" style="font-size: 20px;"></i> Copy Joining
+                                Link
+                                <span class="btn btn-success confirm_copy" style="display: none;">Link Copied</span>
+                            </div>
+                        </div>
+
+                        <div class="g-details-heading-show-attachment" style="display: none; position: relative;">
+                            <div class="show-attach-file"></div>
+                            <div class="upload-attach-file p-1">
+                                <form enctype="multipart/form-data" id="uploadForm" class="share_attach"
+                                    style="justify-content: space-between;">
+                                    <div class="custom-file" style="flex-basis: 79%;">
+                                        <input type="file" class="custom-file-input" id="customFile" name="imagefile">
+                                        <!-- <label for="customfile" class="custom-file-label">Choose File</label> -->
+                                    </div>
+                                    <div class="share-btn-wrap mt-2">
+                                        <button class="btn btn-primary btn-sm"
+                                            style="flex-basis: 19%; padding: 6px 16px;" type="submit"> Share
+                                            Now</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="display-center cursor-pointer meeting-details-button">
                     Meeting Details <i class="fas fa-arrow-down"></i>
                 </div>
@@ -158,12 +208,14 @@
                     <div>ShareScreen Now</div>
                 </div>
                 <div class="option-wrap cursor-pointer display-center" style="height: 10vh; position: relative;">
+                    <div class="recording-show"></div>
                     <div class="option-icon">
                         <i class="fas fa-ellipsis-v"></i>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="top-box-show" style="display: none;"> </div>
     </main>
     <script>
         $(function () {
@@ -233,6 +285,124 @@
                 $('#sidebar-panel').removeClass('d-flex').addClass('d-none');
                 $('#meetingShow').removeClass('d-none').addClass('d-flex');
                 e.stopPropagation();
+            });
+
+            $(".copy_info").on("click", function () {
+                var temp = $("<input>");
+                $("body").append(temp);
+                temp.val($(".session_url").text()).select();
+                document.execCommand("copy");
+                temp.remove();
+                $(".confirm_copy").show();
+                setTimeout(function () {
+                    $(".confirm_copy").hide();
+                }, 3000)
+            });
+            $("#otherTemplate").on("dblclick", function () {
+                const elem = this;
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.mozRequestFullScreen) { // Firefox
+                    elem.mozRequestFullScreen();
+                } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) { // IE/Edge
+                    elem.msRequestFullscreen();
+                }
+            });
+
+            $(".meeting-details-button").on("click", function () {
+                $(".g-details").slideToggle(300)
+            })
+            $(document).on('click', function (e) {
+                if (
+                    !$(e.target).closest('.g-details').length &&
+                    !$(e.target).closest('.meeting-details-button').length
+                ) {
+                    $('.g-details').hide();
+                }
+            });
+
+            $(".g-details-header-attachment").on("click", function () {
+                $(".g-details-heading-show").hide();
+                $(".g-details-heading-show-attachment").show()
+            });
+
+            $(".g-details-header-details ").on("click", function () {
+                $(".g-details-heading-show").show();
+                $(".g-details-heading-show-attachment").hide()
+            });
+
+            // Place this ONCE, outside of the submit handler, after socket is connected:
+            if (window.socket) {
+                socket.on('new_shared_file', function (data) {
+                    var html = '';
+                    if (['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'].includes(data.ext)) {
+                        html = `<div class="mb-2">
+                <img src="${data.file}" alt="attachment" style="max-width:100%;max-height:120px;"/><br>
+                <a href="${data.file}" target="_blank">View Full Image</a>
+            </div>`;
+                    } else if (data.ext === 'pdf') {
+                        html = `<div class="mb-2">
+                <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                <a href="${data.file}" target="_blank">View PDF</a>
+            </div>`;
+                    } else {
+                        html = `<div class="mb-2">
+                <i class="fas fa-file-alt fa-2x text-secondary"></i>
+                <a href="${data.file}" target="_blank">Download File</a>
+            </div>`;
+                    }
+                    $(".show-attach-file").prepend(html);
+                });
+            }
+
+            // Submit handler
+            $(".share_attach").on("submit", function (e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: '/auth/live_share',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response.file) {
+                            var ext = response.file.split('.').pop().toLowerCase();
+                            var html = '';
+                            if (['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'].includes(ext)) {
+                                html = `<div class="mb-2">
+                            <img src="${response.file}" alt="attachment" style="max-width:100%;max-height:120px;"/><br>
+                            <a href="${response.file}" target="_blank">View Full Image</a>
+                            </div>`;
+                        } else if (ext === 'pdf') {
+                            html = `<div class="mb-2">
+                            <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                            <a href="${response.file}" target="_blank">View PDF</a>
+                            </div>`;
+                            } else {
+                                html = `<div class="mb-2">
+                            <i class="fas fa-file-alt fa-2x text-secondary"></i>
+                            <a href="${response.file}" target="_blank">Download File</a>
+                            </div>`;
+                            }
+                            $(".show-attach-file").prepend(html);
+                            if (window.socket) {
+                                // Make sure you have appointmentId available in JS
+                                socket.emit('new_shared_file', {
+                                    appointment_id: appointmentId,
+                                    file: response.file,
+                                    ext: ext
+                                });
+                            }
+                        }
+                        alert("File shared successfully!");
+                        $(".share_attach")[0].reset();
+                    },
+                });
             });
         });
     </script>

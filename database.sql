@@ -6,7 +6,6 @@ create database hospital_new;
 --     lastname VARCHAR(50),
 --     phone VARCHAR(50),
 --     email VARCHAR(150),
---     date_joined DATE,
 --     date_of_birth DATE,
 --     gender VARCHAR(30),
 --     password VARCHAR(250),
@@ -33,7 +32,7 @@ create database hospital_new;
 -- CREATE TABLE doctors (
 --     doctor_id INT PRIMARY KEY AUTO_INCREMENT,
 --     doc_name VARCHAR(50),
---     doc_img VARCHAR(100),
+--     doc_img BLOB,
 --     specialty VARCHAR(150),
 --     email VARCHAR(150),
 --     phone VARCHAR(50),

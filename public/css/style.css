@@ -90,32 +90,69 @@
 }
 
 @media (max-width: 991.98px) {
-    .navbar-light .navbar-nav .nav-link  {
+    .navbar-light .navbar-nav .nav-link {
         margin-left: 0;
         padding: 10px 0;
     }
 }
 
+@media (max-width: 767.98px) {
+    .hero-header {
+        min-height: 100vh;
+        height: 100vh;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}
+
 .hero-header {
-    background: url(../img/hero.jpg) top right no-repeat;
+    min-height: 100vh;
+    height: 100vh;
+    background: url(../img/hero.jpg) center no-repeat;
+    left: 50%;
     background-size: cover;
+    display: flex;
+    align-items: center;
+    background: url(../img/assets_frontend/header_img.png) no-repeat;
+        background-size: cover;
 }
+
 .hero-header2 {
-    background: url(../img/individuals_01.png) top right no-repeat;
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    background: url(../img/individuals_01.png) no-repeat;
     background-size: cover;
 }
-.hero-header3{
-    background: url(../img/p360-hero.jpg) top left no-repeat;
+
+.hero-header3 {
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    background: url(../img/p360-hero.jpg)  center no-repeat;
     background-size: cover;
 }
-.hero-header4{
+
+.hero-header4 {
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    align-items: center;
     background: url(../img/assets_frontend/appointment_img.png) right no-repeat;
     background-size: contain;
 }
-.hero-donation{
+
+.hero-donation {
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    align-items: center;
     background: url(../img/donations3.jfif) top left no-repeat;
     background-size: cover;
 }
+
 .service-item {
     position: relative;
     height: 350px;
@@ -173,7 +210,7 @@
 }
 
 .price-carousel .owl-nav .owl-prev,
-.price-carousel .owl-nav .owl-next{
+.price-carousel .owl-nav .owl-next {
     position: relative;
     margin: 0 5px;
     width: 45px;
@@ -259,10 +296,13 @@
     width: 150px;
     height: 150px;
 }
+
 /* Flip Card Container */
 .flip-card {
-    perspective: 1000px; /* Creates 3D space for the flip effect */
-    height: 400px; /* Fixed height to ensure uniformity */
+    perspective: 1000px;
+    /* Creates 3D space for the flip effect */
+    height: 400px;
+    /* Fixed height to ensure uniformity */
 }
 
 /* Inner element that will rotate */
@@ -272,25 +312,28 @@
     height: 100%;
     transition: transform 0.6s;
     transform-style: preserve-3d;
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 }
 
 /* Flip the card on hover */
 .flip-card:hover .flip-card-inner {
     transform: rotateY(180deg);
 }
+
 .flip-card-inner.flipped {
     transform: rotateY(180deg);
 }
 
 /* Front and Back of the card */
-.flip-card-front, .flip-card-back {
+.flip-card-front,
+.flip-card-back {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden; /* Hides the back side when not facing the viewer */
+    backface-visibility: hidden;
+    /* Hides the back side when not facing the viewer */
     border-radius: 8px;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 /* Front Side (Original Service Item) */
@@ -300,61 +343,71 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 1.5rem; 
+    padding: 1.5rem;
 }
 
 /* Back Side */
 .flip-card-back {
-    background-color: var(--bs-primary); 
-    color: var(--bs-white); 
-    transform: rotateY(180deg); /* Start rotated 180 degrees to face away */
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+    transform: rotateY(180deg);
+    /* Start rotated 180 degrees to face away */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 1.5rem; 
+    padding: 1.5rem;
     text-align: center;
 }
 
 /* Responsive adjustments */
 @media (max-width: 767.98px) {
     .flip-card {
-        height: 350px; /* Slightly smaller on smaller screens */
+        height: 350px;
+        /* Slightly smaller on smaller screens */
     }
 }
 
 @keyframes fadeInOpacity {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-.fade-bottom{animation:animatebottom 0.4s
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
-@keyframes animatebottom{from
-    {bottom:-300px;
-        opacity:0
-    } 
-    to
-    {bottom:0;
-        opacity:1
-    }}
-    .specialty-card {
-        transition: transform 0.3s ease;
+.fade-bottom {
+    animation: animatebottom 0.4s
+}
+
+@keyframes animatebottom {
+    from {
+        bottom: -300px;
+        opacity: 0
     }
-    
-    .specialty-card:hover {
-        transform: translateY(-5px);
+
+    to {
+        bottom: 0;
+        opacity: 1
     }
-    .menu_nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
-    }
+}
+
+.specialty-card {
+    transition: transform 0.3s ease;
+}
+
+.specialty-card:hover {
+    transform: translateY(-5px);
+}
+
+.menu_nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
 
 /*  */
 .available-status .availability-dot::before {
@@ -362,14 +415,19 @@
     display: inline-block;
     width: 10px;
     height: 10px;
-    background-color: #28a745; /* Green color */
+    background-color: #28a745;
+    /* Green color */
     border-radius: 50%;
     margin-left: 5px;
     vertical-align: middle;
 }
+
 .availability-dot.booked::before {
-background-color: #dc3545; /* Red for booked */
+    background-color: #dc3545;
+    /* Red for booked */
 }
+
 .booked-text {
-color: #dc3545; /* Red text for "Doctor Booked" */
+    color: #dc3545;
+    /* Red text for "Doctor Booked" */
 }

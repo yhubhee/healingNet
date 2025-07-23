@@ -186,13 +186,14 @@
                         </div>
                     </div>
                 </div>
+                <!-- Meeting Details container -->
                 <div class="display-center cursor-pointer meeting-details-button">
                     Meeting Details <i class="fas fa-arrow-down"></i>
                 </div>
             </div>
             <div class="bottom-middle">
                 <div class="mic-toggle-wrap action-icon-style display-center mr-2 cursor-pointer" id="micMuteUnmute">
-                    <i class="fas fa-microphone-slash"></i>
+                    <i class="fas fa-microphone"></i>
                 </div>
                 <div class="end-call-wrap action-icon-style display-center mr-2 cursor-pointer">
                     <i class="fas fa-phone text-danger"></i>
@@ -206,6 +207,13 @@
                     id="ScreenShareOnOff">
                     <i class="fas fa-desktop"></i>
                     <div>ShareScreen Now</div>
+                </div>
+                <div class="g-details2 border border-success mb-2" style="display: none;">
+                    <div class="present-now-wrap d-flex justify-content-center flex-column align-items-center mr-5 cursor-pointer"
+                        id="ScreenShareOnOff">
+                        <i class="fas fa-desktop"></i>
+                        <div>ShareScreen Now</div>
+                    </div>
                 </div>
                 <div class="option-wrap cursor-pointer display-center" style="height: 10vh; position: relative;">
                     <div class="recording-show"></div>
@@ -378,8 +386,8 @@
                             <img src="${response.file}" alt="attachment" style="max-width:100%;max-height:120px;"/><br>
                             <a href="${response.file}" target="_blank">View Full Image</a>
                             </div>`;
-                        } else if (ext === 'pdf') {
-                            html = `<div class="mb-2">
+                            } else if (ext === 'pdf') {
+                                html = `<div class="mb-2">
                             <i class="fas fa-file-pdf fa-2x text-danger"></i>
                             <a href="${response.file}" target="_blank">View PDF</a>
                             </div>`;
@@ -405,6 +413,28 @@
                 });
             });
         });
+
+        $(".option-wrap").on("click", function (e) {
+
+            if (window.innerWidth <= 700) {
+                // alert("working");
+                $(".g-details2").slideToggle(300);
+                e.stopPropagation();
+
+            }
+        });
+        $(document).on("click", function (e) {
+            if (window.innerWidth <= 700) {
+                if (
+                    !$(e.target).closest('.g-details2').length &&
+                    !$(e.target).closest('.option-wrap').length
+                ) {
+                    $(".g-details2").hide();
+                }
+            }
+        });
+
+
     </script>
 
 

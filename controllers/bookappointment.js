@@ -213,7 +213,7 @@ exports.bookappointment = (req, res) => {
                     }
 
                     // Profile is complete and time slot is available, proceed with booking
-                    const patientFullName = `${firstname} ${lastname}`;
+                    const fullName = `${firstname} ${lastname}`;
                     const appointmentData = {
                         doctor,
                         specialty,
@@ -221,7 +221,7 @@ exports.bookappointment = (req, res) => {
                         appointmentTime,
                         patient_id,
                         doctor_id,
-                        patientFullName,
+                        fullName,
                         status: 'scheduled'
                     };
 

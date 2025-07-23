@@ -298,7 +298,8 @@ html {
     padding: 5px;
 }
 
-.g-details {
+.g-details,
+.g-details2 {
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(60, 60, 60, 0.07);
@@ -393,6 +394,7 @@ html {
     }
 }
 
+
 @media (max-width: 700px) {
 
     .g-top,
@@ -402,24 +404,41 @@ html {
     }
 
     .g-bottom {
-        flex-direction: column !important;
-        /* Keep items in a row */
+        flex-direction: row !important;
         align-items: center !important;
-        justify-content: flex-start !important;
+        justify-content: space-between !important;
         padding: 0.7rem 0.5rem;
         min-height: 60px;
         height: auto !important;
-        gap: 0.5rem;
+        gap: 18px;
+        width: 100%;
     }
 
     .g-bottom>div {
-        flex: 0 0 auto !important;
+        flex: 1 1 0;
         margin-bottom: 0 !important;
-        margin-right: 8px;
+        margin-right: 0;
     }
 
-    .present-now-wrap {
-        margin-right: 16px !important;
+    .g-details2 {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 0 !important;
+        border-radius: 0 !important;
+        z-index: 9999 !important;
+        box-shadow: 0 2px 8px rgba(60, 60, 60, 0.07);
+        width: 90vw !important; 
+        max-width: 300px;
+        height: 100px;
+    }
+
+    .g-bottom > .bottom-right .present-now-wrap {
+        display: none !important;
+    }
+    .g-bottom > .bottom-right .g-details2 > .present-now-wrap {
+        display: flex !important;
     }
 
     .g-top-left {
@@ -449,4 +468,4 @@ html {
         padding: 8px 2px !important;
 
     }
- }
+}

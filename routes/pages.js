@@ -564,7 +564,7 @@ router.get('/patients/settings', validateTokens, (req, res) => {
 router.get('/patients/booked-appointment', validateTokens, (req, res) => {
     const { firstname, lastname, patient_id } = req.user; // Access the attached names and user_id
     const sql = `
-       select a.doctor, d.specialty, a.patientFullName, a.appointmentDate, a.appointmentTime, d.email,a.appointment_id, a.doctor_id, a.status from appointment a join doctors d on a.doctor_id = d.doctor_id WHERE patient_id = ? ;
+       select a.doctor, d.specialty, a.fullname, a.appointmentDate, a.appointmentTime, d.email,a.appointment_id, a.doctor_id, a.status from appointment a join doctors d on a.doctor_id = d.doctor_id WHERE patient_id = ? ;
     `;
     db.getConnection((err, connection) => {
         if (err) {
@@ -844,7 +844,7 @@ router.get('/doc_patients', doctorvalidateTokens, (req, res) => {
 router.get('/doctor/doc_appointment', doctorvalidateTokens, (req, res) => {
     const { doc_name, doctor_id } = req.user; // Access the attached names and user_id
     const sql = `
- SELECT a.patientFullName, p.symptoms, a.appointmentDate, a.appointmentTime, a.doctor, p.email, a.appointment_id, a.patient_id, a.status FROM appointment a JOIN patients p ON a.patient_id = p.patient_id WHERE doctor_id = ?; 
+ SELECT a.fullname, p.symptoms, a.appointmentDate, a.appointmentTime, a.doctor, p.email, a.appointment_id, a.patient_id, a.status FROM appointment a JOIN patients p ON a.patient_id = p.patient_id WHERE doctor_id = ?; 
     `
     db.query(sql, [doctor_id], (err, results) => {
         if (err) {

@@ -382,7 +382,13 @@ router.get('/patients/dashboard', validateTokens, (req, res) => {
         });
     }
 
-    const sql1 = `SELECT COUNT(*) AS count, d.doc_name FROM appointment a JOIN doctors d ON a.doctor_id = d.doctor_id WHERE a.patient_id = ? AND a.appointmentDate = ? AND a.status = 'scheduled'`;
+    const sql1 = `SELECT COUNT(*) AS count, d.doc_name
+FROM appointment a
+JOIN doctors d ON a.doctor_id = d.doctor_id
+WHERE a.patient_id = 1
+  AND a.appointmentDate = '2025-07-23'
+  AND a.status = 'scheduled'
+GROUP BY d.doc_name`;
     const completeProfileQuery = `SELECT * FROM patients 
                 WHERE patient_id = ? AND (
                     (address IS NULL OR TRIM(address) = '') OR 
@@ -648,7 +654,7 @@ router.get('/consultation/live_consultation', (req, res, next) => {
 router.get('/doctor/doctordashboard', doctorvalidateTokens, (req, res) => {
     const today = new Date().toISOString().split('T')[0];
     const { doc_name, doctor_id } = req.user;
-    console.log("doctor_id =" ,doctor_id)
+    console.log("doctor_id =", doctor_id)
 
     const todayAppointmentsSql = `
         SELECT COUNT(*) AS count 
@@ -706,7 +712,7 @@ router.get('/doctor/doctordashboard', doctorvalidateTokens, (req, res) => {
 //     }
 
 //     const sql1 = `SELECT COUNT(*) AS count, d.doc_name FROM appointment a JOIN doctors d ON a.doctor_id = d.doctor_id WHERE a.patient_id = ? AND a.appointmentDate = ? AND a.status = 'scheduled'`;
-    
+
 //     db.getConnection((err, connection) => {
 //         if (err) {
 //             console.error('Database connection error:', err);

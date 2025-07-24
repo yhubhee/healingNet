@@ -96,25 +96,24 @@
     }
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 700px) {
     .hero-header {
         min-height: 100vh;
         height: 100vh;
         padding-top: 0 !important;
         padding-bottom: 0 !important;
+        /* background: url(../img/premuim01.webp) center center no-repeat; */
+        /* background-size: cover; */
     }
 }
 
 .hero-header {
     min-height: 100vh;
     height: 100vh;
-    background: url(../img/hero.jpg) center no-repeat;
-    left: 50%;
+    background: url(../img/hero.jpg) center center no-repeat;
     background-size: cover;
     display: flex;
     align-items: center;
-    background: url(../img/assets_frontend/header_img.png) no-repeat;
-        background-size: cover;
 }
 
 .hero-header2 {
@@ -131,7 +130,7 @@
     height: 100vh;
     display: flex;
     align-items: center;
-    background: url(../img/p360-hero.jpg)  center no-repeat;
+    background: url(../img/p360-hero.jpg) center no-repeat;
     background-size: cover;
 }
 

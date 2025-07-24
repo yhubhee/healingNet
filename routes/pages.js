@@ -545,9 +545,39 @@ router.get('/patients/profile', validateTokens, (req, res) => {
 });
 
 router.get('/patients/settings', validateTokens, (req, res) => {
-    const { patient_id } = req.user; // Access the attached names and user_id
-
-    res.render('patients/settings', {
+    const { patient_id } = req.user;
+    const sql = `
+      SELECT 
+        CONCAT(firstname, ' ', lastname) AS fullname, 
+        phone, 
+        email, 
+        profile_img,
+        password
+      FROM patients 
+      WHERE patient_id = ?;
+    `;
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).render('patients/settings', {
+                error: 'Failed to connect to the database.',
+                patient: null
+            });
+        }
+        connection.query(sql, [patient_id], (err, results) => {
+            connection.release();
+            if (err) {
+                console.error('Database query error:', err);
+                return res.status(500).render('patients/settings', {
+                    error: 'Failed to fetch your settings.',
+                    patient: null
+                });
+            }
+            const patient = results.length > 0 ? results[0] : null;
+            res.render('patients/settings', {
+                patient
+            });
+        });
     });
 });
 router.get('/patients/billing', validateTokens, (req, res) => {

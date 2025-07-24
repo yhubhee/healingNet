@@ -24,7 +24,7 @@
                         <a class="list-group-item list-group-item-action" id="tab-privacy" data-bs-toggle="list"
                             href="#privacy" role="tab">Privacy</a>
                         <a class="list-group-item list-group-item-action" id="tab-billing" data-bs-toggle="list"
-                            href="#billing-settings" role="tab">Billing</a>
+                            href="#payments" role="tab">Billing</a>
                         <a class="list-group-item list-group-item-action" id="tab-communication" data-bs-toggle="list"
                             href="#communication" role="tab">Communication</a>
                         <a class="list-group-item list-group-item-action" id="tab-integrations" data-bs-toggle="list"
@@ -45,23 +45,36 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Profile & Personal Information</h5>
                                     <form>
-                                        <div class="mb-3">
-                                            <label class="form-label">Full Name</label>
-                                            <input type="text" class="form-control" placeholder="John Doe">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Email</label>
-                                            <input type="email" class="form-control" placeholder="you@example.com">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Phone</label>
-                                            <input type="tel" class="form-control" placeholder="+234 800 000 0000">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Profile Photo</label>
-                                            <input type="file" class="form-control">
-                                        </div>
-                                        <button type="submit" class="btn btn-dark rounded-pill">Save Changes</button>
+                                        <% if (patient) { %>
+                                            <div class="mb-3 text-center">
+                                                <% if (patient.profile_img) { %>
+                                                    <img src="/uploads/<%= patient.profile_img %>" alt="Profile Image"
+                                                        class="rounded-circle"
+                                                        style="width: 150px; height: 150px; object-fit: cover;">
+                                                    <% } %>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Full Name</label>
+                                                <input type="text" class="form-control" name="fullname"
+                                                    value="<%= patient.fullname %>" placeholder="John Doe" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Email</label>
+                                                <input type="email" class="form-control" name="email"
+                                                    value="<%= patient.email %>" placeholder="you@example.com" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Phone</label>
+                                                <input type="tel" class="form-control" name="phone"
+                                                    value="<%= patient.phone %>" placeholder="+234 800 000 0000" readonly>
+                                            </div>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-dark rounded-pill">Visit Your
+                                                    Profile to edit details</button>
+                                            </div>
+                                            <% } else { %>
+                                                <div class="alert alert-warning">No patient data found.</div>
+                                                <% } %>
                                     </form>
                                 </div>
                             </div>
@@ -109,7 +122,171 @@
                         </div>
 
                         <!-- Notifications -->
-                        <!-- ... other tabs remain unchanged ... -->
+                        <div class="tab-pane fade" id="notifications" role="tabpanel">
+                            <form>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="apptReminders" checked>
+                                    <label class="form-check-label" for="apptReminders">Appointment Reminders
+                                        (Email/SMS)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="followUpAlerts">
+                                    <label class="form-check-label" for="followUpAlerts">Follow-Up Alerts</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="promotions">
+                                    <label class="form-check-label" for="promotions">Promotional Messages</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Notifications</button>
+                            </form>
+                        </div>
+
+                        <!-- Privacy & Data -->
+                        <div class="tab-pane fade" id="privacy" role="tabpanel">
+                            <div class="card shadow-sm mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Privacy & Data Sharing</h5>
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">Data Export</label>
+                                            <div>
+                                                <a href="#" class="btn btn-outline-secondary btn-sm">Download Records
+                                                    (PDF)</a>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Medical Record Sharing</label>
+                                            <select multiple class="form-select">
+                                                <option>Provider A</option>
+                                                <option>Provider B</option>
+                                                <option>Provider C</option>
+                                            </select>
+                                        </div>
+                                        <div class="mt-4 border-top pt-3">
+                                            <button type="button" class="btn btn-danger">Delete Account</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Payment & Billing -->
+                        <div class="tab-pane fade" id="payments" role="tabpanel">
+                            <div class="card shadow-sm mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Payment & Billing</h5>
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">Default Payment Method</label>
+                                            <select class="form-select">
+                                                <option selected>Visa **** 1234</option>
+                                                <option>Mastercard **** 5678</option>
+                                                <option>Bank Transfer</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="autoRenew" checked>
+                                            <label class="form-check-label" for="autoRenew">Auto-Renew
+                                                Subscription</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Save Billing</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Communication Preferences -->
+                        <div class="tab-pane fade" id="communication" role="tabpanel">
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label">Preferred Contact Method</label>
+                                    <select class="form-select">
+                                        <option>Email</option>
+                                        <option>SMS</option>
+                                        <option>In-App</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Language</label>
+                                    <select class="form-select">
+                                        <option selected>English</option>
+                                        <option>French</option>
+                                        <option>Spanish</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Time Zone</label>
+                                    <input type="text" class="form-control" value="Africa/Lagos" readonly>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Preferences</button>
+                            </form>
+                        </div>
+
+                        <!-- Integrations & Devices -->
+                        <div class="tab-pane fade" id="integrations" role="tabpanel">
+                            <form>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="fitbit">
+                                    <label class="form-check-label" for="fitbit">Connect Fitbit</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="appleHealth" checked>
+                                    <label class="form-check-label" for="appleHealth">Connect Apple Health</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="cameraPerm">
+                                    <label class="form-check-label" for="cameraPerm">Camera Access</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="micPerm" checked>
+                                    <label class="form-check-label" for="micPerm">Microphone Access</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Integrations</button>
+                            </form>
+                        </div>
+
+                        <!-- Accessibility -->
+                        <div class="tab-pane fade" id="accessibility" role="tabpanel">
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label">Font Size</label>
+                                    <select class="form-select">
+                                        <option>Small</option>
+                                        <option selected>Default</option>
+                                        <option>Large</option>
+                                    </select>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="highContrast">
+                                    <label class="form-check-label" for="highContrast">High Contrast Mode</label>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="captioning">
+                                    <label class="form-check-label" for="captioning">Enable Captioning</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Accessibility</button>
+                            </form>
+                        </div>
+
+                        <!-- Help & Support -->
+                        <div class="tab-pane fade" id="support" role="tabpanel">
+                            <div class="mb-3">
+                                <a href="/support/chat" class="btn btn-outline-primary mb-2">Live Chat</a><br>
+                                <a href="mailto:support@telemed.com" class="btn btn-outline-primary mb-2">Email
+                                    Support</a><br>
+                                <a href="/faq" class="btn btn-outline-secondary">FAQs</a>
+                            </div>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="issue" class="form-label">Report an Issue</label>
+                                    <textarea class="form-control" id="issue" rows="3"
+                                        placeholder="Describe your problem"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
 
                     </div>
                 </div>

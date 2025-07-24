@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+        <title>Book Appointment - HealingNet</title>
+</head>
+
+<body>
+    <div class="container-fluid py-5" data-aos="fade-in">
+        <div class="container">
+            <h2 class="mb-4 text-primary">Billing & Payments</h2>
+
+            <!-- Current Plan Summary -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Current Plan</h5>
+                    <p class="mb-1"><strong>Plan:</strong> Pulse Plan - Annual</p>
+                    <p class="mb-1"><strong>Price:</strong> ₦126,000/year</p>
+                    <p class="mb-3"><strong>Renewal Date:</strong> July 15, 2026</p>
+                    <a href="/ui/plans" class="btn btn-dark rounded-pill">Change Plan</a>
+                </div>
+            </div>
+
+            <!-- Payment History Table -->
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Payment History</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Plan</th>
+                                    <th>Amount (₦)</th>
+                                    <th>Duration</th>
+                                    <th>Date Paid</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Pulse Plan - Annual</td>
+                                    <td>126,000</td>
+                                    <td>12 months</td>
+                                    <td>July 15, 2025</td>
+                                    <td><span class="badge bg-success">Paid</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Peace Plan - Monthly</td>
+                                    <td>3,500</td>
+                                    <td>1 month</td>
+                                    <td>June 15, 2025</td>
+                                    <td><span class="badge bg-success">Paid</span></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Wellness Plan - Monthly</td>
+                                    <td>1,500</td>
+                                    <td>1 month</td>
+                                    <td>May 15, 2025</td>
+                                    <td><span class="badge bg-success">Paid</span></td>
+                                </tr>
+                                <!-- Add more dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

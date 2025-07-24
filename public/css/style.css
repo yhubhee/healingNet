@@ -96,17 +96,6 @@
     }
 }
 
-@media (max-width: 700px) {
-    .hero-header {
-        min-height: 100vh;
-        height: 100vh;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-        /* background: url(../img/premuim01.webp) center center no-repeat; */
-        /* background-size: cover; */
-    }
-}
-
 .hero-header {
     min-height: 100vh;
     height: 100vh;

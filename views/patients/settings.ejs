@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+        <title>Settings - HealingNet</title>
+</head>
+
+<body>
+    <!-- Settings Page -->
+    <div class="container-fluid py-5" data-aos="fade-in">
+        <div class="container">
+            <h2 class="mb-4 text-primary">Settings</h2>
+            <div class="row">
+                <!-- Sidebar Navigation -->
+                <div class="col-lg-3 mb-4">
+                    <div class="list-group" id="settings-tabs" role="tablist">
+                        <a class="list-group-item list-group-item-action active" id="tab-profile" data-bs-toggle="list"
+                            href="#profile" role="tab">Profile</a>
+                        <a class="list-group-item list-group-item-action" id="tab-security" data-bs-toggle="list"
+                            href="#security" role="tab">Security</a>
+                        <a class="list-group-item list-group-item-action" id="tab-notifications" data-bs-toggle="list"
+                            href="#notifications" role="tab">Notifications</a>
+                        <a class="list-group-item list-group-item-action" id="tab-privacy" data-bs-toggle="list"
+                            href="#privacy" role="tab">Privacy</a>
+                        <a class="list-group-item list-group-item-action" id="tab-billing" data-bs-toggle="list"
+                            href="#billing-settings" role="tab">Billing</a>
+                        <a class="list-group-item list-group-item-action" id="tab-communication" data-bs-toggle="list"
+                            href="#communication" role="tab">Communication</a>
+                        <a class="list-group-item list-group-item-action" id="tab-integrations" data-bs-toggle="list"
+                            href="#integrations" role="tab">Integrations</a>
+                        <a class="list-group-item list-group-item-action" id="tab-accessibility" data-bs-toggle="list"
+                            href="#accessibility" role="tab">Accessibility</a>
+                        <a class="list-group-item list-group-item-action" id="tab-support" data-bs-toggle="list"
+                            href="#support" role="tab">Support</a>
+                    </div>
+                </div>
+                <!-- Tab Content -->
+                <div class="col-lg-9">
+                    <div class="tab-content">
+
+                        <!-- Profile -->
+                        <div class="tab-pane fade show active" id="profile" role="tabpanel">
+                            <div class="card shadow-sm mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Profile & Personal Information</h5>
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" placeholder="John Doe">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" placeholder="you@example.com">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Phone</label>
+                                            <input type="tel" class="form-control" placeholder="+234 800 000 0000">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Profile Photo</label>
+                                            <input type="file" class="form-control">
+                                        </div>
+                                        <button type="submit" class="btn btn-dark rounded-pill">Save Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security -->
+                        <div class="tab-pane fade" id="security" role="tabpanel">
+                            <div class="card shadow-sm mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Account Security</h5>
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">Current Password</label>
+                                            <input type="password" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">New Password</label>
+                                            <input type="password" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Confirm New Password</label>
+                                            <input type="password" class="form-control">
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="twoFactorToggle"
+                                                onchange="document.getElementById('twoFactorOptions').style.display = this.checked ? 'block' : 'none'">
+                                            <label class="form-check-label" for="twoFactorToggle">Enable Two-Factor
+                                                Authentication</label>
+                                        </div>
+
+                                        <div id="twoFactorOptions" style="display: none;">
+                                            <div class="mb-3">
+                                                <label class="form-label">Select Two-Factor Method</label>
+                                                <select class="form-select">
+                                                    <option value="email">Receive code via Email</option>
+                                                    <option value="sms">Receive code via SMS</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-dark rounded-pill">Update Security</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notifications -->
+                        <!-- ... other tabs remain unchanged ... -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Settings Page -->
+
+
+</body>
+
+</html>

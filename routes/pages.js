@@ -546,24 +546,14 @@ router.get('/patients/profile', validateTokens, (req, res) => {
 
 router.get('/patients/settings', validateTokens, (req, res) => {
     const { patient_id } = req.user; // Access the attached names and user_id
-    const sql = `
-       select firstname, lastname, phone, email, date_joined, date_of_birth, gender, address from patients WHERE patient_id = ? ;
-    `;
-    db.getConnection((err, connection) => {
-        if (err) {
-            console.error('Database connection error:', err);
-            return res.status(500).send('Failed to fetch your details');
-        }
-        connection.query(sql, [patient_id], (err, results) => {
-            connection.release(); // Release the connection back to the pool
-            if (err) {
-                console.error('Database query error:', err);
-                return res.status(500).send('Failed to fetch your details');
-            }
-            res.render('patients/settings', {
-                patient: results || []
-            });
-        });
+
+    res.render('patients/settings', {
+    });
+});
+router.get('/patients/billing', validateTokens, (req, res) => {
+    const { patient_id } = req.user; // Access the attached names and user_id
+
+    res.render('patients/billing', {
     });
 });
 

@@ -16,7 +16,7 @@
             <% appointments.forEach(appointment => { %>
                 <div class="card mb-3 border-light shadow">
                     <div class="card-body p-4">
-                        <h5 class="card-title"> Patient's Name : <%= appointment.patientFullName %></h5>
+                        <h5 class="card-title"> Patient's Name : <%= appointment.fullname %></h5>
                         <p class="card-text text-muted"><b>Patients Symptoms :</b> <%= appointment.symptoms %></p>
                         <p class="card-text" style="word-wrap: break-word;"><b>Email:</b> <%= appointment.email %></p>
                         <p class="card-text" style="word-wrap: break-word;"><b>Date :</b><%= appointment.appointmentDate.toDateString() %> </p>

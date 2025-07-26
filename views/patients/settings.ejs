@@ -7,6 +7,21 @@
 </head>
 
 <body>
+     <div class="alert-container">
+        <% if (typeof success !== 'undefined') { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= success %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+        <% if (typeof error !== 'undefined') { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+    </div>
+
     <!-- Settings Page -->
     <div class="container-fluid py-5" data-aos="fade-in">
         <div class="container">
@@ -66,7 +81,8 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Phone</label>
                                                 <input type="tel" class="form-control" name="phone"
-                                                    value="<%= patient.phone %>" placeholder="+234 800 000 0000" readonly>
+                                                    value="<%= patient.phone %>" placeholder="+234 800 000 0000"
+                                                    readonly>
                                             </div>
                                             <div class="text-center">
                                                 <button type="submit" class="btn btn-dark rounded-pill">Visit Your
@@ -85,18 +101,18 @@
                             <div class="card shadow-sm mb-4">
                                 <div class="card-body">
                                     <h5 class="card-title">Account Security</h5>
-                                    <form>
+                                    <form action="/auth/settings" method="post">
                                         <div class="mb-3">
                                             <label class="form-label">Current Password</label>
                                             <input type="password" class="form-control">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">New Password</label>
-                                            <input type="password" class="form-control">
+                                            <input type="password" class="form-control" id="password">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Confirm New Password</label>
-                                            <input type="password" class="form-control">
+                                            <input type="password" class="form-control" id="confirmpassword">
                                         </div>
                                         <div class="form-check form-switch mb-3">
                                             <input class="form-check-input" type="checkbox" id="twoFactorToggle"

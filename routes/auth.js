@@ -10,6 +10,7 @@ const {validatePasswordResetToken} = require('../middlewares/auth');
 const { validateDoctor_reset_secret } = require('../middlewares/authdoctor');
 const mail = require('../controllers/mail');
 const edit_profile = require('../controllers/edit_profile');
+const settings = require('../controllers/settings');
 const admin_login = require('../controllers/admin_login');
 const admin_register = require('../controllers/admin_register');
 const liveShareController = require('../controllers/live_share');
@@ -22,6 +23,9 @@ router.post('/login', login.login);
 // Patient's Password reset
 router.post('/password_reset', forgot_pass.forgot_pass);
 router.post('/reset_pass', validatePasswordResetToken, forgot_pass.reset_pass);
+
+// Settings Page Pasword Change
+router.post('/settings', validateTokens, settings.settings);
 
 //Update Patients details
 router.post('/edit_profile', validateTokens, edit_profile.edit_profile) 

@@ -399,6 +399,7 @@ GROUP BY d.doc_name`;
                     (surgical_history IS NULL OR TRIM(surgical_history) = '') OR 
                     (family_medical_history IS NULL OR TRIM(family_medical_history) = '')
                 );`;
+    const sql2 = `SELECT profile_img FROM patients WHERE patient_id = ?;`;
 
     db.getConnection((err, connection) => {
         if (err) {
@@ -413,7 +414,14 @@ GROUP BY d.doc_name`;
                 return res.status(500).send('Failed to fetch today appointments');
             }
 
-            connection.query(completeProfileQuery, [patient_id], (err, completeProfileResult) => {
+            connection.query(sql2, [patient_id], (err, profile_img) =>{
+                if (err){
+                    console.err("Database err:", err);
+                    connection.release();
+                    return res.status(500).send("Failed to load image");
+                }
+
+                connection.query(completeProfileQuery, [patient_id], (err, completeProfileResult) => {
                 if (err) {
                     console.error('Database query error (profile check):', err);
                     connection.release();
@@ -437,16 +445,23 @@ GROUP BY d.doc_name`;
                 } else {
                     todayAppointment = 'You have no appointment due';
                 }
+                
+                const patient = profile_img.length > 0 ? profile_img[0] : null;
 
                 res.render('patients/dashboard', {
                     firstname,
                     lastname,
                     todayAppointment,
-                    showProfileModal
+                    showProfileModal,
+                    patient
                 });
-
+                // console.log(patient)
                 connection.release();
             });
+
+            });
+
+            
         });
     });
 });

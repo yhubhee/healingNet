@@ -31,8 +31,8 @@ exports.forgot_pass = (req, res) => {
 
         const patient = result[0];
         const resetToken = password_reset_secret(patient); // Generate reset token
-        const resetLink = `https://healing-net.vercel.app/reset_pass?token=${resetToken}`; 
-        // const resetLink = `http://localhost:3000/reset_pass?token=${resetToken}`; 
+        const resetLink = `https://healing-net.vercel.app/ui/reset_pass?token=${resetToken}`; 
+        // const resetLink = `http://localhost:3000/ui/reset_pass?token=${resetToken}`; 
 
         // Set up Nodemailer transporter with custom SMTP
         const transporter = nodemailer.createTransport({
@@ -67,7 +67,7 @@ exports.forgot_pass = (req, res) => {
             if (error) {
                 console.error('Error sending email:', error);
                 return res.render('ui/forgot_pass', {
-                    error: 'Failed to send reset email. Please try again later.',
+                    error: 'Failed to send reset email. Please try again later.',      
                 });
             }
 
@@ -90,13 +90,13 @@ exports.reset_pass = async (req, res) => {
     console.log('req.user:', req.user);
 
     if (password !== confirmpassword) {
-        return res.render('reset_pass', {
+        return res.render('ui/reset_pass', {
             error: 'Passwords do not match',
         });
     }
 
     if (!confirmpassword || confirmpassword.length < 8) {
-        return res.render('reset_pass', {
+        return res.render('ui/reset_pass', {
             error: 'Password must be at least 8 characters long',
         });
     }
@@ -108,14 +108,14 @@ exports.reset_pass = async (req, res) => {
             [hashedPassword, patient_id]
         );
 
-        return res.render('reset_pass', {
+        return res.render('ui/reset_pass', {
             token: token, 
             success: 'Password changed successfully ✅',
             redirect: true,
         });
     } catch (err) {
         console.error(err);
-        return res.render('reset_pass', {
+        return res.render('ui/reset_pass', {
             error: 'Something went wrong. Please try again.',
         });
     }

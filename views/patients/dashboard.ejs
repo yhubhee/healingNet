@@ -87,60 +87,68 @@
               </a>
             </li>
             <li class="nav-item dropdown signup-dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                <img src="/img/avatar.jpg" alt="Profile" class="rounded-circle" width="30" height="30">
-                <%= firstname %>
-                  <%= lastname %>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                <li><a class="dropdown-item load-content" href="#" data-url="/patients/profile">My Profile</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
+              <% if (patient) { %>
+                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="/uploads/<%= patient.profile_img %>" alt="Profile" class="rounded-circle" width="30"
+                    height="30">
+                  <%= firstname %>
+                    <%= lastname %>
+                </a>
+                <% } else { %>
+                   <!-- <img src="/img/avatar.jpg" alt="Profile" class="rounded-circle" width="30" -->
+                    height="30">
+                  <% } %>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                      <li><a class="dropdown-item load-content" href="#" data-url="/patients/profile">My Profile</a>
+                      </li>
+                      <li><a class="dropdown-item" href="#">Settings</a></li>
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
 
-                <li>
-                  <a class="dropdown-item load-content" aria-current="page" href="#" data-url="/patients/dashboard">
-                    <i class="fas fa-tachometer-alt"></i> Dashboard
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/patients/booked-appointment">
-                    <i class="fas fa-calendar-check"></i> Appointments
-                  </a>
-                </li>
-                <!-- <li>
+                      <li>
+                        <a class="dropdown-item load-content" aria-current="page" href="#"
+                          data-url="/patients/dashboard">
+                          <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item load-content" href="#" data-url="/patients/booked-appointment">
+                          <i class="fas fa-calendar-check"></i> Appointments
+                        </a>
+                      </li>
+                      <!-- <li>
                   <a class="dropdown-item load-content" href="#" data-url="/home-appointment">
                     <i class="fas fa-calendar-check"></i> Home Appointments
                   </a>
                 </li> -->
-                <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/patients/medical-records">
-                    <i class="fas fa-notes-medical"></i> Medical Records
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/patients/prescriptions">
-                    <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/patients/billing">
-                    <i class="fas fa-wallet"></i> Billing
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/patients/settings">
-                    <i class="fas fa-cogs"></i> Settings
-                  </a>
-                </li>
+                      <li>
+                        <a class="dropdown-item load-content" href="#" data-url="/patients/medical-records">
+                          <i class="fas fa-notes-medical"></i> Medical Records
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item load-content" href="#" data-url="/patients/prescriptions">
+                          <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item load-content" href="#" data-url="/patients/billing">
+                          <i class="fas fa-wallet"></i> Billing
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item load-content" href="#" data-url="/patients/settings">
+                          <i class="fas fa-cogs"></i> Settings
+                        </a>
+                      </li>
 
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="/patients/logout">Logout</a></li>
-              </ul>
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <li><a class="dropdown-item" href="/patients/logout">Logout</a></li>
+                    </ul>
             </li>
           </ul>
         </div>

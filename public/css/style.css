@@ -95,6 +95,36 @@
         padding: 10px 0;
     }
 }
+@media (max-width: 700px) {
+    .card,
+    .card-body.p-4 {
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
+    }
+    /* .card-body.p-4 {
+        padding: 1rem !important;
+    }
+    .card-title, .card-text {
+        font-size: 1rem;
+        word-break: break-word;
+    }
+    .d-flex.gap-2.mt-3 {
+        flex-direction: column !important;
+        gap: 10px !important;
+        align-items: stretch !important;
+    }
+    .btn.btn-sm, .btn-outline-secondary.btn-sm {
+        width: 100%;
+        font-size: 1rem;
+    }
+    .badge {
+        font-size: 0.95rem;
+        width: 100%;
+        text-align: center;
+        padding: 0.5em 0;
+    } */
+}
 
 .hero-header {
     min-height: 100vh;

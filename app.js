@@ -14,6 +14,7 @@ const server = http.createServer(app);
 const io = socketIo(server, {
   cors: { origin: '*' }
 });
+module.exports.io = io;
 
 // Application server setup (port 3000)
 app.use(express.static(path.join(__dirname, 'public')));
@@ -155,7 +156,20 @@ io.on('connection', (socket) => {
   });
 });
 
-const APP_PORT = process.env.APP_PORT || 3000;
+io.on('connection', (socket) => {
+  console.log('✅ A user connected');
+
+  socket.on('joinRoom', (room) => {
+    socket.join(room);
+    console.log(`👥 Joined room: ${room}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('❌ A user disconnected');
+  });
+});
+
+const APP_PORT = process.env.APP_PORT || 4000;
 server.listen(APP_PORT, () => {
   const now = new Date();
   console.log(`Application server running on port ${APP_PORT} at ${now.toLocaleString('en-US', { timeZone: 'Africa/Lagos' })}`);

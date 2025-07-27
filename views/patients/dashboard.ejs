@@ -65,85 +65,67 @@
 </script>
 
 <body>
-
   <!-- Top Navigation Bar -->
   <div class="container-fluid sticky-top bg-white shadow-sm">
     <div class="container">
       <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand d-flex align-items-center" href="/">
           <img src="/img/healingnet2.webp" alt="HealingNet Logo" style="height: 50px; margin-right: 10px;">
+          <h1 class="m-0 text-primary d-none d-lg-block">HealingNet</h1>
         </a>
-        <!-- Display the title on medium and larger screens -->
-        <h1 class="m-0 text-primary d-none d-lg-block">HealingNet</h1>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
           aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarContent">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item me-3">
-              <a class="nav-link" href="#">
-                <i class="fas fa-bell"></i> Notifications
+          <ul class="navbar-nav ms-auto align-items-center">
+            <!-- Notifications -->
+            <li class="nav-item dropdown">
+              <a class="nav-link position-relative" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown">
+                <i class="fas fa-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  id="unread-count">0</span>
               </a>
+              <ul class="dropdown-menu dropdown-menu-end" id="notification-list" aria-labelledby="notifDropdown">
+                <li><span class="dropdown-item-text">No notifications</span></li>
+              </ul>
             </li>
+
+            <!-- Profile Dropdown -->
             <li class="nav-item dropdown signup-dropdown">
               <% if (patient) { %>
-                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
-                  data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="/uploads/<%= patient.profile_img %>" alt="Profile" class="rounded-circle" width="30"
+                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown"
+                  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="/uploads/<%= patient.profile_img %>" alt="Profile" class="rounded-circle me-2" width="30"
                     height="30">
                   <%= firstname %>
                     <%= lastname %>
                 </a>
                 <% } else { %>
-                   <!-- <img src="/img/avatar.jpg" alt="Profile" class="rounded-circle" width="30" -->
-                    height="30">
+                  <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="/img/avatar.jpg" alt="Profile" class="rounded-circle me-2" width="30" height="30">
+                  </a>
                   <% } %>
+
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                       <li><a class="dropdown-item load-content" href="#" data-url="/patients/profile">My Profile</a>
                       </li>
-                      <li><a class="dropdown-item" href="#">Settings</a></li>
+                      <li><a class="dropdown-item load-content" href="#" data-url="/patients/settings">Settings</a></li>
                       <li>
                         <hr class="dropdown-divider">
                       </li>
-
-                      <li>
-                        <a class="dropdown-item load-content" aria-current="page" href="#"
-                          data-url="/patients/dashboard">
-                          <i class="fas fa-tachometer-alt"></i> Dashboard
-                        </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item load-content" href="#" data-url="/patients/booked-appointment">
-                          <i class="fas fa-calendar-check"></i> Appointments
-                        </a>
-                      </li>
-                      <!-- <li>
-                  <a class="dropdown-item load-content" href="#" data-url="/home-appointment">
-                    <i class="fas fa-calendar-check"></i> Home Appointments
-                  </a>
-                </li> -->
-                      <li>
-                        <a class="dropdown-item load-content" href="#" data-url="/patients/medical-records">
-                          <i class="fas fa-notes-medical"></i> Medical Records
-                        </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item load-content" href="#" data-url="/patients/prescriptions">
-                          <i class="fas fa-prescription-bottle-alt"></i> Prescriptions
-                        </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item load-content" href="#" data-url="/patients/billing">
-                          <i class="fas fa-wallet"></i> Billing
-                        </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item load-content" href="#" data-url="/patients/settings">
-                          <i class="fas fa-cogs"></i> Settings
-                        </a>
-                      </li>
-
+                      <li><a class="dropdown-item load-content" href="#" data-url="/patients/dashboard"><i
+                            class="fas fa-tachometer-alt me-1"></i> Dashboard</a></li>
+                      <li><a class="dropdown-item load-content" href="#" data-url="/patients/booked-appointment"><i
+                            class="fas fa-calendar-check me-1"></i> Appointments</a></li>
+                      <li><a class="dropdown-item load-content" href="#" data-url="/patients/medical_records"><i
+                            class="fas fa-notes-medical me-1"></i> Medical Records</a></li>
+                      <li><a class="dropdown-item load-content" href="#" data-url="/patients/prescriptions"><i
+                            class="fas fa-prescription-bottle-alt me-1"></i> Prescriptions</a></li>
+                      <li><a class="dropdown-item load-content" href="#" data-url="/patients/billing"><i
+                            class="fas fa-wallet me-1"></i> Billing</a></li>
                       <li>
                         <hr class="dropdown-divider">
                       </li>
@@ -153,9 +135,9 @@
           </ul>
         </div>
       </nav>
-      <!-- Navbar End -->
     </div>
   </div>
+
 
   <!-- Dashboard Container -->
   <div class="container-fluid">
@@ -180,7 +162,7 @@
               </a>
             </li> -->
             <li class="nav-item">
-              <a class="nav-link load-content" href="#" data-url="/patients/medical-records">
+              <a class="nav-link load-content" href="#" data-url="/patients/medical_records">
                 <i class="fas fa-notes-medical"></i> Medical Records
               </a>
             </li>
@@ -349,6 +331,23 @@
       time.textContent = greetings + name;
 
     </script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  // Join patient room
+  socket.emit('joinRoom', 'patient_<%= patient_id %>');
+
+  // Listen for appointment confirmation
+  socket.on('appointment_success', (data) => {
+    const list = document.getElementById('notification-list');
+    const badge = document.getElementById('unread-count');
+
+    list.innerHTML = `<li><a class="dropdown-item">${data.message}</a></li>`;
+    badge.textContent = parseInt(badge.textContent) + 1;
+  });
+</script>
+
 </body>
 
 </html>

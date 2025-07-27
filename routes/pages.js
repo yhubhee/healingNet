@@ -46,8 +46,9 @@ router.get('/ui/contact', (req, res) => {
 // router.get('/service-details', (req, res) => {
 //     res.render('service-details');
 // });
-router.get('/ui/search', (req, res) => {
-    const sql1 = `SELECT doc_img, doc_name, specialty, about_doctor FROM doctors`;
+router.get('/ui/search', validateTokens , (req, res) => {
+    const { firstname, lastname, patient_id } = req.user;
+    const sql1 = `SELECT doctor_id, doc_img, doc_name, specialty, about_doctor FROM doctors`;
     const sql2 = `SELECT doctor, status FROM appointment WHERE status = 'scheduled'`;
 
     db.getConnection((err, connection) => {
@@ -81,7 +82,9 @@ router.get('/ui/search', (req, res) => {
 
                 // Render the view with updated doctors array
                 res.render('ui/search', {
-                    doctors
+                    doctors,
+                    firstname,
+                    lastname,
                 });
 
                 // Release the connection after all queries and rendering
@@ -246,7 +249,9 @@ router.get('/ui/appointment', (req, res) => {
     });
 });
 
-router.get('/ui/book_appointment', (req, res) => {
+router.get('/ui/book_appointment', validateTokens, (req, res) => {
+    const { firstname, lastname, patient_id } = req.user;
+
     const doctor = req.query.doctor || 'Unknown Doctor';
     const specialty = req.query.specialty || 'Unknown Specialty';
 
@@ -297,7 +302,9 @@ router.get('/ui/book_appointment', (req, res) => {
                 res.render('ui/book_appointment', {
                     doctor,
                     specialty,
-                    doctors
+                    doctors,
+                    // lastname,
+                    // firstname,
                 });
 
                 connection.release();
@@ -453,7 +460,8 @@ GROUP BY d.doc_name`;
                     lastname,
                     todayAppointment,
                     showProfileModal,
-                    patient
+                    patient,
+                    patient_id
                 });
                 // console.log(patient)
                 connection.release();
@@ -655,6 +663,9 @@ router.get('/patients/prescriptions', validateTokens, (req, res) => {
         });
     });
 });
+router.get('/patients/medical_records', (req, res) => {
+    res.render('patients/medical_records');
+})
 
 // Live Video Consultation
 router.get('/consultation/live_consultation', (req, res, next) => {

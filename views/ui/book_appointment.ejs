@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('../partials/head') %>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+<style>
+.about-doctor-scroll {
+    max-height: 200px;
+    overflow-y: auto;
+}
+</style>
 
 <body>
     <%- include('../partials/header') %>
@@ -91,7 +99,7 @@
                                     <div class="border-top p-2">
                                         <div class="col-12 text-center">
                                             <a href="/ui/book_appointment?doctor=<%= encodeURIComponent(doc.doc_name) %>&specialty=<%= encodeURIComponent(doc.specialty) %>" class="text-white">
-                                                <button class="btn btn-primary py-2 px-5"> Book Doctor </button>
+                                                <button class="btn btn-primary py-2 px-5 sendBtn"> Book Doctor </button>
                                             </a>
                                         </div>
                                     </div>
@@ -143,9 +151,5 @@
 </body>
 </html>
 
-<style>
-.about-doctor-scroll {
-    max-height: 200px;
-    overflow-y: auto;
-}
-</style>
+
+

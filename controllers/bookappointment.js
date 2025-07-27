@@ -1,5 +1,6 @@
 const pool = require('../database');
 const { symptomChecker } = require('../controllers/symptomChecker');
+const { io } = require('../app')
 
 exports.symptom_checker = (req, res) => {
     const { firstname, lastname, patient_id } = req.user;
@@ -269,6 +270,25 @@ exports.bookappointment = (req, res) => {
                                         specialty
                                     });
                                 }
+
+                                // Format time and date for a readable message
+                                const formattedDate = new Date(`${appointmentDate}T${appointmentTime}`).toLocaleString('en-US', {
+                                    weekday: 'long', year: 'numeric', month: 'short', day: 'numeric',
+                                    hour: '2-digit', minute: '2-digit'
+                                });
+
+                                // ✅ Emit to doctor's room
+                                io.to(`doctor_${doctor_id}`).emit('new_appointment', {
+                                    message: `📅 New appointment from ${firstname} ${lastname} on ${formattedDate}`,
+                                    patientId: patient_id
+                                });
+
+                                // ✅ Emit to patient's room
+                                io.to(`patient_${patient_id}`).emit('appointment_success', {
+                                    message: `✅ You successfully booked an appointment with Dr. ${doctor} on ${formattedDate}`
+                                });
+
+
 
                                 res.render('ui/book_appointment', {
                                     success: 'Appointment successfully booked ✅',

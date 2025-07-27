@@ -80,7 +80,7 @@
                                         </div>
                                         <div class="border-top p-2">
                                             <div class="col-12 text-center">
-                                                <a href="/ui/book_appointment?doctor=<%= encodeURIComponent(doc.doc_name) %>&specialty=<%= encodeURIComponent(doc.specialty) %>" class="text-white">
+                                                <a href="/ui/book_appointment?doctor=<%= encodeURIComponent(doc.doc_name)%>&doctor_id=<%= encodeURIComponent(doc.doctor_id)%>&specialty=<%= encodeURIComponent(doc.specialty) %> &patientname=<%= encodeURIComponent(firstname + ' ' + lastname) %>" class="text-white">
                                                     <button class="btn btn-primary py-1 px-5">Book Doctor</button>
                                                 </a>
                                             </div>

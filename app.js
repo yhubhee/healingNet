@@ -10,7 +10,7 @@ const cors = require('cors');
 const corsConfig = {
   origin: '*',
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }; 
 app.options("", cors(corsConfig)); // Pre-flight request for all routes
 app.use(cors(corsConfig));

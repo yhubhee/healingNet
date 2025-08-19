@@ -12,6 +12,7 @@ const corsConfig = {
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
 }; 
+app.options("", cors(corsConfig)); // Pre-flight request for all routes
 app.use(cors(corsConfig));
 
 env.config({ path: './env' });

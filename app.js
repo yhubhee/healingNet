@@ -184,3 +184,4 @@ server.listen(APP_PORT, () => {
   const now = new Date();
   console.log(`Application server running on port ${APP_PORT} at ${now.toLocaleString('en-US', { timeZone: 'Africa/Lagos' })}`);
 });
+module.exports = app;

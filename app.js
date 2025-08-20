@@ -7,6 +7,14 @@ const http = require('http');
 const socketIo = require('socket.io');
 const path = require('path');
 const cors = require('cors');
+
+const app = express(); // <-- Move this up!
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: { origin: '*' }
+});
+module.exports.io = io;
+
 const corsConfig = {
   origin: '*',
   credentials: true,
@@ -17,12 +25,6 @@ app.use(cors(corsConfig));
 
 env.config({ path: './env' });
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: { origin: '*' }
-});
-module.exports.io = io;
 
 // Application server setup (port 3000)
 app.use(express.static(path.join(__dirname, 'public')));
